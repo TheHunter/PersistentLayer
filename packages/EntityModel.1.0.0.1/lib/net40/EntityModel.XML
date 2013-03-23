@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EntityModel</name>
+    </assembly>
+    <members>
+        <member name="T:EntityModel.ObservableEntity`1">
+            <summary>
+            A base observable entity which notifies listeners all customizing property changes.
+            </summary>
+            <typeparam name="TKey">Type of identifier for this entity.</typeparam>
+        </member>
+        <member name="T:EntityModel.BaseEntity`1">
+            <summary>
+            A base class for persistent entities.
+            </summary>
+            <typeparam name="TKey">Type of identifier for this entity.</typeparam>
+        </member>
+        <member name="F:EntityModel.BaseEntity`1._ID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EntityModel.BaseEntity`1.Equals(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EntityModel.BaseEntity`1.GetHashCode">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EntityModel.BaseEntity`1.ToString">
+            <summary>
+            It rappresents information about the current state of the calling entity.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EntityModel.BaseEntity`1.ID">
+            <summary>
+            Gets and sets the identifier of the calling entity.
+            </summary>
+        </member>
+        <member name="T:EntityModel.Notifiers.IObservable">
+            <summary>
+            Observes the properties changes and notifies all observers that registering this notifications.
+            </summary>
+        </member>
+        <member name="M:EntityModel.ObservableEntity`1.OnPropertyChanged(System.String)">
+            <summary>
+            Notifies properties changes to listeners.
+            </summary>
+            <param name="propertyName"></param>
+        </member>
+        <member name="E:EntityModel.ObservableEntity`1.PropertyChanged">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:EntityModel.VersionedEntity`1">
+            <summary>
+            A base class for versioned persitent entities.
+            </summary>
+            <typeparam name="TKey">The type of key for this class.</typeparam>
+        </member>
+        <member name="F:EntityModel.VersionedEntity`1._Version">
+            <summary>
+            The cuurent version for this object.
+            </summary>
+        </member>
+        <member name="M:EntityModel.VersionedEntity`1.ToString">
+            <summary>
+            Returns a String object that represents the calling versioned object. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EntityModel.VersionedEntity`1.Version">
+            <summary>
+            The current version for the calling object.
+            </summary>
+        </member>
+    </members>
+</doc>

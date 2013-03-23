@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ScrignoV2</id>
+    <version>1.0.0.0</version>
+    <title />
+    <authors>Diego</authors>
+    <owners>Diego</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>My package description.</description>
+    <dependencies>
+      <group targetFramework=".NETFramework3.5">
+        <dependency id="Iesi.Collections" version="3.3.2.4000" />
+        <dependency id="EntityModel" version="1.0.0.1" />
+      </group>
+    </dependencies>
+    <references>
+      <reference file="ScrignoV2.dll" />
+    </references>
+  </metadata>
+</package>

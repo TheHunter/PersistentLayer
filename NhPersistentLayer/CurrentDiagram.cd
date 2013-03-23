@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.BusinessDAO&lt;TEntity, VKey&gt;" Collapsed="true">
+    <Position X="8.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Imp\BusinessDAO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.BusinessPagedDAO&lt;TEntity, VKey&gt;" Collapsed="true">
+    <Position X="8.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Imp\BusinessPagedDAO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.DomainDAO" Collapsed="true">
+    <Position X="13" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAgAAgAAAARQAAAQAAAAAAAAAAAAAEBAAA=</HashCode>
+      <FileName>Imp\DomainDAO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.EnterpriseDAO" Collapsed="true">
+    <Position X="13" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Imp\EnterpriseDAO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.EnterprisePagedDAO" Collapsed="true">
+    <Position X="13" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Imp\EnterprisePagedDAO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.EntityDAO&lt;TEntity, VKey&gt;" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAgAAgAAAARQAAAQAAAAAAAAAAAAAEBAAA=</HashCode>
+      <FileName>Imp\EntityDAO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.PagedResult&lt;TEntity&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAhBAAAAACAAIAAQAAAIAAAEAAAAAAAAI=</HashCode>
+      <FileName>Imp\PagedResult.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.SessionInfo" Collapsed="true">
+    <Position X="15.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Imp\SessionInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.Util.NhQueryExtensions" Collapsed="true">
+    <Position X="11" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAEAAQEAABAAAAQAIAAAAIAAAAAA=</HashCode>
+      <FileName>Imp\Util\NhQueryExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.Util.NhQueryImplementor" Collapsed="true">
+    <Position X="11" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAgAAgAAAARQAAAQAAAAAAAAAEAAAEFAAA=</HashCode>
+      <FileName>Imp\Util\NhQueryImplementor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.NhConfigurationBuilder" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARABIAAAgAAAAAAAAAAAAAgAAEAgAAQAAAAAAAAAIA=</HashCode>
+      <FileName>NhConfigurationBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.SessionManager" Collapsed="true">
+    <Position X="17.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAABIgAAAAAAAAAAAAAAAAAAAAQQAAAAAAAQIAA=</HashCode>
+      <FileName>SessionManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.SessionBinderLayer&lt;TBinder&gt;" Collapsed="true">
+    <Position X="17.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAAIAAAAAAQAAAIAgAQAIBA=</HashCode>
+      <FileName>SessionBinderLayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.BusinessPersistentException" Collapsed="true">
+    <Position X="11.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\BusinessPersistentException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.SessionNotOpenedException" Collapsed="true">
+    <Position X="5.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SessionNotOpenedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.CommitFailedException" Collapsed="true">
+    <Position X="12.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\CommitFailedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.InnerRollBackException" Collapsed="true">
+    <Position X="1" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAQAAAA=</HashCode>
+      <FileName>Exceptions\InnerRollBackException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.RollbackFailedException" Collapsed="true">
+    <Position X="7.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\RollbackFailedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.SessionLayerException" Collapsed="true">
+    <Position X="6.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAEAA=</HashCode>
+      <FileName>Exceptions\SessionLayerException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.SessionNotAvailableException" Collapsed="true">
+    <Position X="3.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SessionNotAvailableException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.SessionNotBindedException" Collapsed="true">
+    <Position X="10" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SessionNotBindedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.AbstractDAO" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAABAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AbstractDAO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.IDomainDAO" Collapsed="true">
+    <Position X="6.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAgAAgAAAARAAAAQAAAAAAAAAAAAAEBAAA=</HashCode>
+      <FileName>IDomainDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.IEntityDAO&lt;TEntity, VKey&gt;" Collapsed="true">
+    <Position X="1" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAgAAgAAAARAAAAQAAAAAAAAAAAAAEBAAA=</HashCode>
+      <FileName>IEntityDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.IPagedDAO&lt;TEntity, VKey&gt;" Collapsed="true">
+    <Position X="1" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>IPagedDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.IPagedDAO" Collapsed="true">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>IPagedDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.IPagedResult&lt;TEntity&gt;" Collapsed="true">
+    <Position X="17.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAQAAAIAAAEAAAAAAAAA=</HashCode>
+      <FileName>IPagedResult.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.IQueryableDAO&lt;TEntity&gt;" Collapsed="true">
+    <Position X="1" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IQueryableDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.IQueryableDAO" Collapsed="true">
+    <Position X="6.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IQueryableDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.ISessionDAO&lt;TEntity, VKey&gt;" Collapsed="true">
+    <Position X="1" Y="3.5" Width="1.5" />
+    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.ISessionContext" FixedToPoint="true">
+      <Path>
+        <Point X="3.5" Y="2.562" />
+        <Point X="3.5" Y="3.125" />
+        <Point X="1.833" Y="3.125" Type="JumpStart" />
+        <Point X="1.667" Y="3.125" Type="JumpEnd" />
+        <Point X="1.562" Y="3.125" />
+        <Point X="1.562" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.ITransactionContext" FixedToPoint="true">
+      <Path>
+        <Point X="5.25" Y="2.562" />
+        <Point X="5.25" Y="3.125" />
+        <Point X="1.938" Y="3.125" />
+        <Point X="1.938" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISessionDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.ISessionDAO" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.IDomainDAO" FixedFromPoint="true">
+      <Path>
+        <Point X="7" Y="2.691" />
+        <Point X="7" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.ISessionContext" FixedToPoint="true">
+      <Path>
+        <Point X="3.5" Y="2.562" />
+        <Point X="3.5" Y="3.125" />
+        <Point X="6.812" Y="3.125" />
+        <Point X="6.812" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.ITransactionContext" FixedToPoint="true">
+      <Path>
+        <Point X="5.25" Y="2.562" />
+        <Point X="5.25" Y="3.125" />
+        <Point X="6.917" Y="3.125" Type="JumpStart" />
+        <Point X="7.083" Y="3.125" Type="JumpEnd" />
+        <Point X="7.188" Y="3.125" />
+        <Point X="7.188" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISessionDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.ISessionProvider" Collapsed="true">
+    <Position X="15.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISessionProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.ITransactionProvider" Collapsed="true">
+    <Position X="15.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>ITransactionProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.ISessionContext" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISessionContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NHibernate.DAL.NhPersistentLayer.ITransactionContext" Collapsed="true">
+    <Position X="4.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ITransactionContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{44A565D4-921A-4BE0-A412-522404AFBA09}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NHibernate.DAL.NhPersistentLayer</RootNamespace>
+    <AssemblyName>NhPersistentLayer</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NhPersistentLayer.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractDAO.cs" />
+    <Compile Include="Exceptions\BusinessPersistentException.cs" />
+    <Compile Include="Exceptions\CommitFailedException.cs" />
+    <Compile Include="Exceptions\InnerRollBackException.cs" />
+    <Compile Include="Exceptions\QueryFormatException.cs" />
+    <Compile Include="Exceptions\RollbackFailedException.cs" />
+    <Compile Include="Exceptions\SessionLayerException.cs" />
+    <Compile Include="Exceptions\SessionNotAvailableException.cs" />
+    <Compile Include="Exceptions\SessionNotBindedException.cs" />
+    <Compile Include="Exceptions\SessionNotOpenedException.cs" />
+    <Compile Include="IDomainDAO.cs" />
+    <Compile Include="IEntityDAO.cs" />
+    <Compile Include="Imp\BusinessPagedDAO.cs" />
+    <Compile Include="Imp\EnterprisePagedDAO.cs" />
+    <Compile Include="Imp\PagedResult.cs" />
+    <Compile Include="IPagedDAO.cs" />
+    <Compile Include="Imp\BusinessDAO.cs" />
+    <Compile Include="Imp\DomainDAO.cs" />
+    <Compile Include="Imp\EnterpriseDAO.cs" />
+    <Compile Include="Imp\EntityDAO.cs" />
+    <Compile Include="Imp\SessionInfo.cs" />
+    <Compile Include="Imp\Util\NhQueryExtensions.cs" />
+    <Compile Include="Imp\Util\NhQueryImplementor.cs" />
+    <Compile Include="IPagedResult.cs" />
+    <Compile Include="IQueryableDAO.cs" />
+    <Compile Include="ISessionDAO.cs" />
+    <Compile Include="ISessionProvider.cs" />
+    <Compile Include="ISessionContext.cs" />
+    <Compile Include="ITransactionContext.cs" />
+    <Compile Include="ITransactionProvider.cs" />
+    <Compile Include="NhConfigurationBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionBinderLayer.cs" />
+    <Compile Include="SessionManager.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="CurrentDiagram.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
