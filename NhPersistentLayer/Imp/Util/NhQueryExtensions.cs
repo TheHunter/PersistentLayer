@@ -34,76 +34,6 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
             return (IFutureValue<TResult>)provider.ExecuteFuture(expression);
         }
 
-        ///// <summary>
-        ///// Transforms the criteria object into typed safe IQueryable object.
-        ///// </summary>
-        ///// <typeparam name="TEntity">the type object for IQueryable object.</typeparam>
-        ///// <param name="sourceDAO">a busisness DAO that supplies transforming the criteria object.</param>
-        ///// <param name="criteria">a detached criteria to transform.</param>
-        ///// <returns>returns a typed safe IQueryable object.</returns>
-        //public static IQueryable<TEntity> ToIQueryable<TEntity>
-        //    (this ISessionContext sourceDAO, DetachedCriteria criteria)
-        //    where TEntity : class
-        //{
-        //    ISession session = sourceDAO.SessionInfo.CurrentSession;
-        //    return session.
-        //            Linq<TEntity>(criteria.GetExecutableCriteria(session));
-        //}
-
-        //public static IQueryable<TEntity> ToIQueryable<TEntity, VKey>
-        //    (this ISessionDAO<TEntity, VKey> sourceDAO, DetachedCriteria criteria)
-        //    where TEntity : class
-        //{
-        //    ISession session = sourceDAO.SessionInfo.CurrentSession;
-        //    return session.
-        //            Linq<TEntity>(criteria.GetExecutableCriteria(session));
-        //}
-
-
-        //public static IQueryable<TEntity> ToIQueryable<TEntity>
-        //    (this ISessionDAO sourceDAO, DetachedCriteria criteria)
-        //    where TEntity : class
-        //{
-        //    ISession session = sourceDAO.SessionInfo.CurrentSession;
-        //    return session.
-        //            Linq<TEntity>(criteria.GetExecutableCriteria(session));
-        //}
-
-        ///// <summary>
-        ///// Transforms the criteria object into typed safe IQueryable object.
-        ///// </summary>
-        ///// <typeparam name="TEntity">the type object for IQueryable object.</typeparam>
-        ///// <param name="sourceDAO">a business DAO that supplies tranforming the QueryOver object.</param>
-        ///// <param name="query">a typed safe QueryOver to tranform</param>
-        ///// <returns>returns a typed safe IQueryable object.</returns>
-        //public static IQueryable<TEntity> ToIQueryable<TEntity>
-        //    (this ISessionContext sourceDAO, QueryOver<TEntity> query)
-        //    where TEntity : class
-        //{
-        //    ISession session = sourceDAO.SessionInfo.CurrentSession;
-        //    return session.
-        //            Linq<TEntity>(query.GetExecutableQueryOver(session).UnderlyingCriteria);
-        //}
-
-        //public static IQueryable<TEntity> ToIQueryable<TEntity, VKey>
-        //    (this ISessionDAO<TEntity, VKey> sourceDAO, QueryOver<TEntity> query)
-        //    where TEntity : class
-        //{
-        //    ISession session = sourceDAO.SessionInfo.CurrentSession;
-        //    return session.
-        //            Linq<TEntity>(query.GetExecutableQueryOver(session).UnderlyingCriteria);
-        //}
-
-        
-        //public static IQueryable<TEntity> ToIQueryable<TEntity>
-        //    (this ISessionDAO sourceDAO, QueryOver<TEntity> query)
-        //    where TEntity : class
-        //{
-        //    ISession session = sourceDAO.SessionInfo.CurrentSession;
-        //    return session.
-        //            Linq<TEntity>(query.GetExecutableQueryOver(session).UnderlyingCriteria);
-        //}
-
         /// <summary>
         /// 
         /// </summary>
@@ -116,7 +46,15 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
             where TEntity : class
         {
             ISession session = sourceDAO.SessionInfo.CurrentSession;
-            return session.Merge<TEntity>(instance);
+            try
+            {
+                return session.Merge<TEntity>(instance);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException("Error on merging the instance with the current session.", ex);
+            }
+
         }
 
         /// <summary>
@@ -169,16 +107,17 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
             (this ISessionContext sourceDAO, TEntity instance)
             where TEntity : class
         {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
             if (instance != null && sourceDAO.IsCached<TEntity>(instance))
             {
                 try
                 {
-                    sourceDAO.SessionInfo.CurrentSession.Evict(instance);
+                    session.Evict(instance);
                 }
                 catch (Exception)
                 {
-                    // questa eccezione potrebbe essere sollevata perché
-                    // l'identifier è nullo.
+                    // questa eccezione potrebbe essere sollevata perché l'identifier è nullo.
+                    // quindi non viene considerata..
                 }
             }
         }
@@ -228,10 +167,7 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
             (this ISessionContext sourceDAO, QueryOver<TEntity> query)
             where TEntity : class
         {
-            if (query == null)
-                throw new NullReferenceException("Query to execute cannot be null.");
-
-            return sourceDAO.TransformResult<TResult>(query.DetachedCriteria); // verificare se solleva un'eccezione.
+            return sourceDAO.TransformResult<TEntity, TResult>(Transformers.AliasToBean<TResult>(), query); // verificare se solleva un'eccezione.
         }
 
         /// <summary>
@@ -244,11 +180,7 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         public static IEnumerable<TResult> TransformResult<TResult>
             (this ISessionContext sourceDAO, DetachedCriteria criteria)
         {
-            if (criteria == null)
-                throw new NullReferenceException("Query to execute cannot be null.");
-            
-            ICriteria execCriteria = criteria.GetExecutableCriteria(sourceDAO.SessionInfo.CurrentSession);
-            return sourceDAO.TransformResult<TResult>(Transformers.AliasToBean<TResult>(), execCriteria);
+            return sourceDAO.TransformResult<TResult>(Transformers.AliasToBean<TResult>(), criteria);
         }
 
         /// <summary>
@@ -264,10 +196,22 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
             (this ISessionContext sourceDAO, IResultTransformer transformer, QueryOver<TEntity> query)
             where TEntity : class
         {
-            if (query == null)
-                throw new NullReferenceException("Query to execute cannot be null.");
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
 
-            return sourceDAO.TransformResult<TResult>(transformer, query.DetachedCriteria); // verificare se solleva un'eccezione.;
+            if (query == null)
+                throw new QueryArgumentException("Query to execute cannot be null.", "TransformResult", "query");
+
+            if (transformer == null)
+                throw new QueryArgumentException("Transformer cannot be null.", "TransformResult", "transformer");
+
+            try
+            {
+                return sourceDAO.TransformResult<TResult>(transformer, query.GetExecutableQueryOver(session).UnderlyingCriteria); // verificare se solleva un'eccezione.;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing transformer method with the given QueryOver instance.", "TransformResult", ex);
+            }
         }
 
         /// <summary>
@@ -281,14 +225,22 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         public static IEnumerable<TResult> TransformResult<TResult>
             (this ISessionContext sourceDAO, IResultTransformer transformer, DetachedCriteria criteria)
         {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
             if (criteria == null)
-                throw new NullReferenceException("Query to execute cannot be null.");
+                throw new QueryArgumentException("Query to execute cannot be null.", "TransformResult", "criteria");
 
             if (transformer == null)
-                throw new NullReferenceException("Transformer cannot be null.");
+                throw new QueryArgumentException("Transformer cannot be null.", "TransformResult", "transformer");
 
-            ICriteria execCriteria = criteria.GetExecutableCriteria(sourceDAO.SessionInfo.CurrentSession);
-            return sourceDAO.TransformResult<TResult>(transformer, execCriteria);
+            try
+            {
+                return sourceDAO.TransformResult<TResult>(transformer, criteria.GetExecutableCriteria(session));
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing transformer method with the given DetachedCriteria instance.", "TransformResult", ex);
+            }
         }
 
         /// <summary>
@@ -326,16 +278,18 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         public static ISQLQuery MakeSQLQuery
             (this ISessionContext sourceDAO, string query)
         {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (string.IsNullOrEmpty(query))
+                throw new QueryArgumentException("Native SQL query to make cannot be empty or null", "MakeSQLQuery", "query");
+
             try
             {
-                if (string.IsNullOrEmpty(query))
-                    throw new ArgumentException("Native SQL query to make cannot be empty or null", "query");
-
-                return sourceDAO.SessionInfo.CurrentSession.CreateSQLQuery(query);
+                return session.CreateSQLQuery(query);
             }
             catch (Exception ex)
             {
-                throw new QueryFormatException(ex.Message, ex);
+                throw new QueryFormatException(ex.Message, "MakeSQLQuery", ex);
             }
         }
 
@@ -348,16 +302,44 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         public static IQuery MakeHQLQuery
             (this ISessionContext sourceDAO, string query)
         {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+            
+            if (string.IsNullOrEmpty(query))
+                throw new QueryArgumentException("HQL query to make cannot be empty or null", "MakeHQLQuery", "query");
+            
             try
             {
-                if (string.IsNullOrEmpty(query))
-                    throw new ArgumentException("HQL query to make cannot be empty or null", "query");
-
-                return sourceDAO.SessionInfo.CurrentSession.CreateQuery(query);
+                return session.CreateQuery(query);
             }
             catch (Exception ex)
             {
-                throw new QueryFormatException(ex.Message, ex);
+                throw new QueryFormatException(ex.Message, "MakeHQLQuery", ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="sourceDAO"></param>
+        /// <param name="instances"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public static IQuery MakeFilter<TEntity>
+            (this ISessionContext sourceDAO, IEnumerable<TEntity> instances, string filter)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (instances == null)
+                throw new QueryArgumentException("Persistent collection cannot be null.", "MakeFilter", "instances");
+
+            try
+            {
+                return session.CreateFilter(instances, filter);
+            }
+            catch (Exception ex)
+            {
+                throw new QueryFormatException("It's impossible to make a filter with the given persistent collection.", "MakeFilter", ex);
             }
         }
     }

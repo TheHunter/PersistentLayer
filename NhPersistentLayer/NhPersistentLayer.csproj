@@ -55,9 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDAO.cs" />
+    <Compile Include="Exceptions\BusinessObjectException.cs" />
     <Compile Include="Exceptions\BusinessPersistentException.cs" />
     <Compile Include="Exceptions\CommitFailedException.cs" />
+    <Compile Include="Exceptions\ExecutionQueryException.cs" />
     <Compile Include="Exceptions\InnerRollBackException.cs" />
+    <Compile Include="Exceptions\QueryArgumentException.cs" />
     <Compile Include="Exceptions\QueryFormatException.cs" />
     <Compile Include="Exceptions\RollbackFailedException.cs" />
     <Compile Include="Exceptions\SessionLayerException.cs" />

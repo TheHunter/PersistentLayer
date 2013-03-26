@@ -55,14 +55,23 @@
     <Compile Include="..\NhPersistentLayer\AbstractDAO.cs">
       <Link>AbstractDAO.cs</Link>
     </Compile>
+    <Compile Include="..\NhPersistentLayer\Exceptions\BusinessObjectException.cs">
+      <Link>Exceptions\BusinessObjectException.cs</Link>
+    </Compile>
     <Compile Include="..\NhPersistentLayer\Exceptions\BusinessPersistentException.cs">
       <Link>Exceptions\BusinessPersistentException.cs</Link>
     </Compile>
     <Compile Include="..\NhPersistentLayer\Exceptions\CommitFailedException.cs">
       <Link>Exceptions\CommitFailedException.cs</Link>
     </Compile>
+    <Compile Include="..\NhPersistentLayer\Exceptions\ExecutionQueryException.cs">
+      <Link>Exceptions\ExecutionQueryException.cs</Link>
+    </Compile>
     <Compile Include="..\NhPersistentLayer\Exceptions\InnerRollBackException.cs">
       <Link>Exceptions\InnerRollBackException.cs</Link>
+    </Compile>
+    <Compile Include="..\NhPersistentLayer\Exceptions\QueryArgumentException.cs">
+      <Link>Exceptions\QueryArgumentException.cs</Link>
     </Compile>
     <Compile Include="..\NhPersistentLayer\Exceptions\QueryFormatException.cs">
       <Link>Exceptions\QueryFormatException.cs</Link>

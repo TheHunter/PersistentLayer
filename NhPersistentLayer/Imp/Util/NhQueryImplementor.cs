@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using NHibernate.Criterion;
 using NHibernate.Linq;
+using NHibernate.DAL.NhPersistentLayer.Exceptions;
 
 namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
 {
     /// <summary>
-    /// 
+    /// A basic class which implements all business DAO methods.
     /// </summary>
     internal static class NhQueryImplementor
     {
@@ -23,11 +24,18 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static TEntity FindBy<TEntity, VKey>(this ISession session, VKey id, LockMode mode) where TEntity : class
         {
-            if (mode == null)
+            try
             {
-                mode = LockMode.None;
+                if (mode == null)
+                {
+                    mode = LockMode.None;
+                }
+                return session.Load<TEntity>(id, mode);
             }
-            return session.Load<TEntity>(id, mode);
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on loading the persistent instance (type of <{0}>) with the given identity (type of <1>).", typeof(TEntity).Name, typeof(VKey).Name), "FindBy", ex);
+            }
         }
 
         /// <summary>
@@ -38,9 +46,16 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session) where TEntity : class
         {
-            return DetachedCriteria.For<TEntity>()
+            try
+            {
+                return DetachedCriteria.For<TEntity>()
                     .GetExecutableCriteria(session)
                     .List<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting all persistent instances (collection type of <{0}>) from data store.", typeof(TEntity).Name), "FindAll", ex);
+            }
         }
 
         /// <summary>
@@ -52,10 +67,18 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, bool cacheable) where TEntity : class
         {
-            return DetachedCriteria.For<TEntity>()
+            try
+            {
+                return DetachedCriteria.For<TEntity>()
                     .SetCacheable(cacheable)
                     .GetExecutableCriteria(session)
                     .List<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting all persistent instances (collection type of <{0}>) from data store.", typeof(TEntity).Name), "FindAll", ex);
+            }
+            
         }
 
         /// <summary>
@@ -67,14 +90,21 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, string cacheRegion) where TEntity : class
         {
-            if (string.IsNullOrEmpty(cacheRegion))
-                return session.FindAll<TEntity>();
-            else
-                return DetachedCriteria.For<TEntity>()
-                        .SetCacheable(true)
-                        .SetCacheRegion(cacheRegion)
-                        .GetExecutableCriteria(session)
-                        .List<TEntity>();
+            try
+            {
+                if (string.IsNullOrEmpty(cacheRegion))
+                    return session.FindAll<TEntity>();
+                else
+                    return DetachedCriteria.For<TEntity>()
+                            .SetCacheable(true)
+                            .SetCacheRegion(cacheRegion)
+                            .GetExecutableCriteria(session)
+                            .List<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting all persistent instances (collection type of <{0}>) from data store.", typeof(TEntity).Name), "FindAll", ex);
+            }
         }
 
         /// <summary>
@@ -86,10 +116,17 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, int fetchSize) where TEntity : class
         {
-            return DetachedCriteria.For<TEntity>()
+            try
+            {
+                return DetachedCriteria.For<TEntity>()
                     .GetExecutableCriteria(session)
                     .SetFetchSize(fetchSize)
                     .List<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting all persistent instances (collection type of <{0}>) from data store with the given fetchsize.", typeof(TEntity).Name), "FindAll", ex);
+            }
         }
 
         /// <summary>
@@ -102,10 +139,17 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, DetachedCriteria criteria) where TEntity : class
         {
             if (criteria == null)
-                throw new ArgumentNullException("criteria", "the criteria used to filtering cannot be null.");
+                throw new QueryArgumentException("The DetachedCriteria to execute cannot be null.", "FindAll", "criteria");
 
-            return criteria.GetExecutableCriteria(session)
-                    .List<TEntity>();
+            try
+            {
+                return criteria.GetExecutableCriteria(session)
+                        .List<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting all persistent instances (collection type of <{0}>) from data store when the given DetachedCriteria is executed.", typeof(TEntity).Name), "FindAll", ex);
+            }
         }
 
         /// <summary>
@@ -118,10 +162,17 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, QueryOver<TEntity> query) where TEntity : class
         {
             if (query == null)
-                throw new ArgumentNullException("QueryOver", "the queryover object cannot be null.");
+                throw new QueryArgumentException(string.Format("The QueryOver (of <{0}>) instance to execute cannot be null.", typeof(TEntity).Name), "FindAll", "query");
 
-            return query.GetExecutableQueryOver(session)
+            try
+            {
+                return query.GetExecutableQueryOver(session)
                     .List<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting all persistent instances (collection type of <{0}>) from data store when the given QueryOver instance is executed.", typeof(TEntity).Name), "FindAll", ex);
+            }
         }
 
         /// <summary>
@@ -134,10 +185,17 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         internal static IEnumerable<TEntity> FindAllFuture<TEntity>(this ISession session, DetachedCriteria criteria) where TEntity : class
         {
             if (criteria == null)
-                throw new ArgumentNullException("future criteria", "the criteria used to filtering cannot be null.");
+                throw new QueryArgumentException("The DetachedCriteria object to execute cannot be null.", "FindAllFuture", "criteria");
 
-            return criteria.GetExecutableCriteria(session)
+            try
+            {
+                return criteria.GetExecutableCriteria(session)
                     .Future<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting all persistent future instances (collection type of <{0}>) from data store when the given DetachedCriteria instance is executed.", typeof(TEntity).Name), "FindAllFuture", ex);
+            }
         }
 
         /// <summary>
@@ -150,10 +208,17 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         internal static IEnumerable<TEntity> FindAllFuture<TEntity>(this ISession session, QueryOver<TEntity> query) where TEntity : class
         {
             if (query == null)
-                throw new ArgumentNullException("future query", "the QueryOver object cannot be null.");
+                throw new QueryArgumentException(string.Format("The QueryOver object (of <{0}>) to execute cannot be null.", typeof(TEntity).Name), "FindAllFuture", "query");
 
-            return query.GetExecutableQueryOver(session)
+            try
+            {
+                return query.GetExecutableQueryOver(session)
                     .Future();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting all persistent future instances (collection type of <{0}>) from data store when the given QueryOver instance is executed.", typeof(TEntity).Name), "FindAllFuture", ex);
+            }
         }
 
         /// <summary>
@@ -166,10 +231,18 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         internal static IFutureValue<FutureValue> GetFutureValue<FutureValue>(this ISession session, DetachedCriteria criteria)
         {
             if (criteria == null)
-                throw new ArgumentException("future criteria", "the criteria object cannot be null.");
+                throw new QueryArgumentException("The DetachedCriteria instance cannot be null.", "GetFutureValue", "criteria");
 
-            return criteria.GetExecutableCriteria(session)
+            try
+            {
+                return criteria.GetExecutableCriteria(session)
                     .FutureValue<FutureValue>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting future persistent instance (type of <{0}>) from data store when the given DetachedCriteria is executed.", typeof(FutureValue).Name), "GetFutureValue", ex);
+            }
+            
         }
 
         /// <summary>
@@ -183,10 +256,18 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         internal static IFutureValue<FutureValue> GetFutureValue<TEntity, FutureValue>(this ISession session, QueryOver<TEntity> query) where TEntity : class
         {
             if (query == null)
-                throw new ArgumentException("future query", "the query object cannot be null.");
+                throw new QueryArgumentException("The QueryOver instance cannot be null.", "GetFutureValue", "query");
 
-            return query.GetExecutableQueryOver(session)
+            try
+            {
+                return query.GetExecutableQueryOver(session)
                     .FutureValue<FutureValue>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting future persistent instance (type of <{0}>) from data store when the given QueryOver is executed.", typeof(FutureValue).Name), "GetFutureValue", ex);
+            }
+            
         }
 
         /// <summary>
@@ -199,12 +280,19 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static bool Exists<TEntity, VKey>(this ISession session, VKey identifier) where TEntity : class
         {
-            return
+            try
+            {
+                return
                 (session.CreateCriteria<TEntity>()
                 .Add(Restrictions.IdEq(identifier))
                 .SetProjection(Projections.RowCountInt64())
                 .UniqueResult<long>()
                 ) > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on executing the \"Exists\" query when It tries to find a persistent instance (type of <{0}>) with the given identifier (type of <{1}>).", typeof(TEntity).Name, typeof(VKey).Name), "Exists", ex);
+            }
         }
 
         /// <summary>
@@ -217,18 +305,25 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static bool Exists<TEntity, VKey>(this ISession session, IEnumerable<VKey> identifiers) where TEntity : class
         {
-            string property = session.GetIdentifierName<TEntity>();
-            if (identifiers != null && identifiers.Count() > 0)
+            try
             {
-                long total = identifiers.LongCount();
-                long totalFounded = session.CreateCriteria<TEntity>()
-                                    .Add(Restrictions.InG(property, identifiers))
-                                    .SetProjection(Projections.RowCountInt64())
-                                    .UniqueResult<long>();
+                string property = session.GetIdentifierName<TEntity>();
+                if (identifiers != null && identifiers.Count() > 0)
+                {
+                    long total = identifiers.LongCount();
+                    long totalFounded = session.CreateCriteria<TEntity>()
+                                        .Add(Restrictions.InG(property, identifiers))
+                                        .SetProjection(Projections.RowCountInt64())
+                                        .UniqueResult<long>();
 
-                return total == totalFounded;
+                    return total == totalFounded;
+                }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on executing the \"Exists\" query when It tries to find all persistent instances (type of <{0}>) with the given indentifiers (type of <{1}>).", typeof(TEntity).Name, typeof(VKey).Name), "Exists", ex);
+            }
         }
 
         /// <summary>
@@ -239,11 +334,18 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static bool Exists(this ISession session, DetachedCriteria criteria)
         {
-            long counter = criteria.GetExecutableCriteria(session)
+            try
+            {
+                long counter = criteria.GetExecutableCriteria(session)
                             .SetProjection(Projections.RowCountInt64())
                             .UniqueResult<long>();
 
-            return counter > 0;
+                return counter > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing the \"Exists\" query when It tries to find all persistent instances when the given DetachedCriteria instance is executed.", "Exists", ex);
+            }
         }
 
         /// <summary>
@@ -255,12 +357,19 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static bool Exists<TEntity>(this ISession session, QueryOver<TEntity> query) where TEntity : class
         {
-            long counter = query.GetExecutableQueryOver(session)
+            try
+            {
+                long counter = query.GetExecutableQueryOver(session)
                            .ToRowCountInt64Query()
                            .UnderlyingCriteria
                            .UniqueResult<long>();
 
-            return counter > 0;
+                return counter > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing the \"Exists\" query when It tries to find all persistent instances when the given QueryOver instance is executed.", "Exists", ex);
+            }
         }
 
         /// <summary>
@@ -271,7 +380,14 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session) where TEntity : class
         {
-            return session.Query<TEntity>();
+            try
+            {
+                return session.Query<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting the IQueryable object of <{0}>", typeof(TEntity).Name), "ToIQueryable", ex);
+            }
         }
 
         /// <summary>
@@ -283,7 +399,15 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session, CacheMode mode) where TEntity : class
         {
-            return session.ToIQueryable<TEntity>().Cacheable().CacheMode(mode);
+            try
+            {
+                return session.ToIQueryable<TEntity>().Cacheable().CacheMode(mode);
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting the IQueryable object of <{0}> using a cache mode strategy.", typeof(TEntity).Name), "ToIQueryable", ex);
+            }
+            
         }
 
         /// <summary>
@@ -296,10 +420,17 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session, string region) where TEntity : class
         {
             IQueryable<TEntity> query = session.ToIQueryable<TEntity>();
-            if (!string.IsNullOrEmpty(region))
-                query = query.CacheRegion(region);
+            try
+            {
+                if (!string.IsNullOrEmpty(region))
+                    query = query.CacheRegion(region);
 
-            return query;
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on getting the IQueryable object of <{0}> using a cache region strategy.", typeof(TEntity).Name), "ToIQueryable", ex);
+            }
         }
 
         /// <summary>
@@ -324,8 +455,15 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static TEntity MakePersistent<TEntity>(this ISession session, TEntity entity) where TEntity : class
         {
-            session.SaveOrUpdate(entity);
-            return entity;
+            try
+            {
+                session.SaveOrUpdate(entity);
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException(string.Format("Error on making persistent the given instance (type of <{0}>)", typeof(TEntity).Name), "MakePersistent", ex);
+            }   
         }
 
         /// <summary>
@@ -339,8 +477,15 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static TEntity MakePersistent<TEntity, VKey>(this ISession session, TEntity entity, VKey identifier) where TEntity : class
         {
-            session.Update(entity, identifier);
-            return entity;
+            try
+            {
+                session.Update(entity, identifier);
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException(string.Format("Error on saving/updating the given instance (type of <{0}>) associated at the given identifier (value={1}, type of <{2}>)", typeof(TEntity).Name, identifier == null ? "null" : identifier.ToString(), typeof(VKey).Name), "MakePersistent", ex);
+            }
         }
 
         /// <summary>
@@ -352,7 +497,10 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static IEnumerable<TEntity> MakePersistent<TEntity>(this ISession session, IEnumerable<TEntity> entities) where TEntity : class
         {
-            if (entities != null)
+            if (entities == null)
+                throw new QueryArgumentException("The collection of entities to save/update cannot be null.", "MakePersistent", "entities");
+
+            try
             {
                 int counter = entities.Count();
                 if (counter > 0)
@@ -368,12 +516,12 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
                             }
                         );
                 }
+                return entities;
             }
-            else
+            catch (Exception ex)
             {
-                throw new ArgumentNullException("entities", "the collection of estities to save/update cannot be null.");
+                throw new BusinessPersistentException(string.Format("Error on saving/updating the given instances (type of <{0}>).", typeof(TEntity).Name), "MakePersistent", ex);
             }
-            return entities;
         }
 
         /// <summary>
@@ -384,7 +532,14 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <param name="entity"></param>
         internal static void MakeTransient<TEntity>(this ISession session, TEntity entity) where TEntity : class
         {
-            session.Delete(entity);
+            try
+            {
+                session.Delete(entity);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException(string.Format("Error on deleting the given instance (type of {0}).", typeof(TEntity).Name), "MakeTransient", ex);
+            }
         }
 
         /// <summary>
@@ -395,7 +550,10 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <param name="entities"></param>
         internal static void MakeTransient<TEntity>(this ISession session, IEnumerable<TEntity> entities) where TEntity : class
         {
-            if (entities != null)
+            if (entities == null)
+                throw new QueryArgumentException("The collection of entities to delete cannot be null.", "MakeTransient", "entities");
+
+            try
             {
                 int counter = entities.Count();
                 if (counter > 0)
@@ -412,9 +570,9 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
                         );
                 }
             }
-            else
+            catch (Exception ex)
             {
-                throw new ArgumentNullException("entities to delete", "The collection of entities to delete cannot be null.");
+                throw new BusinessPersistentException(string.Format("Error on deleting the given instances (type of {0}).", typeof(TEntity).Name), "MakeTransient", ex);
             }
         }
 
@@ -427,8 +585,15 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static TEntity RefreshState<TEntity>(this ISession session, TEntity entity) where TEntity : class
         {
-            session.Refresh(entity);
-            return entity;
+            try
+            {
+                session.Refresh(entity);
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on refreshing the given instance (type of {0}) with the current state of underlying data store.", typeof(TEntity).Name), "RefreshState", ex);
+            }
         }
 
         /// <summary>
@@ -440,7 +605,9 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
         /// <returns></returns>
         internal static IEnumerable<TEntity> RefreshState<TEntity>(this ISession session, IEnumerable<TEntity> entities) where TEntity : class
         {
-            entities.All
+            try
+            {
+                entities.All
                 (
                     delegate(TEntity entity)
                     {
@@ -448,7 +615,12 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp.Util
                         return true;
                     }
                 );
-            return entities;
+                return entities;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException(string.Format("Error on refreshing the given instances (type of {0}) with the current state of underlying data store.", typeof(TEntity).Name), "RefreshState", ex);
+            }   
         }
 
         /// <summary>

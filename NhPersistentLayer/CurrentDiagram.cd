@@ -66,7 +66,7 @@
   <Class Name="NHibernate.DAL.NhPersistentLayer.Imp.Util.NhQueryExtensions" Collapsed="true">
     <Position X="11" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAAAEAAQEAABAAAAQAIAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEAAkAAAAAAEAAAEAABIAAAQAIAIAAIAAAAAA=</HashCode>
       <FileName>Imp\Util\NhQueryExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -100,7 +100,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.BusinessPersistentException" Collapsed="true">
-    <Position X="11.5" Y="7.5" Width="1.5" />
+    <Position X="8.75" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\BusinessPersistentException.cs</FileName>
@@ -163,6 +163,34 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.QueryFormatException" Collapsed="true">
+    <Position X="4.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\QueryFormatException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.BusinessObjectException" Collapsed="true">
+    <Position X="6.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\BusinessObjectException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.ExecutionQueryException" Collapsed="true">
+    <Position X="6.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ExecutionQueryException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NHibernate.DAL.NhPersistentLayer.Exceptions.QueryArgumentException" Collapsed="true">
+    <Position X="6.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\QueryArgumentException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="NHibernate.DAL.NhPersistentLayer.IDomainDAO" Collapsed="true">
     <Position X="6.25" Y="2" Width="1.5" />
     <TypeIdentifier>
@@ -214,24 +242,6 @@
   </Interface>
   <Interface Name="NHibernate.DAL.NhPersistentLayer.ISessionDAO&lt;TEntity, VKey&gt;" Collapsed="true">
     <Position X="1" Y="3.5" Width="1.5" />
-    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.ISessionContext" FixedToPoint="true">
-      <Path>
-        <Point X="3.5" Y="2.562" />
-        <Point X="3.5" Y="3.125" />
-        <Point X="1.833" Y="3.125" Type="JumpStart" />
-        <Point X="1.667" Y="3.125" Type="JumpEnd" />
-        <Point X="1.562" Y="3.125" />
-        <Point X="1.562" Y="3.5" />
-      </Path>
-    </InheritanceLine>
-    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.ITransactionContext" FixedToPoint="true">
-      <Path>
-        <Point X="5.25" Y="2.562" />
-        <Point X="5.25" Y="3.125" />
-        <Point X="1.938" Y="3.125" />
-        <Point X="1.938" Y="3.5" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ISessionDAO.cs</FileName>
@@ -239,30 +249,6 @@
   </Interface>
   <Interface Name="NHibernate.DAL.NhPersistentLayer.ISessionDAO" Collapsed="true">
     <Position X="6.25" Y="3.5" Width="1.5" />
-    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.IDomainDAO" FixedFromPoint="true">
-      <Path>
-        <Point X="7" Y="2.691" />
-        <Point X="7" Y="3.5" />
-      </Path>
-    </InheritanceLine>
-    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.ISessionContext" FixedToPoint="true">
-      <Path>
-        <Point X="3.5" Y="2.562" />
-        <Point X="3.5" Y="3.125" />
-        <Point X="6.812" Y="3.125" />
-        <Point X="6.812" Y="3.5" />
-      </Path>
-    </InheritanceLine>
-    <InheritanceLine Type="NHibernate.DAL.NhPersistentLayer.ITransactionContext" FixedToPoint="true">
-      <Path>
-        <Point X="5.25" Y="2.562" />
-        <Point X="5.25" Y="3.125" />
-        <Point X="6.917" Y="3.125" Type="JumpStart" />
-        <Point X="7.083" Y="3.125" Type="JumpEnd" />
-        <Point X="7.188" Y="3.125" />
-        <Point X="7.188" Y="3.5" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ISessionDAO.cs</FileName>

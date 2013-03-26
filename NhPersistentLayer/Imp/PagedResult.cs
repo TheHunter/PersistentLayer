@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NHibernate.Linq;
 using NHibernate.DAL.NhPersistentLayer.Imp.Util;
+using NHibernate.DAL.NhPersistentLayer.Exceptions;
 
 namespace NHibernate.DAL.NhPersistentLayer.Imp
 {
@@ -26,15 +27,25 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp
         /// <param name="startIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="criteria"></param>
-        internal PagedResult(int startIndex, int pageSize, ICriteria criteria)
+        public PagedResult(int startIndex, int pageSize, ICriteria criteria)
         {
-            IFutureValue<int> counter = CriteriaTransformer.TransformToRowCount(criteria).FutureValue<int>();
-            IEnumerable<TEntity> futureInstances = criteria.SetFirstResult(startIndex).SetMaxResults(pageSize).Future<TEntity>();
+            if (criteria == null)
+                throw new QueryArgumentException("the given criteria using for paging cannot be null.", "PagedResult", "criteria");
 
-            this.StartIndex = startIndex;
-            this.Size = pageSize;
-            this._Result = futureInstances;
-            this._Counter = counter.Value;
+            try
+            {
+                IFutureValue<int> counter = CriteriaTransformer.TransformToRowCount(criteria).FutureValue<int>();
+                IEnumerable<TEntity> futureInstances = criteria.SetFirstResult(startIndex).SetMaxResults(pageSize).Future<TEntity>();
+
+                this.StartIndex = startIndex;
+                this.Size = pageSize;
+                this._Result = futureInstances;
+                this._Counter = counter.Value;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on calling the constructor when the given criteria instance is executed.", "PagedResult", ex);
+            }
         }
 
         /// <summary>
@@ -43,15 +54,25 @@ namespace NHibernate.DAL.NhPersistentLayer.Imp
         /// <param name="startIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="query"></param>
-        internal PagedResult(int startIndex, int pageSize, IQueryable<TEntity> query)
+        public PagedResult(int startIndex, int pageSize, IQueryable<TEntity> query)
         {
-            this.StartIndex = startIndex;
-            this.Size = pageSize;
+            if (query == null)
+                throw new QueryArgumentException("The given IQueryable instance using for paging cannot be null.", "PagedResult", "query");
 
-            IFutureValue<int> counter = query.ToFutureValue(n => n.Count());
-            this._Result = query.Skip(startIndex).Take(pageSize).ToFuture();
+            try
+            {
+                this.StartIndex = startIndex;
+                this.Size = pageSize;
 
-            this._Counter = counter.Value;
+                IFutureValue<int> counter = query.ToFutureValue(n => n.Count());
+                this._Result = query.Skip(startIndex).Take(pageSize).ToFuture();
+
+                this._Counter = counter.Value;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on calling the constructor when the given IQueryable instance is executed.", "PagedResult", ex);
+            }
         }
 
         /// <summary>
