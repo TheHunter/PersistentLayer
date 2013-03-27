@@ -1,6 +1,7 @@
 <h2 id="welcometonhpersistentlayer">Welcome to NhPersistentLayer</h2>
 
-<p>NhPersistentLayer is a easy DAL project which wraps all operations on database through a set of interfaces present in this framework.</p>
+<p>NhPeristentLayer is a layered architecture which contains a set of components (classes and interfaces) responsable
+for persisting application data to and retrieving it from one or many data stores.</p>
 
 
 <h2 id="licenses">Licenses</h2>
