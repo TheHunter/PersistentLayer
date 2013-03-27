@@ -15,6 +15,9 @@ using NHibernate.DAL.NhPersistentLayer.Exceptions;
 using NHibernate.Criterion;
 using ScrignoV2.Business.Entities;
 using NHibernate.Context;
+using System.Configuration;
+using System.IO;
+using System.Xml;
 
 namespace WFA_NhPersitentLayer_test
 {
@@ -24,22 +27,49 @@ namespace WFA_NhPersitentLayer_test
         NhConfigurationBuilder builder = null;
         IPagedDAO ownPagedDAO = null;
         ISessionProvider sessionProvider = null;
+        string rootPathProject = null;
 
         public Form1()
         {
             InitializeComponent();
+            SetRootPathProject();
 
-            string dir = @"C:\Users\Diego\Documents\visual studio 2010\Projects\NhPersistentLayer\WFA_NhPersitentLayer_test\MappingsXml";
-            string cfg = @"C:\Users\Diego\Documents\visual studio 2010\Projects\NhPersistentLayer\WFA_NhPersitentLayer_test\Cfg\Configuration.xml";
+            XmlTextReader configReader = new XmlTextReader(new MemoryStream(WFA_NHibernate.Properties.Resources.Configuration));
+            DirectoryInfo dir = new DirectoryInfo(this.rootPathProject + "MappingsXml");
+            builder = new NhConfigurationBuilder(configReader, dir);
 
-            builder = new NhConfigurationBuilder(cfg, dir);
-            builder.SetProperty("connection.connection_string", @"Integrated Security=SSPI;Initial Catalog=Scrigno;Data Source=MYHOME\SQLEXPRESS");
+            builder.SetProperty("connection.connection_string", GetConnectionString());
+
             builder.BuildSessionFactory();
             sessionFactory = builder.SessionFactory;
 
             sessionProvider = new SessionManager(sessionFactory);
 
             ownPagedDAO = new EnterprisePagedDAO(sessionProvider);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetRootPathProject()
+        {
+            var list = new List<string>(Directory.GetCurrentDirectory().Split('\\'));
+            list.RemoveAt(list.Count - 1);
+            list.RemoveAt(list.Count - 1);
+            list.Add(string.Empty);
+            this.rootPathProject = string.Join("\\", list);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private string GetConnectionString()
+        {
+            string output = this.rootPathProject + "db\\";
+
+            var str = ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString;
+            return string.Format(str, output);
         }
 
         #region PAGING
