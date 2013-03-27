@@ -59,5 +59,12 @@ namespace WFA_NHibernate.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static byte[] Configuration {
+            get {
+                object obj = ResourceManager.GetObject("Configuration", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
