@@ -1,9 +1,3 @@
-NhPersistentLayer
-=================
-
-This is a DAL infrastructure which exposes a set of interfaces with basic implementation (using nhibernate as basic underlying implementation), which It is used for making CRUD operations on any KIND of data store.
-
-
 <h2 id="welcometonhpersistentlayer">Welcome to NhPersistentLayer</h2>
 
 <p>NhPersistentLayer is a easy DAL project which wraps all operations on database through a set of interfaces present in this framework.</p>
