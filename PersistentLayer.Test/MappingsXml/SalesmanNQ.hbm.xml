@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+	>
+	<resultset name="SetConsultants">
+		<return alias="CONS" class="PersistentLayer.Domain.Salesman, PersistentLayer.Domain" />
+	</resultset>
+	
+	<sql-query name="InstancesByID" resultset-ref="SetConsultants">
+		<![CDATA[
+		select {CONS.*} from Salesman {CONS} with(nolock) where CONS.ID > :ID
+		]]>
+		<!--<return alias="CONS" class="NhPersistentLayer.Domain.Salesman, NhPersistentLayer.Domain" />-->
+	</sql-query>
+
+	<sql-query name="GetConsByDataFunc" resultset-ref="SetConsultants">
+		<![CDATA[
+		select * from scrigno.dbo.GetConsultantsBy(:datarif)
+		]]>
+	</sql-query>
+	
+	<query name="ConsultantsQueryByCode">
+		<query-param name="codice" type="long" />
+        from Salesman cons where cons.IdentityCode >= :code
+    </query>
+
+	<sql-query name="SetConsultantByName" resultset-ref="SetConsultants">
+		<![CDATA[
+		select * from scrigno.dbo.fntGetConsByName(:name)
+		]]>
+	</sql-query>
+
+	<sql-query name="SPSetConsultantByName" resultset-ref="SetConsultants">
+		<query-param name="pName" type="String"/>
+		<![CDATA[
+		EXEC scrigno.dbo.stpGetConsByName @pName=:name
+		]]>
+	</sql-query>
+
+	<sql-query name="RepConsultant">
+		<return-scalar column="Name" type="System.String" />
+		<return-scalar column="Surname" type="System.String" />
+		<return-scalar column="NumSubAgents" type="System.Int32" />
+		<![CDATA[
+		SELECT
+				CONS.Name,
+				CONS.Surname,
+				count(AG.IDConsultant) NumSubAgents
+		FROM
+				Scrigno.dbo.Salesman(NOLOCK) CONS 
+		LEFT JOIN
+				Scrigno.dbo.SalesmanAgent(NOLOCK) AG 
+				ON CONS.ID = AG.IDConsultant
+		GROUP BY
+				CONS.ID, 
+				CONS.Name,
+				CONS.Surname
+		]]>
+	</sql-query>
+
+	
+	<sql-query name="GetConsultansBySub" resultset-ref="SetConsultants">
+		<![CDATA[
+		select
+				CONS.* 
+				,count(CA.IDConsultant) CAA
+		FROM
+				Scrigno.dbo.Salesman CONS
+		LEFT JOIN
+				Scrigno.dbo.SalesmanAgent CA
+				ON CONS.ID = CA.IDConsultant
+		GROUP BY
+				CONS.ID
+				,CONS.Name
+				,CONS.Surname
+				,CONS.IdentityCode
+				,CONS.NickCode
+				,CONS.Email
+				,CONS.Version
+		having COUNT(CA.IDConsultant) = :counter
+		]]>
+	</sql-query>
+	
+</hibernate-mapping>

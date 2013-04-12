@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping
+  assembly="PersistentLayer.Domain"
+  namespace="PersistentLayer.Domain"
+  default-access="property"
+  xmlns="urn:nhibernate-mapping-2.2">
+  
+  <class name="Contract">
+      
+    <id name="ID" column="ID" type="long">
+        <generator class="native" />
+    </id>
+    <version name="Version" type="int" />
+    <property name="Number" type="long" />
+    <property name="Description" type="String" />
+
+    <many-to-one name="Owner"
+                 class="Salesman"
+                 column="FKSalesman"
+                 not-null="false"
+                 >
+    </many-to-one>
+      
+    <property name="BeginDate" type="DateTime" not-null="false" />
+    
+  </class>
+</hibernate-mapping>
