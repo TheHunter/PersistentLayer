@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping
+    assembly="PersistentLayer.Domain"
+    namespace="PersistentLayer.Domain"
+    default-access="property"
+    xmlns="urn:nhibernate-mapping-2.2">
+
+    <class name="Comune" table="Comuni">
+        <id name="ID">
+            <generator class="native" />
+        </id>
+        <version name="Version" type="int" generated="always" />
+        <property name="Nominativo" type="String" />
+        <property name="Descrizione" type="String" />
+    </class>
+
+</hibernate-mapping>
