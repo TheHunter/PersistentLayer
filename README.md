@@ -1,6 +1,6 @@
-<h2 id="welcometonhpersistentlayer">Welcome to NhPersistentLayer</h2>
+<h2 id="welcometopersistentlayer">Welcome to PersistentLayer</h2>
 
-<p>NhPeristentLayer is a layered architecture which contains a set of components (classes and interfaces) responsable
+<p>PersistentLayer is a layered architecture which contains a set of components (classes and interfaces) responsable
 for persisting application data to and retrieving it from one or many data stores.</p>
 
 
