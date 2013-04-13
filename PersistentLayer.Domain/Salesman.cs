@@ -88,5 +88,10 @@ namespace PersistentLayer.Domain
         {
             this.Version = cons.Version;
         }
+
+        public virtual void UpdateId(Salesman cons)
+        {
+            this.ID = cons.ID;
+        }
     }
 }

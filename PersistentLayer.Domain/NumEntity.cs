@@ -1,4 +1,5 @@
 ﻿using EntityModel;
+using EntityModel.Notifiers;
 
 namespace PersistentLayer.Domain
 {
@@ -25,11 +26,6 @@ namespace PersistentLayer.Domain
         public override int GetHashCode()
         {
             return (this.Testo == null ? string.Empty.GetHashCode() : this.Testo.GetHashCode());
-        }
-
-        public override string ToString()
-        {
-            return base.ToString();
         }
     }
 }

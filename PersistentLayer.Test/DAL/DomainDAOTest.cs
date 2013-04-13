@@ -317,12 +317,13 @@ namespace PersistentLayer.Test.DAL
             Salesman cons = ownPagedDAO.ToIQueryable<Salesman>().First();
             Salesman cons2 = new Salesman
                                    {
-                                       ID = cons.ID,
+                                       //ID = cons.ID,
                                        IdentityCode = cons.IdentityCode,
                                        Name = cons.Name,
                                        Surname = cons.Surname,
                                        Email = cons.Email
                                    };
+            cons2.UpdateId(cons);
 
             cons2.UpdateVersion(cons);
             try
