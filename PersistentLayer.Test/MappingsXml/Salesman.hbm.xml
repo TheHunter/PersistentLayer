@@ -25,7 +25,7 @@
         <subselect>
             <![CDATA[
             select IDSalesman, max(BeginDate) as BeginDate, IDAgent FROM SalesmanAgent 
-            group by IDConsultant, IDAgent
+            group by IDSalesman, IDAgent
             ]]>
         </subselect>
         <key column="IDSalesman" not-null="false" />

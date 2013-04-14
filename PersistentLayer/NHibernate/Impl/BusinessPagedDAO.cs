@@ -8,7 +8,7 @@ namespace PersistentLayer.NHibernate.Impl
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public class BusinessNhPagedDao<TEntity, TKey>
+    public class BusinessPagedDAO<TEntity, TKey>
         : BusinessDAO<TEntity, TKey>, INhPagedDAO<TEntity, TKey>
         where TEntity : class
     {
@@ -16,7 +16,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// 
         /// </summary>
         /// <param name="sessionProvider"></param>
-        public BusinessNhPagedDao(ISessionProvider sessionProvider)
+        public BusinessPagedDAO(ISessionProvider sessionProvider)
             : base(sessionProvider)
         {
         }

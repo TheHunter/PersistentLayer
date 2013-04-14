@@ -41,7 +41,7 @@
       <HintPath>..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <HintPath>..\packages\Iesi.Collections.3.3.3.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
@@ -54,12 +54,129 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\PersistentLayer\Exceptions\BusinessLayerException.cs">
+      <Link>Exceptions\BusinessLayerException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\BusinessObjectException.cs">
+      <Link>Exceptions\BusinessObjectException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\BusinessPersistentException.cs">
+      <Link>Exceptions\BusinessPersistentException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\CommitFailedException.cs">
+      <Link>Exceptions\CommitFailedException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\ExecutionQueryException.cs">
+      <Link>Exceptions\ExecutionQueryException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\InnerRollBackException.cs">
+      <Link>Exceptions\InnerRollBackException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\QueryArgumentException.cs">
+      <Link>Exceptions\QueryArgumentException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\QueryFormatException.cs">
+      <Link>Exceptions\QueryFormatException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\RollbackFailedException.cs">
+      <Link>Exceptions\RollbackFailedException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\IPagedDAO.cs">
+      <Link>IPagedDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\IPagedResult.cs">
+      <Link>IPagedResult.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\IPersisterDAO.cs">
+      <Link>IPersisterDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\IQueryableDAO.cs">
+      <Link>IQueryableDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\ITransactionContext.cs">
+      <Link>ITransactionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\ITransactionProvider.cs">
+      <Link>ITransactionProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\IDomainDAO.cs">
+      <Link>NHibernate\IDomainDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\IEntityDAO.cs">
+      <Link>NHibernate\IEntityDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\AbstractDAO.cs">
+      <Link>NHibernate\Impl\AbstractDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\BusinessDAO.cs">
+      <Link>NHibernate\Impl\BusinessDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\BusinessPagedDAO.cs">
+      <Link>NHibernate\Impl\BusinessPagedDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\DomainDAO.cs">
+      <Link>NHibernate\Impl\DomainDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\EnterpriseDAO.cs">
+      <Link>NHibernate\Impl\EnterpriseDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\EnterprisePagedDAO.cs">
+      <Link>NHibernate\Impl\EnterprisePagedDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\EntityDAO.cs">
+      <Link>NHibernate\Impl\EntityDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\NhPagedResult.cs">
+      <Link>NHibernate\Impl\NhPagedResult.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\NhQueryExtensions.cs">
+      <Link>NHibernate\Impl\NhQueryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\Impl\NhQueryImplementor.cs">
+      <Link>NHibernate\Impl\NhQueryImplementor.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\INhPagedDAO.cs">
+      <Link>NHibernate\INhPagedDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\INhQueryableDAO.cs">
+      <Link>NHibernate\INhQueryableDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\InvalidSessionException.cs">
+      <Link>NHibernate\InvalidSessionException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\ISessionContext.cs">
+      <Link>NHibernate\ISessionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\ISessionDAO.cs">
+      <Link>NHibernate\ISessionDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\ISessionProvider.cs">
+      <Link>NHibernate\ISessionProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\NhConfigurationBuilder.cs">
+      <Link>NHibernate\NhConfigurationBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\SessionBinderLayer.cs">
+      <Link>NHibernate\SessionBinderLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\SessionInfo.cs">
+      <Link>NHibernate\SessionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\SessionManager.cs">
+      <Link>NHibernate\SessionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\SessionNotAvailableException.cs">
+      <Link>NHibernate\SessionNotAvailableException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\SessionNotBindedException.cs">
+      <Link>NHibernate\SessionNotBindedException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\SessionNotOpenedException.cs">
+      <Link>NHibernate\SessionNotOpenedException.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="NHibernate\Impl\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

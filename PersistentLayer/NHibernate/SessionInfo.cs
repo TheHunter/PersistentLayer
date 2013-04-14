@@ -17,7 +17,7 @@ namespace PersistentLayer.NHibernate
         public SessionInfo(ISessionProvider provider)
         {
             if (provider == null)
-                throw new ArgumentNullException("Error into assign the session provider into BussinesDAO 'cause It's null.");
+                throw new ArgumentNullException("provider", "Error on assigning the session provider into BussinesDAO 'cause It's null.");
             
             this.sessionProvider = provider;
         }
