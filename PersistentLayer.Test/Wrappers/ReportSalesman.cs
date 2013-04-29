@@ -20,7 +20,7 @@
             set;
         }
 
-        public int NumSubAgents
+        public long NumSubAgents
         {
             get;
             set;

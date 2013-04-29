@@ -7,14 +7,14 @@
 	
 	<sql-query name="InstancesByID" resultset-ref="SetConsultants">
 		<![CDATA[
-		select {CONS.*} from Salesman {CONS} with(nolock) where CONS.ID > :ID
+		select {CONS.*} from dbo.Salesman {CONS} with(nolock) where CONS.ID > :ID
 		]]>
 		<!--<return alias="CONS" class="NhPersistentLayer.Domain.Salesman, NhPersistentLayer.Domain" />-->
 	</sql-query>
 
 	<sql-query name="GetConsByDataFunc" resultset-ref="SetConsultants">
 		<![CDATA[
-		select * from scrigno.dbo.GetConsultantsBy(:datarif)
+		select * from dbo.GetSalesmanBy(:datarif)
 		]]>
 	</sql-query>
 	
@@ -25,31 +25,33 @@
 
 	<sql-query name="SetConsultantByName" resultset-ref="SetConsultants">
 		<![CDATA[
-		select * from scrigno.dbo.fntGetConsByName(:name)
+		select * from dbo.fntGetSalesmanByName(:name)
 		]]>
 	</sql-query>
 
 	<sql-query name="SPSetConsultantByName" resultset-ref="SetConsultants">
 		<query-param name="pName" type="String"/>
 		<![CDATA[
-		EXEC scrigno.dbo.stpGetConsByName @pName=:name
+		EXEC dbo.stpGetSalesmanByName @pName=:name
 		]]>
 	</sql-query>
 
 	<sql-query name="RepConsultant">
+        <return-scalar column="ID" type="System.Int32" />
 		<return-scalar column="Name" type="System.String" />
 		<return-scalar column="Surname" type="System.String" />
 		<return-scalar column="NumSubAgents" type="System.Int32" />
 		<![CDATA[
 		SELECT
+                CONS.ID,
 				CONS.Name,
 				CONS.Surname,
-				count(AG.IDConsultant) NumSubAgents
+				count(AG.IDSalesman) NumSubAgents
 		FROM
-				Scrigno.dbo.Salesman(NOLOCK) CONS 
+				dbo.Salesman(NOLOCK) CONS 
 		LEFT JOIN
-				Scrigno.dbo.SalesmanAgent(NOLOCK) AG 
-				ON CONS.ID = AG.IDConsultant
+				dbo.SalesmanAgent(NOLOCK) AG 
+				ON CONS.ID = AG.IDSalesman
 		GROUP BY
 				CONS.ID, 
 				CONS.Name,
@@ -62,12 +64,12 @@
 		<![CDATA[
 		select
 				CONS.* 
-				,count(CA.IDConsultant) CAA
+				,count(CA.IDSalesman) CAA
 		FROM
-				Scrigno.dbo.Salesman CONS
+				dbo.Salesman CONS
 		LEFT JOIN
-				Scrigno.dbo.SalesmanAgent CA
-				ON CONS.ID = CA.IDConsultant
+				dbo.SalesmanAgent CA
+				ON CONS.ID = CA.IDSalesman
 		GROUP BY
 				CONS.ID
 				,CONS.Name
@@ -76,7 +78,7 @@
 				,CONS.NickCode
 				,CONS.Email
 				,CONS.Version
-		having COUNT(CA.IDConsultant) = :counter
+		having COUNT(CA.IDSalesman) = :counter
 		]]>
 	</sql-query>
 	

@@ -553,7 +553,7 @@ namespace PersistentLayer.NHibernate.Impl
         }
 
         /// <summary>
-        /// Make a NHibernate.ISQLQuery instance for the given HQL string.
+        /// Make a IQuery instance for the given HQL string.
         /// </summary>
         /// <param name="sourceDAO"></param>
         /// <param name="query"></param>

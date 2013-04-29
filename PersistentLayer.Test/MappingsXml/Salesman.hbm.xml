@@ -5,7 +5,7 @@
   default-access="property"
   xmlns="urn:nhibernate-mapping-2.2">
   
-  <class name="Salesman" optimistic-lock="version">
+  <class name="Salesman" optimistic-lock="version" lazy="true">
       
     <id name="ID" column="ID" type="long">
         <generator class="native" />
@@ -34,11 +34,11 @@
     <set name="Contracts"
          inverse="true"
          batch-size="10"
-         table="Contract"
+         table="TradeContract"
          cascade="save-update"
         >
         <key column="FKSalesman" not-null="true" />
-        <one-to-many class="Contract" />
+        <one-to-many class="TradeContract" />
     </set>
     <set name="Agencies"
         inverse="true"

@@ -1,0 +1,331 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using NHibernate;
+using System.IO;
+using System.Xml;
+using NHibernate.Transform;
+using NUnit.Framework;
+using System.Configuration;
+using NHibernate.Context;
+using PersistentLayer.Domain;
+using PersistentLayer.NHibernate;
+using PersistentLayer.NHibernate.Impl;
+using PersistentLayer.Test.Wrappers;
+
+namespace PersistentLayer.Test.DAL
+{
+    /// <summary>
+    /// This class shows how can queries can be used, in particolar 
+    /// coomon operations like Joins, Projections, Subqueries, Groups with Projections,
+    /// HQL, executing SQL functions and store procedures ecc.
+    /// </summary>
+    public class QueryTest
+        : CurrentTester
+    {
+        [Test]
+        [Category("NamedQueries")]
+        [Description("Get a defined query from mapping file.")]
+        public void ExecuteNamedQueryTest1()
+        {
+            var query = CurrentPagedDAO.GetNamedQuery("InstancesByID");
+            query.SetString("ID", "1");
+            var result = query.List();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        [Category("NamedQueries")]
+        [Description("Get a defined query from mapping file.")]
+        public void ExecuteNamedQueryTest2()
+        {
+            var query = CurrentPagedDAO.GetNamedQuery("GetConsByDataFunc");
+            query.SetString("datarif", "20020101");
+            var result = query.List();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        [Category("NamedQueries")]
+        [Description("Executes a string HQL instruction defined into mapping file.")]
+        public void ExecuteNamedQueryTest3()
+        {
+            var query = CurrentPagedDAO.GetNamedQuery("ConsultantsQueryByCode");
+            query.SetString("code", "100");
+            var result = query.List();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        [Category("NamedQueries")]
+        [Description("Another named query defined into mapping file.")]
+        public void ExecuteNamedQueryTest4()
+        {
+            var query = CurrentPagedDAO.GetNamedQuery("SetConsultantByName");
+            query.SetString("name", "man");
+            var result = query.List();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        [Category("NamedQueries")]
+        [Description("A named query which executes a store procedure.")]
+        public void ExecuteNamedQueryTest5()
+        {
+            var query = CurrentPagedDAO.GetNamedQuery("SPSetConsultantByName");
+            query.SetString("name", "man");
+            var result = query.List();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        [Category("NamedQueries")]
+        [Description("Executes a simple SQL query.")]
+        public void ExecuteNamedQueryTest6()
+        {
+            var query = CurrentPagedDAO.GetNamedQuery("RepConsultant");
+            var result = query.List();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        [Category("NamedQueries")]
+        [Description("Executes a simple SQL query with transforming output.")]
+        public void ExecuteNamedQueryTest7()
+        {
+            var query = CurrentPagedDAO.GetNamedQuery("RepConsultant");
+            var result = query.SetResultTransformer(Transformers.AliasToBean<ReportSalesman>()).List<ReportSalesman>();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        [Category("NamedQueries")]
+        [Description("Executes a simple SQL query.")]
+        public void ExecuteNamedQueryTest8()
+        {
+            var query = CurrentPagedDAO.GetNamedQuery("GetConsultansBySub");
+            query.SetString("counter", "1");
+            var result = query.List<Salesman>();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        [Category("SimpleQueries")]
+        public void TestLoader1()
+        {
+            var cons1 = CurrentPagedDAO.FindBy<Salesman, long?>(1);
+            var cons2 = CurrentPagedDAO.FindBy<Salesman, long?>(2);
+            var cons3 = CurrentPagedDAO.FindBy<Salesman, long?>(10);
+            Assert.IsTrue(cons1.Contracts.Any());
+            Assert.IsTrue(cons2.Contracts.Any());
+            Assert.IsTrue(cons3.Contracts.Any());
+        }
+
+        [Test]
+        [Category("CollectionFilter")]
+        [Description("Using a collection filter.")]
+        public void TestLoader2()
+        {
+            string strFilter = "select subclass from CarContract subclass where this.ID = subclass.ID";
+
+            var salesman1 = CurrentPagedDAO.FindBy<Salesman, long?>(1);
+            var salesman2 = CurrentPagedDAO.FindBy<Salesman, long?>(2);
+            var salesman3 = CurrentPagedDAO.FindBy<Salesman, long?>(3);
+
+            var col1 = CurrentPagedDAO.MakeFilter(salesman1.Contracts, strFilter)
+                .List<CarContract>();
+
+            var col2 = CurrentPagedDAO.MakeFilter(salesman2.Contracts, strFilter)
+                .List<CarContract>();
+
+            var col3 = CurrentPagedDAO.MakeFilter(salesman3.Contracts, strFilter)
+                .List<CarContract>();
+
+            Assert.IsTrue(col1.Count > 0);
+            Assert.IsTrue(col2.Count > 0);
+            Assert.IsTrue(col3.Count == 0);
+        }
+
+        [Test]
+        [Category("NoScope")]
+        [Description("This test had to be failed because of lazy loading collection that a runtime the encironment doesn't know the real type.")]
+        public void TestLoader3()
+        {
+            //Acts
+            var salesman = CurrentPagedDAO.FindBy<Salesman, long?>(1);
+            var contratti = salesman.Contracts;
+            foreach (var contratto in contratti)
+            {
+                if (contratto.ID == 4) //this ID is for the subclass HomeContract instance
+                    Assert.IsTrue(contratto is HomeContract);
+                else
+                    Assert.IsTrue(contratto is CarContract);
+            }
+
+            var homeContracts = salesman.Contracts.Last();
+
+            Assert.IsTrue(homeContracts is HomeContract);
+            HomeContract crt = (HomeContract) homeContracts;
+
+            //Asserts
+            Assert.IsTrue(homeContracts != null);
+            Assert.IsNotNull(crt.Town);
+        }
+
+        [Test]
+        [Category("CollectionFilter")]
+        [Description("This test verifies that all objects into collection are identical like filtered collection instances")]
+        public void TestLoader4()
+        {
+            var salesman = CurrentPagedDAO.FindBy<Salesman, long>(1);
+            var contracts = salesman.Contracts;
+            var allContracts = CurrentPagedDAO.MakeFilter(salesman.Contracts, "") //take all contracts without filter
+                                .List<TradeContract>()
+                                //.Enumerable<TradeContract>()
+                                ;
+
+            // Asserts
+            Assert.IsTrue(contracts.Count == allContracts.Count());
+            TradeContract current;
+            foreach (TradeContract tradeContract in allContracts)
+            {
+                current = contracts.First(n => tradeContract.ID == n.ID);
+                Assert.AreEqual(current, tradeContract);
+                Assert.AreSame(current, tradeContract);
+                Assert.IsTrue(current == tradeContract);
+            }
+        }
+
+        [Test]
+        [Category("CollectionFilter")]
+        public void TestMockModify()
+        {
+            SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+
+            var salesman = CurrentPagedDAO.FindBy<Salesman, long>(1);
+            var contracts = salesman.Contracts;
+            var allContracts = CurrentPagedDAO.MakeFilter(salesman.Contracts, "") //take all contracts without filter
+                                .List<TradeContract>()
+                                ;
+
+            // Asserts
+            Assert.IsTrue(contracts.Count == allContracts.Count());
+            Assert.IsFalse(CurrentPagedDAO.SessionWithChanges());
+
+            TradeContract current;
+            foreach (TradeContract tradeContract in allContracts)
+            {
+                current = contracts.First(n => tradeContract.ID == n.ID);
+
+                tradeContract.Description = tradeContract.Description + "_updated";
+
+                //Asserts
+                Assert.AreEqual(current, tradeContract);
+                Assert.AreSame(current, tradeContract);
+                Assert.IsTrue(current == tradeContract);
+            }
+
+            //Asserts
+            Assert.IsTrue(CurrentPagedDAO.SessionWithChanges());
+
+            SessionProvider.RollbackTransaction();
+
+            // making rollback no sql statements will be executed, but persistent modified objects remain in memory..
+            Assert.IsTrue(CurrentPagedDAO.SessionWithChanges());
+
+            // so, in these cases you have to close the current session in order for discarding changes from memory.
+            DiscardCurrentSession();
+            Assert.IsFalse(CurrentPagedDAO.SessionWithChanges());
+        }
+
+        [Test]
+        [Category("HQL2Transform")]
+        [Description("Demostrate how queries can be transform query results into specific CLR class using a constructor injected into HQL statement.")]
+        public void TestDynamicInstantion1()
+        {
+            /*NOTE:
+             * In order for using a injected constructor, you have to define an appropriate constructor..
+             * and dont' forget to import the class used for transforming the query result, that in this case
+             * It will be imported by hbm.xml file (ClsToImport.hbm.xml)
+             */
+
+            string hql = @"select new SalesmanPrj ( q.ID, q.Name, q.Surname, q.Email ) from Salesman q where q.ID > 10 ";
+            var result = CurrentPagedDAO.MakeHQLQuery(hql)
+                        //.List()
+                        .List<SalesmanPrj>()
+                        ;
+
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        [Category("HQL2Transform")]
+        [Description("Demostrate how can be transform query results into specific CLR class using a transformer.")]
+        public void TestDynamicInstantion2()
+        {
+            /*NOTE:
+             * In order for using a transformer for a HQL result,
+             * you must to use aliases for all fields present in HQL statement,
+             * otherwise It throws an exception a runtime..
+             */
+
+            string hql = @"select instance.ID as ID, instance.Name as Name, instance.Surname as Surname, instance.Email as Email from Salesman instance where instance.ID > 10";
+            var result = CurrentPagedDAO.MakeHQLQuery(hql)
+                        .SetResultTransformer(Transformers.AliasToBean<SalesmanPrj>())
+                        //.List()
+                        .List<SalesmanPrj>()
+                        ;
+
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        [Category("HQL2Transform")]
+        [Description("Like TestDynamicInstantion2() but It uses an aggregation function with grouping, then The result is transformed.")]
+        public void TestDynamicInstantion3()
+        {
+            string hql;
+            IList<ReportSalesman> result;
+            hql =
+                @"
+                select crt.Owner.ID as ID, crt.Owner.Name as Name, crt.Owner.Surname as Surname, count(crt) as NumSubAgents
+                from TradeContract crt
+                group by crt.Owner.ID, crt.Owner.Name, crt.Owner.Surname
+                ";
+
+            result = CurrentPagedDAO.MakeHQLQuery(hql)
+                    .SetResultTransformer(Transformers.AliasToBean<ReportSalesman>())
+                    .List<ReportSalesman>()
+                    ;
+
+            Assert.IsNotNull(result);
+
+            // second test similar to previous.. with the same result.
+            hql =
+                @"
+                select sal.ID as ID, sal.Name as Name, sal.Surname as Surname, count(crt) as NumSubAgents
+                from Salesman sal
+                join sal.Contracts crt
+                group by sal.ID, sal.Name, sal.Surname
+                ";
+
+            result = CurrentPagedDAO.MakeHQLQuery(hql)
+                        .SetResultTransformer(Transformers.AliasToBean<ReportSalesman>())
+                        .List<ReportSalesman>()
+                        ;
+
+            Assert.IsNotNull(result);
+        }
+    }
+}

@@ -80,7 +80,7 @@
         </member>
         <member name="E:EntityModel.Notifiers.ObservableEntity`1.PropertyChanged">
             <summary>
-            
+            Rapresents the method invoked for managing the event generated when properties values are changed.
             </summary>
         </member>
     </members>

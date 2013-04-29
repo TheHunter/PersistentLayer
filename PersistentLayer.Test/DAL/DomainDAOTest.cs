@@ -4,6 +4,8 @@ using System.Linq;
 using NHibernate;
 using System.IO;
 using System.Xml;
+using NHibernate.Linq;
+using NHibernate.Transform;
 using NUnit.Framework;
 using System.Configuration;
 using NHibernate.Context;
@@ -17,266 +19,224 @@ using PersistentLayer.Test.Wrappers;
 
 namespace PersistentLayer.Test.DAL
 {
-    [TestFixture(Description = "Test for DAO's methods.")]
+    [Description("Test for DAO's methods.")]
     public class DomainDAOTest
+        : CurrentTester
     {
-        static ISessionFactory sessionFactory;
-        NhConfigurationBuilder builder;
-        INhPagedDAO ownPagedDAO;
-        SessionManager sessionProvider;
-        string rootPathProject;
-        ISession currentSession;
-
-        [TestFixtureSetUp]
-        public void OnStartUp()
-        {
-            SetRootPathProject();
-
-            XmlTextReader configReader = new XmlTextReader(new MemoryStream(Properties.Resources.Configuration));
-            DirectoryInfo dir = new DirectoryInfo(this.rootPathProject + "MappingsXml");
-            Console.WriteLine(dir);
-
-            builder = new NhConfigurationBuilder(configReader, dir);
-
-            builder.SetProperty("connection.connection_string", GetConnectionString());
-
-            builder.BuildSessionFactory();
-            sessionFactory = builder.SessionFactory;
-            sessionProvider = new SessionManager(sessionFactory);
-            ownPagedDAO = new EnterprisePagedDAO(sessionProvider);
-            currentSession = sessionFactory.OpenSession();
-
-            //CurrentSessionContext.Bind(currentSession);
-        }
-
-        [TestFixtureTearDown]
-        public void OnFinishedTest()
-        {
-            if (currentSession != null && currentSession.IsOpen)
-            {
-                currentSession.Close();
-                currentSession.Dispose();
-                //CurrentSessionContext.Unbind(sessionFactory);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void SetRootPathProject()
-        {
-            var list = new List<string>(Directory.GetCurrentDirectory().Split('\\'));
-            list.RemoveAt(list.Count - 1);
-            list.RemoveAt(list.Count - 1);
-            list.Add(string.Empty);
-            this.rootPathProject = string.Join("\\", list);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private string GetConnectionString()
-        {
-            string output = this.rootPathProject + "db\\";
-            
-            var str = ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString;
-            return string.Format(str, output);
-        }
-
-        [SetUp]
-        public void BindSession()
-        {
-            CurrentSessionContext.Bind(currentSession);
-        }
-
-        [TearDown]
-        public void UnBindSession()
-        {
-            CurrentSessionContext.Unbind(sessionFactory);
-        }
-
         [Test]
+        [Category("QueryExecutions")]
         public void LoadTest0()
         {
-            Assert.IsNotNull(ownPagedDAO.FindBy<Salesman, long?>(1));
+            Assert.IsNotNull(CurrentPagedDAO.FindBy<Salesman, long?>(1));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(ExecutionQueryException))]
         public void FailedLoadTest0()
         {
-            var cons = ownPagedDAO.FindBy<Salesman, long?>(-1);
+            var cons = CurrentPagedDAO.FindBy<Salesman, long?>(-1);
             Assert.IsNotNull(cons);
         }
 
-        [Test(Description = "Verify the right loading of object")]
+        [Test]
+        [Category("QueryExecutions")]
+        [Description("Verify the right loading of object")]
         public void LoadTest1()
         {
-            Assert.IsNotNull(ownPagedDAO.FindBy<Salesman, long?>(1, LockMode.Read));
-            Assert.IsNotNull(ownPagedDAO.FindBy<Salesman, long?>(2, null));
+            Assert.IsNotNull(CurrentPagedDAO.FindBy<Salesman, long?>(1, LockMode.Read));
+            Assert.IsNotNull(CurrentPagedDAO.FindBy<Salesman, long?>(2, null));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(ExecutionQueryException))]
         public void FailedLoad2Test()
         {
-            Assert.IsNull(ownPagedDAO.FindBy<Salesman, long?>(-1, LockMode.Read));
+            Assert.IsNull(CurrentPagedDAO.FindBy<Salesman, long?>(-1, LockMode.Read));
         }
 
-        [Test(Description="Verifies the loading of some instances.")]
+        [Test]
+        [Category("QueryExecutions")]
+        [Description("Verifies the loading of some instances.")]
         public void FindAllTest()
         {
-            Assert.IsNotNull(ownPagedDAO.FindAll<Salesman>());
+            Assert.IsNotNull(CurrentPagedDAO.FindAll<Salesman>());
             // the follow test fails always because the static method indicated cannot be converted into Sql instruction
             // so it throws an exception when It's executed.
             //Assert.IsNotNull(ownPagedDAO.FindAll<Salesman>(n => string.IsNullOrEmpty(n.Email)));
-            Assert.IsNotNull(ownPagedDAO.FindAll<Salesman>(n => n.Email == null || n.Email.Equals(string.Empty)));
-            Assert.IsNotNull(ownPagedDAO.FindAll<Salesman>(true));
-            Assert.IsNotNull(ownPagedDAO.FindAll<Salesman>(2));
-            Assert.IsNotNull(ownPagedDAO.FindAll<Salesman>("ciccio"));
+            Assert.IsNotNull(CurrentPagedDAO.FindAll<Salesman>(n => n.Email == null || n.Email.Equals(string.Empty)));
+            Assert.IsNotNull(CurrentPagedDAO.FindAll<Salesman>(true));
+            Assert.IsNotNull(CurrentPagedDAO.FindAll<Salesman>(2));
+            Assert.IsNotNull(CurrentPagedDAO.FindAll<Salesman>("ciccio"));
         }
 
-        [Test(Description="Verifies if a valid detached criteria doesn't throw an exception")]
+        [Test]
+        [Category("QueryExecutions")]
+        [Description("Verifies if a valid detached criteria doesn't throw an exception")]
         public void FindAllDetachedCriteriaTest()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>();
             criteria.Add(Restrictions.Like("Name", "Dav", MatchMode.Start));
-            Assert.IsTrue(ownPagedDAO.FindAll<Salesman>(criteria).Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.FindAll<Salesman>(criteria).Count() > 0);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedFindAllDetachedCriteriaTest1()
         {
-            ownPagedDAO.FindAll<Salesman>((DetachedCriteria)null);
+            CurrentPagedDAO.FindAll<Salesman>((DetachedCriteria)null);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(ExecutionQueryException))]
         public void FailedFindAllDetachedCriteriaTest2()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>();
-            ownPagedDAO.FindAll<Agency>(criteria);
+            CurrentPagedDAO.FindAll<Agency>(criteria);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void FindAllQueryOver()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID > 11);
-            Assert.IsTrue(ownPagedDAO.FindAll(query).Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.FindAll(query).Count() > 0);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(ExecutionQueryException))]
         public void FailedFindAllQueryOver()
         {
             // this query must throw an exception because the queryover instance has a projection result.
             QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID > 11).Select(n => n.ID, n => n.Name);
-            Assert.IsTrue(ownPagedDAO.FindAll(query).Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.FindAll(query).Count() > 0);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void FindAllFutureDetachedCriteriaTest()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>().Add(Restrictions.Eq("ID", (long?)1));
-            Assert.IsNotNull(ownPagedDAO.FindAllFuture<Salesman>(criteria).FirstOrDefault());
+            Assert.IsNotNull(CurrentPagedDAO.FindAllFuture<Salesman>(criteria).FirstOrDefault());
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedFindAllFutureDetachedCriteriaTest()
         {
-            ownPagedDAO.FindAllFuture<Salesman>((DetachedCriteria)null);
+            CurrentPagedDAO.FindAllFuture<Salesman>((DetachedCriteria)null);
         }
 
         [Test]
+        [Category("QueryFutureExecutions")]
         public void FindAllFutureQueryOverTest()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID > 11);
-            Assert.IsNotNull(ownPagedDAO.FindAllFuture(query).FirstOrDefault());
+            Assert.IsNotNull(CurrentPagedDAO.FindAllFuture(query).FirstOrDefault());
         }
 
         [Test]
+        [Category("QueryFutureExecutions")]
+        [Description("the method GetFutureValue returns the first elements of query result.")]
         public void GetFutureValueDetachedCriteriaTest()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>().Add(Restrictions.IdEq(1));
-            Assert.IsNotNull(ownPagedDAO.GetFutureValue<Salesman>(criteria).Value);
+            Assert.IsNotNull(CurrentPagedDAO.GetFutureValue<Salesman>(criteria).Value);
         }
 
-        [Test(Description = "Test of GetFutureValue<TEntity, TResult> method")]
+        [Test]
+        [Category("QueryFutureExecutions")]
+        [Description("the method GetFutureValue returns the first elements of query result.")]
         public void GetFutureValueQueryOverTest()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID == 1);
-            Assert.IsNotNull(ownPagedDAO.GetFutureValue<Salesman, Salesman>(query));
+            Assert.IsNotNull(CurrentPagedDAO.GetFutureValue<Salesman, Salesman>(query));
         }
 
         [Test]
+        [Category("QueryExecutions")]
+        [Description("Verify if exists the given indentifiers.")]
         public void ExistsIDTest()
         {
-            Assert.IsTrue(ownPagedDAO.Exists<Salesman, long?>(1));
+            Assert.IsTrue(CurrentPagedDAO.Exists<Salesman, long?>(1));
             long?[] identifiers = new long?[]{ 1, 2};
-            Assert.IsTrue(ownPagedDAO.Exists<Salesman, long?>(identifiers));
+            Assert.IsTrue(CurrentPagedDAO.Exists<Salesman, long?>(identifiers));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void FailedExistsIDTest()
         {
-            Assert.IsFalse(ownPagedDAO.Exists<Salesman, long?>(-1));
-            long?[] identifiers = new long?[] { 1, -2 };
-            Assert.IsFalse(ownPagedDAO.Exists<Salesman, long?>(identifiers));
+            Assert.IsFalse(CurrentPagedDAO.Exists<Salesman, long?>(-1));
+            long?[] identifiers = new long?[] { 1, -2 }; //the identifier 1 exists, but -2 no!.
+            Assert.IsFalse(CurrentPagedDAO.Exists<Salesman, long?>(identifiers));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedExistsIDsTest()
         {
-            Assert.IsFalse(ownPagedDAO.Exists<Salesman, long?>((long?[])null));
+            Assert.IsFalse(CurrentPagedDAO.Exists<Salesman, long?>((long?[])null));
         }
 
         [Test]
+        [Category("QueryExecutions")]
+        [Description("Verify if exists any results with the given detached criteria.")]
         public void ExistsDetachedCriteriaTest()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>().Add(Restrictions.Eq("ID", (long)1));
-            Assert.IsTrue(ownPagedDAO.Exists(criteria));
+            Assert.IsTrue(CurrentPagedDAO.Exists(criteria));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedExistsDetachedCriteriaTest()
         {
             // ReSharper disable RedundantCast
-            Assert.IsTrue(ownPagedDAO.Exists((DetachedCriteria)null));
+            Assert.IsTrue(CurrentPagedDAO.Exists((DetachedCriteria)null));
             // ReSharper restore RedundantCast
         }
 
         [Test]
+        [Category("QueryExecutions")]
+        [Description("Verify if exists any results with the given query over.")]
         public void ExistsQueryOverTest()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID == 1);
-            Assert.IsTrue(ownPagedDAO.Exists(query));
+            Assert.IsTrue(CurrentPagedDAO.Exists(query));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedExistsQueryOverTest()
         {
-            Assert.IsFalse(ownPagedDAO.Exists((QueryOver<Salesman>)null));
+            Assert.IsFalse(CurrentPagedDAO.Exists((QueryOver<Salesman>)null));
         }
 
         [Test]
+        [Category("QueryExecutions")]
+        [Description("Test on IQueryable objects.")]
         public void ToIQueryableTest()
         {
-            Assert.IsTrue(ownPagedDAO.ToIQueryable<Salesman>().Count() > 0);
-            Assert.IsTrue(ownPagedDAO.ToIQueryable<Salesman>(CacheMode.Refresh).Count() > 0);
-            Assert.IsTrue(ownPagedDAO.ToIQueryable<Salesman>("pages1").Count() > 0);
-            Assert.IsTrue(ownPagedDAO.ToIQueryable<Salesman>(CacheMode.Refresh, "pages2").Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.ToIQueryable<Salesman>().Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.ToIQueryable<Salesman>(CacheMode.Refresh).Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.ToIQueryable<Salesman>("pages1").Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.ToIQueryable<Salesman>(CacheMode.Refresh, "pages2").Count() > 0);
         }
 
         [Test]
+        [Category("QueryPersistentExecutions")]
         public void MakePersistentSaveTest()
         {
-            sessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+            SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
 
             Salesman cons = new Salesman
                                   {
@@ -286,22 +246,24 @@ namespace PersistentLayer.Test.DAL
                                       Email = "chica_bonita@hotmail.com"
                                   };
 
-            ownPagedDAO.MakePersistent(cons);
-            Assert.IsTrue(ownPagedDAO.IsCached(cons));
-            ownPagedDAO.Evict(cons);
-            
-            sessionProvider.RollbackTransaction();
+            CurrentPagedDAO.MakePersistent(cons);
+            Assert.IsTrue(CurrentPagedDAO.IsCached(cons));
+            CurrentPagedDAO.Evict(cons);
+
+            SessionProvider.RollbackTransaction();
         }
 
         [Test]
+        [Category("QueryPersistentExecutions")]
         [ExpectedException(typeof(BusinessPersistentException))]
         public void FailedMakePersistentSaveTest()
         {
             ReportSalesman rep = new ReportSalesman {ID = 10, Name = "Ciccio"};
-            ownPagedDAO.MakePersistent(rep);
+            CurrentPagedDAO.MakePersistent(rep);
         }
 
         [Test]
+        [Category("QueryPersistentExecutions")]
         [ExpectedException(typeof(BusinessPersistentException))]
         public void FailedMakePersistentSave2Test()
         {
@@ -313,8 +275,8 @@ namespace PersistentLayer.Test.DAL
              * is equals to an existing persistent state into data store.
              */
 
-            sessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-            Salesman cons = ownPagedDAO.ToIQueryable<Salesman>().First();
+            SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+            Salesman cons = CurrentPagedDAO.ToIQueryable<Salesman>().First();
             Salesman cons2 = new Salesman
                                    {
                                        //ID = cons.ID,
@@ -328,50 +290,54 @@ namespace PersistentLayer.Test.DAL
             cons2.UpdateVersion(cons);
             try
             {
-                ownPagedDAO.MakePersistent(cons2);
-                sessionProvider.CommitTransaction();
+                CurrentPagedDAO.MakePersistent(cons2);
+                SessionProvider.CommitTransaction();
             }
             catch (Exception)
             {
-                sessionProvider.RollbackTransaction();
+                SessionProvider.RollbackTransaction();
+                DiscardCurrentSession();
                 throw;
             }
         }
 
         [Test]
+        [Category("QueryPersistentExecutions")]
         public void MakePersistentUpdateTest()
         {
             try
             {
-                sessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-                Salesman cons = ownPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID == 11).First();
+                SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+                Salesman cons = CurrentPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID == 11).First();
                 Assert.IsNotNull(cons);
-                Assert.IsTrue(ownPagedDAO.IsCached(cons));
+                Assert.IsTrue(CurrentPagedDAO.IsCached(cons));
                 string oldEmail = cons.Email;
                 string newEmail = string.Format("{0}_.{1}_@gmail.com", cons.Name, cons.Surname);
                 cons.Email = newEmail;
-                sessionProvider.CommitTransaction();
+                SessionProvider.CommitTransaction();
 
-                sessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-                Salesman cons1 = ownPagedDAO.FindBy<Salesman, long?>(cons.ID, LockMode.Upgrade);
+                SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+                Salesman cons1 = CurrentPagedDAO.FindBy<Salesman, long?>(cons.ID, LockMode.Upgrade);
                 cons1.Email = oldEmail;
-                sessionProvider.CommitTransaction();
+                SessionProvider.CommitTransaction();
             }
             catch (Exception)
             {
-                sessionProvider.RollbackTransaction();
+                SessionProvider.RollbackTransaction();
+                DiscardCurrentSession();
                 throw;
             }
         }
 
         [Test]
+        [Category("QueryPersistentExecutions")]
         [ExpectedException(typeof(BusinessPersistentException))]
         public void FailedMakePersistentUpdateTest()
         {
             try
             {
-                sessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-                Salesman cons = ownPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID == 11).First();
+                SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+                Salesman cons = CurrentPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID == 11).First();
                 cons.Email = "test_email";
 
                 /*
@@ -380,152 +346,174 @@ namespace PersistentLayer.Test.DAL
                  * So, in order to use this method, the instance to update must be transient or detached, and naturally
                  * the given indentifier must exists in data store.
                  */
-                ownPagedDAO.MakePersistent(cons, 11);
+                CurrentPagedDAO.MakePersistent(cons, 11);
 
-                sessionProvider.CommitTransaction();
+                SessionProvider.CommitTransaction();
             }
             catch (Exception)
             {
-                sessionProvider.RollbackTransaction();
+                SessionProvider.RollbackTransaction();
+                DiscardCurrentSession();
                 throw;
             }
         }
 
         [Test]
+        [Category("QueryMockPersistentExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedMakePersistentCollectionTest()
         {
-            ownPagedDAO.MakePersistent((IEnumerable<Salesman>)null);
+            CurrentPagedDAO.MakePersistent((IEnumerable<Salesman>)null);
         }
 
         [Test]
+        [Category("QueryMockPersistentExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedMakeTransientTest()
         {
-            ownPagedDAO.MakeTransient((Salesman)null);
+            CurrentPagedDAO.MakeTransient((Salesman)null);
         }
 
         [Test]
+        [Category("QueryMockPersistentExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedMakeTransientCollectionTest()
         {
-            ownPagedDAO.MakeTransient((IEnumerable<Salesman>)null);
+            CurrentPagedDAO.MakeTransient((IEnumerable<Salesman>)null);
         }
 
         [Test]
+        [Category("QueryMockPersistentExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedRefreshStateTest()
         {
-            ownPagedDAO.RefreshState((Salesman)null);
+            CurrentPagedDAO.RefreshState((Salesman)null);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedRefreshStateCollectionTest()
         {
-            ownPagedDAO.RefreshState((IEnumerable<Salesman>)null);
+            CurrentPagedDAO.RefreshState((IEnumerable<Salesman>)null);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void GetPagedResultTest1()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>().Add(Restrictions.Gt("ID", (long)1));
-            IPagedResult<Salesman> result =  ownPagedDAO.GetPagedResult<Salesman>(1, 5, criteria);
+            IPagedResult<Salesman> result =  CurrentPagedDAO.GetPagedResult<Salesman>(1, 5, criteria);
             Assert.IsTrue(result.Counter > 0);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedGetPagedResult1()
         {
-            ownPagedDAO.GetPagedResult<Salesman>(1, 5, (DetachedCriteria)null);
+            CurrentPagedDAO.GetPagedResult<Salesman>(1, 5, (DetachedCriteria)null);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void GetPagedResultTest2()
         {
-            IPagedResult<Salesman> result = ownPagedDAO.GetPagedResult(1, 5, QueryOver.Of<Salesman>().Where(n => n.ID > 1));
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetPagedResult(1, 5, QueryOver.Of<Salesman>().Where(n => n.ID > 1));
             Assert.IsTrue(result.Counter > 0);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedGetPagedResult2()
         {
-            ownPagedDAO.GetPagedResult(1, 5, (QueryOver<Salesman>)null);
+            CurrentPagedDAO.GetPagedResult(1, 5, (QueryOver<Salesman>)null);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void IsCachedTest()
         {
-            var cons = ownPagedDAO.FindBy<Salesman, long?>(1, null);
-            Assert.IsTrue(ownPagedDAO.IsCached(cons));
-            Assert.IsFalse(ownPagedDAO.IsCached((Salesman)null));
+            var cons = CurrentPagedDAO.FindBy<Salesman, long?>(1, null);
+            Assert.IsTrue(CurrentPagedDAO.IsCached(cons));
+
+            CurrentPagedDAO.Evict(cons);
+            Assert.IsFalse(CurrentPagedDAO.IsCached(cons));
+
+            Assert.IsFalse(CurrentPagedDAO.IsCached((Salesman)null));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void GetIdentifierTest()
         {
             long? id = 1;
-            var cons = ownPagedDAO.FindBy<Salesman, long?>(id, null);
-            Assert.IsNotNull(ownPagedDAO.GetIdentifier<Salesman, long?>(cons));
+            var cons = CurrentPagedDAO.FindBy<Salesman, long?>(id, null);
+            Assert.IsNotNull(CurrentPagedDAO.GetIdentifier<Salesman, long?>(cons));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         [ExpectedException(typeof(QueryArgumentException))]
         public void FailedGetIdentifierTest()
         {
-            ownPagedDAO.GetIdentifier<Salesman, long?>(null);
+            CurrentPagedDAO.GetIdentifier<Salesman, long?>(null);
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void SessionWithChangesTest()
         {
             long? id = 1;
-            var cons = ownPagedDAO.FindBy<Salesman, long?>(id, null);
+            var cons = CurrentPagedDAO.FindBy<Salesman, long?>(id, null);
 
             string oldEmail = cons.Email;
             cons.Email = "ciao_email";
-            Assert.IsTrue(ownPagedDAO.SessionWithChanges());
+            Assert.IsTrue(CurrentPagedDAO.SessionWithChanges());
 
             cons.Email = oldEmail;
-            Assert.IsFalse(ownPagedDAO.SessionWithChanges());
+            Assert.IsFalse(CurrentPagedDAO.SessionWithChanges());
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void EvictTest()
         {
             long? id = 1;
-            var cons = ownPagedDAO.FindBy<Salesman, long?>(id, null);
+            var cons = CurrentPagedDAO.FindBy<Salesman, long?>(id, null);
 
-            Assert.IsTrue(ownPagedDAO.IsCached(cons));
-            ownPagedDAO.Evict(cons);
+            Assert.IsTrue(CurrentPagedDAO.IsCached(cons));
+            CurrentPagedDAO.Evict(cons);
 
-            Assert.IsFalse(ownPagedDAO.IsCached(cons));
+            Assert.IsFalse(CurrentPagedDAO.IsCached(cons));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void EvictCollectionTest()
         {
-            var col = ownPagedDAO.FindAll<Salesman>(DetachedCriteria.For<Salesman>().Add(Restrictions.Gt("ID", (long?) 1)));
+            var col = CurrentPagedDAO.FindAll<Salesman>(DetachedCriteria.For<Salesman>().Add(Restrictions.Gt("ID", (long?) 1)));
             
-            Assert.IsTrue(ownPagedDAO.IsCached(col));
-            ownPagedDAO.Evict(col);
+            Assert.IsTrue(CurrentPagedDAO.IsCached(col));
+            CurrentPagedDAO.Evict(col);
 
-            Assert.IsFalse(ownPagedDAO.IsCached(col));
+            Assert.IsFalse(CurrentPagedDAO.IsCached(col));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void EvictAllTest()
         {
-            var col = ownPagedDAO.FindAll<Salesman>(DetachedCriteria.For<Salesman>());
-            Assert.IsTrue(ownPagedDAO.IsCached(col));
-            ownPagedDAO.Evict();
+            var col = CurrentPagedDAO.FindAll<Salesman>(DetachedCriteria.For<Salesman>());
+            Assert.IsTrue(CurrentPagedDAO.IsCached(col));
+            CurrentPagedDAO.Evict();
 
-            Assert.IsFalse(ownPagedDAO.IsCached(col));
+            Assert.IsFalse(CurrentPagedDAO.IsCached(col));
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void TransformResultQueryOverTest()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>()
@@ -536,14 +524,12 @@ namespace PersistentLayer.Test.DAL
                     .Add(Projections.Property("Surname"), "Surname")
                     .Add(Projections.Property("Email"), "Email")
                 );
-            var col = ownPagedDAO.TransformResult<Salesman, SalesmanPrj>(query);
+            var col = CurrentPagedDAO.TransformResult<Salesman, SalesmanPrj>(query);
             Assert.IsTrue(col.Any());
-
         }
 
-        //
-
         [Test]
+        [Category("QueryExecutions")]
         public void ToProjectOverTest()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>()
@@ -554,11 +540,12 @@ namespace PersistentLayer.Test.DAL
                     .Add(Projections.Property("Surname"), "Surname")
                     .Add(Projections.Property("Email"), "Email")
                 );
-            var col = ownPagedDAO.ToProjectOver(query);
+            var col = CurrentPagedDAO.ToProjectOver(query);
             Assert.IsTrue(col.Any());
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void TransformFutureResultTest()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>()
@@ -569,13 +556,14 @@ namespace PersistentLayer.Test.DAL
                     .Add(Projections.Property("Surname"), "Surname")
                     .Add(Projections.Property("Email"), "Email")
                 );
-            var col = ownPagedDAO.TransformFutureResult<Salesman, SalesmanPrj>(query);
-            var count = ownPagedDAO.GetFutureValue<Salesman, int>(query.ToRowCountQuery());
+            var col = CurrentPagedDAO.TransformFutureResult<Salesman, SalesmanPrj>(query);
+            var count = CurrentPagedDAO.GetFutureValue<Salesman, int>(query.ToRowCountQuery());
             
             Assert.IsTrue(count.Value > 0 && col.Any());
         }
 
         [Test]
+        [Category("QueryExecutions")]
         public void ToProjectOverFutureTest()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>()
@@ -587,13 +575,14 @@ namespace PersistentLayer.Test.DAL
                     .Add(Projections.Property("Email"), "Email")
                 );
 
-            var col = ownPagedDAO.ToProjectOverFuture(query);
-            var count = ownPagedDAO.GetFutureValue<Salesman, int>(query.ToRowCountQuery());
+            var col = CurrentPagedDAO.ToProjectOverFuture(query);
+            var count = CurrentPagedDAO.GetFutureValue<Salesman, int>(query.ToRowCountQuery());
 
             Assert.IsTrue(count.Value > 0 && col.Any());
         }
 
         [Test]
+        [Category("QueryFutureExecutions")]
         public void TransformResultDetachedCriteriaTest()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>()
@@ -606,11 +595,12 @@ namespace PersistentLayer.Test.DAL
                         .Add(Projections.Property("Email"), "Email")
                 );
 
-            var col = ownPagedDAO.TransformResult<SalesmanPrj>(criteria);
+            var col = CurrentPagedDAO.TransformResult<SalesmanPrj>(criteria);
             Assert.IsTrue(col.Any());
         }
 
         [Test]
+        [Category("QueryFutureExecutions")]
         public void ToProjectOverDetachedCriteriaTest()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>()
@@ -623,11 +613,12 @@ namespace PersistentLayer.Test.DAL
                         .Add(Projections.Property("Email"), "Email")
                 );
 
-            var col = ownPagedDAO.ToProjectOver(criteria);
+            var col = CurrentPagedDAO.ToProjectOver(criteria);
             Assert.IsTrue(col.Any());
         }
 
         [Test]
+        [Category("QueryFutureExecutions")]
         public void TransformFutureResultDetachedCriteriaTest()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>()
@@ -640,12 +631,13 @@ namespace PersistentLayer.Test.DAL
                         .Add(Projections.Property("Email"), "Email")
                 );
 
-            var col = ownPagedDAO.TransformFutureResult<SalesmanPrj>(criteria);
-            var count = ownPagedDAO.GetFutureValue<int>(CriteriaTransformer.TransformToRowCount(criteria));
+            var col = CurrentPagedDAO.TransformFutureResult<SalesmanPrj>(criteria);
+            var count = CurrentPagedDAO.GetFutureValue<int>(CriteriaTransformer.TransformToRowCount(criteria));
             Assert.IsTrue(count.Value > 0 && col.Any());
         }
 
         [Test]
+        [Category("QueryFutureExecutions")]
         public void ToProjectOverFutureDetachedCriteriaTest()
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>()
@@ -658,9 +650,10 @@ namespace PersistentLayer.Test.DAL
                         .Add(Projections.Property("Email"), "Email")
                 );
 
-            var col = ownPagedDAO.ToProjectOverFuture(criteria);
-            var count = ownPagedDAO.GetFutureValue<int>(CriteriaTransformer.TransformToRowCount(criteria));
+            var col = CurrentPagedDAO.ToProjectOverFuture(criteria);
+            var count = CurrentPagedDAO.GetFutureValue<int>(CriteriaTransformer.TransformToRowCount(criteria));
             Assert.IsTrue(count.Value > 0 && col.Any());
         }
+        
     }
 }

@@ -37,6 +37,14 @@
   </Interface>
   <Interface Name="PersistentLayer.IPersisterDAO&lt;TEntity, TKey&gt;" Collapsed="true">
     <Position X="3" Y="3.5" Width="1.5" />
+    <InheritanceLine Type="PersistentLayer.ITransactionContext" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.25" Y="2.562" />
+        <Point X="6.25" Y="3.125" />
+        <Point X="3.75" Y="3.125" />
+        <Point X="3.75" Y="3.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>IPersisterDAO.cs</FileName>

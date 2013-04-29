@@ -3,13 +3,17 @@ using EntityModel;
 
 namespace PersistentLayer.Domain
 {
-    public class Contract
+    /// <summary>
+    /// 
+    /// </summary>
+    public abstract class TradeContract
         : VersionedEntity<long?>
     {
         private long? number = null;
         private string description = null;
         private Salesman owner = null;
         private DateTime? beginDate = null;
+        private int? price;
 
         public virtual long? Number
         {
@@ -34,5 +38,19 @@ namespace PersistentLayer.Domain
             set { this.beginDate = value; }
             get { return this.beginDate; }
         }
+
+
+        public virtual int? Price
+        {
+            get { return price; }
+            set { this.price = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract double ComputeReward();
+
     }
 }

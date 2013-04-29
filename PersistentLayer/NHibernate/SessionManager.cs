@@ -12,7 +12,7 @@ namespace PersistentLayer.NHibernate
     public class SessionManager
         : ISessionProvider
     {
-        private int _TransactionCounter = 0;
+        private int transactionCounter = 0;
         /// <summary>
         /// This is the factory which creates new sessions, and It's able to reference the current binded session
         /// made by CurrentSessionContext
@@ -51,8 +51,8 @@ namespace PersistentLayer.NHibernate
         /// </summary>
         public int TransactionCounter
         {
-            get { return this._TransactionCounter; }
-            private set { this._TransactionCounter = value; }
+            get { return this.transactionCounter; }
+            private set { this.transactionCounter = value; }
         }
 
         #endregion
@@ -73,7 +73,7 @@ namespace PersistentLayer.NHibernate
             }
             catch (Exception ex)
             {
-                this._TransactionCounter = 0;
+                this.transactionCounter = 0;
                 throw new SessionNotBindedException("There's no binded session, so first It would require to open a new session.", "GetCurrentSession", ex);
             }
             return session;
@@ -114,10 +114,10 @@ namespace PersistentLayer.NHibernate
         /// </exception>
         public void CommitTransaction()
         {
-            if (_TransactionCounter > 0)
+            if (transactionCounter > 0)
             {
-                _TransactionCounter--;
-                if (_TransactionCounter == 0)
+                transactionCounter--;
+                if (transactionCounter == 0)
                 {
                     ITransaction transaction = null;
                     try
@@ -209,5 +209,6 @@ namespace PersistentLayer.NHibernate
                 }
             }
         }
+
     }
 }

@@ -4,6 +4,12 @@
         <name>EntityModel</name>
     </assembly>
     <members>
+        <member name="T:EntityModel.VersionedEntity`1">
+            <summary>
+            A base class for versioned persistent entities.
+            </summary>
+            <typeparam name="TKey">The type of key for this class.</typeparam>
+        </member>
         <member name="T:EntityModel.BaseEntity`1">
             <summary>
             A base class for persistent entities.
@@ -39,17 +45,6 @@
             Gets and sets the identifier of the calling entity.
             </summary>
         </member>
-        <member name="T:EntityModel.IObservable">
-            <summary>
-            Observes the properties changes and notifies all observers that registering this notifications.
-            </summary>
-        </member>
-        <member name="T:EntityModel.VersionedEntity`1">
-            <summary>
-            A base class for versioned persistent entities.
-            </summary>
-            <typeparam name="TKey">The type of key for this class.</typeparam>
-        </member>
         <member name="F:EntityModel.VersionedEntity`1.version">
             <summary>
             The cuurent version for this object.
@@ -72,6 +67,11 @@
             </summary>
             <typeparam name="TKey">Indicates the type of identity.</typeparam>
         </member>
+        <member name="T:EntityModel.IObservable">
+            <summary>
+            Observes the properties changes and notifies all observers that registering this notifications.
+            </summary>
+        </member>
         <member name="M:EntityModel.Notifiers.ObservableEntity`1.OnPropertyChanged(System.String)">
             <summary>
             Notifies properties changes to listeners.
@@ -80,7 +80,7 @@
         </member>
         <member name="E:EntityModel.Notifiers.ObservableEntity`1.PropertyChanged">
             <summary>
-            
+            Rapresents the method invoked for managing the event generated when properties values are changed.
             </summary>
         </member>
     </members>

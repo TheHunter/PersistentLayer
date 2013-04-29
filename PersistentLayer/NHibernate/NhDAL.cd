@@ -15,7 +15,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.NHibernate.SessionBinderLayer&lt;TBinder&gt;" Collapsed="true">
-    <Position X="23" Y="4.75" Width="1.5" />
+    <Position X="19.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACQAAAAAAAAAAAAAAAAAAAAAAAIAQAAAIQgAAAIBA=</HashCode>
       <FileName>NHibernate\SessionBinderLayer.cs</FileName>
@@ -29,9 +29,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.NHibernate.SessionManager" Collapsed="true">
-    <Position X="23" Y="3.5" Width="1.5" />
+    <Position X="19.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAABIgAAAAAAAAAAAAAAAAAAAAQQAAAAAAAQIAA=</HashCode>
+      <HashCode>AAAAAAABIgAAAAAAAEAAAAAAAAAAAAQQAAAAEAAAIAA=</HashCode>
       <FileName>NHibernate\SessionManager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -80,7 +80,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="PersistentLayer.NHibernate.Impl.BusinessNhPagedDao&lt;TEntity, TKey&gt;" Collapsed="true">
+  <Class Name="PersistentLayer.NHibernate.Impl.BusinessPagedDAO&lt;TEntity, TKey&gt;" Collapsed="true">
     <Position X="15" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>

@@ -14,13 +14,13 @@ namespace PersistentLayer.Domain
         private int? identityCode;
         private ISet<Salesman> agents;
         private ISet<Agency> agencies;
-        private ISet<Contract> contracts;
+        private ISet<TradeContract> contracts;
 
         public Salesman() { }
 
         public Salesman(bool isTransient)
         {
-            this.contracts = new HashedSet<Contract>();
+            this.contracts = new HashedSet<TradeContract>();
             this.agents = new HashedSet<Salesman>();
             this.agencies = new HashedSet<Agency>();
         }
@@ -61,7 +61,7 @@ namespace PersistentLayer.Domain
             protected set { agencies = value; }
         }
 
-        public virtual ISet<Contract> Contracts
+        public virtual ISet<TradeContract> Contracts
         {
             get { return contracts; }
             protected set { this.contracts = value; }

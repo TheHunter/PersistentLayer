@@ -3,7 +3,7 @@
 namespace PersistentLayer.Exceptions
 {
     /// <summary>
-    /// An exception which is thrown when a generic query is executed through DAO methods because of an failed persistent operation.
+    /// An exception which is thrown when a generic query is executed through DAO methods because of a failed persistent operation.
     /// </summary>
     public class BusinessPersistentException
         : ExecutionQueryException

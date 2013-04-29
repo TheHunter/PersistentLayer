@@ -5,7 +5,7 @@
   default-access="property"
   xmlns="urn:nhibernate-mapping-2.2">
   
-  <class name="Contract">
+  <class name="TradeContract" abstract="true">
       
     <id name="ID" column="ID" type="long">
         <generator class="native" />
@@ -22,6 +22,17 @@
     </many-to-one>
       
     <property name="BeginDate" type="DateTime" not-null="false" />
-    
+    <property name="Price" type="int" not-null="false" />
+
+      <joined-subclass name="CarContract">
+          <key column="IDCarContract" />
+          <property name="BrandName" type="String" />
+      </joined-subclass>
+      
+      <joined-subclass name="HomeContract">
+          <key column="IDHomeContract" />
+          <property name="Town" type="String" />
+      </joined-subclass>
+      
   </class>
 </hibernate-mapping>
