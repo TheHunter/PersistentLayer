@@ -117,7 +117,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="PersistentLayer.NHibernate.Impl.BusinessNhPagedDao&lt;TEntity, TKey&gt;" Collapsed="true">
+  <Class Name="PersistentLayer.NHibernate.Impl.BusinessPagedDAO&lt;TEntity, TKey&gt;" Collapsed="true">
     <Position X="13" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
@@ -143,7 +143,7 @@
   <Class Name="PersistentLayer.NHibernate.SessionManager" Collapsed="true">
     <Position X="23.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAABIgAAAAAAAAAAAAAAAAAAAAQQAAAAAAAQIAA=</HashCode>
+      <HashCode>AAAAAAABIgAAAAAAAEAAAAAAAAAAAAQQAAAAEAAAIAA=</HashCode>
       <FileName>NHibernate\SessionManager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

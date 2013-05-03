@@ -13,6 +13,7 @@ using PersistentLayer.Domain;
 using PersistentLayer.NHibernate;
 using PersistentLayer.NHibernate.Impl;
 using PersistentLayer.Test.Wrappers;
+using System.Collections;
 
 namespace PersistentLayer.Test.DAL
 {
@@ -250,7 +251,7 @@ namespace PersistentLayer.Test.DAL
         }
 
         [Test]
-        [Category("HQL2Transform")]
+        [Category("HQL_Transform")]
         [Description("Demostrate how queries can be transform query results into specific CLR class using a constructor injected into HQL statement.")]
         public void TestDynamicInstantion1()
         {
@@ -270,7 +271,7 @@ namespace PersistentLayer.Test.DAL
         }
 
         [Test]
-        [Category("HQL2Transform")]
+        [Category("HQL_Transform")]
         [Description("Demostrate how can be transform query results into specific CLR class using a transformer.")]
         public void TestDynamicInstantion2()
         {
@@ -291,7 +292,7 @@ namespace PersistentLayer.Test.DAL
         }
 
         [Test]
-        [Category("HQL2Transform")]
+        [Category("HQL_Transform")]
         [Description("Like TestDynamicInstantion2() but It uses an aggregation function with grouping, then The result is transformed.")]
         public void TestDynamicInstantion3()
         {
@@ -326,6 +327,129 @@ namespace PersistentLayer.Test.DAL
                         ;
 
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        [Category("HQL_Joins")]
+        [Description("Explict an implicit joins on associations.")]
+        public void TestJoins1()
+        {
+            string hql;
+            IList result;
+
+            #region
+            hql = @"select sal from Salesman sal left join sal.Contracts crt where crt is null";
+            result = CurrentPagedDAO.MakeHQLQuery(hql).List();
+            Assert.IsTrue(result.Count > 0);
+
+            #endregion
+
+            #region
+            hql = @"select distinct sal from Salesman sal inner join sal.Contracts crt";
+            result = CurrentPagedDAO.MakeHQLQuery(hql).List();
+            Assert.IsTrue(result.Count > 0);
+
+            #endregion
+
+            #region
+            hql = @"select distinct sal from Salesman sal inner join sal.Agents";
+            result = CurrentPagedDAO.MakeHQLQuery(hql).List();
+            Assert.IsTrue(result.Count > 0);
+
+            #endregion
+
+            #region
+            hql = @"select distinct sal from Salesman sal left join sal.Agents ag where ag is null";
+            result = CurrentPagedDAO.MakeHQLQuery(hql).List();
+            Assert.IsTrue(result.Count > 0);
+
+            #endregion
+
+        }
+
+        [Test]
+        [Category("HQL_Subqueries")]
+        [Description("This test demostrate how can be used a simple subqueries with HQL")]
+        public void TestSubqueries1()
+        {
+            string hql;
+            IList<Salesman> result;
+
+            #region This test filters Salesman instances by their own contracts (HomeContract and CarContract)
+
+            hql = @"from Salesman sal where sal in (select contract.Owner from TradeContract contract)";
+            result = CurrentPagedDAO.MakeHQLQuery(hql)
+                .List<Salesman>();
+            Assert.IsNotNull(result);
+            #endregion
+
+
+            #region so, in this test the subquery uses the subclass of TradeContract (CarContract), and result will contain only Salesman instance associated with CarContract.
+            hql = @"from Salesman sal where sal in (select contract.Owner from CarContract contract)";
+            result = CurrentPagedDAO.MakeHQLQuery(hql)
+                .List<Salesman>();
+            Assert.IsNotNull(result);
+            #endregion
+        }
+
+        [Test]
+        [Category("HQL_Projections")]
+        [Description("A simple projection wich includes unique property selected")]
+        public void TestProjection1()
+        {
+            string hql;
+            IList result;
+
+            #region
+            // the property selected is an association..
+            // so the collection result is typed..
+            hql = @"select distinct crt.Owner from HomeContract crt";
+            result = CurrentPagedDAO.MakeHQLQuery(hql).List();
+            Assert.IsTrue(result.Count > 0);
+
+            #endregion
+
+            #region
+            hql = @"select distinct crt.ID as ID, crt.Town as Town, crt.Price as Peice, crt.Owner.ID as IDSalesman from HomeContract crt";
+            result = CurrentPagedDAO.MakeHQLQuery(hql).List();
+            Assert.IsTrue(result.Count > 0);
+
+            #endregion
+
+            #region
+            hql = @"select crt.ID as ID, crt.Number as Number, crt.Price as Price from TradeContract crt";
+            result = CurrentPagedDAO.MakeHQLQuery(hql).List();
+            Assert.IsTrue(result.Count > 0);
+            
+            #endregion
+            
+        }
+
+        [Test]
+        [Category("HQL_Grouping")]
+        [Description("This test demostrate ")]
+        public void TestGrouping1()
+        {
+            string hql;
+            IList result;
+
+            hql = @"select 
+                          sal.ID as ID,
+                          sal.Name as Name,
+                          sal.Surname as Surname,
+                          count(crts) as NumContratti
+                    from
+                             Salesman sal
+                    left join
+                             sal.Contracts crts
+                    group by
+                             sal.ID, sal.Name, sal.Surname
+                    having
+                             count(crts) > 0
+                    ";
+            result = CurrentPagedDAO.MakeHQLQuery(hql).List();
+            Assert.IsTrue(result.Count > 0);
+
         }
     }
 }

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PersistentLayer.Domain.Agency" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAQAABAUAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Agency.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Domain.CarContract" Collapsed="true">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>CarContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Domain.HomeContract" Collapsed="true">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAhAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HomeContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Domain.Salesman" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAACAAAQAkgAEEAAQCBAgEAoAAAIAIAAIACAA=</HashCode>
+      <FileName>Salesman.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Domain.TradeContract" Collapsed="true">
+    <Position X="1.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAACAAxAgwAIAIEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TradeContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
