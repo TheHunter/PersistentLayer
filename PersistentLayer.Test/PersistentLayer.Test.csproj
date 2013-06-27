@@ -49,6 +49,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityModel, Version=1.5.0.15, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityModel.1.5.0.15\lib\net40\EntityModel.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=1.3.0.733, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
     </Reference>
@@ -103,6 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Cfg\Configuration.xml" />
+    <Content Include="EntityModel.license.txt" />
+    <Content Include="EntityModel.readme.html" />
+    <Content Include="Release_notes.txt" />
     <None Include="db\SalesArea.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
