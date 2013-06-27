@@ -48,6 +48,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -144,6 +147,9 @@
     <Compile Include="..\PersistentLayer\NHibernate\InvalidSessionException.cs">
       <Link>NHibernate\InvalidSessionException.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\ISessionBinderProvider.cs">
+      <Link>NHibernate\ISessionBinderProvider.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\ISessionContext.cs">
       <Link>NHibernate\ISessionContext.cs</Link>
     </Compile>
@@ -173,6 +179,21 @@
     </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\SessionNotOpenedException.cs">
       <Link>NHibernate\SessionNotOpenedException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\WCF\NhDispatchMessageInspector.cs">
+      <Link>NHibernate\WCF\NhDispatchMessageInspector.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\WCF\NhServiceBehaviorAttribute.cs">
+      <Link>NHibernate\WCF\NhServiceBehaviorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\WCF\ServiceArgumentException.cs">
+      <Link>NHibernate\WCF\ServiceArgumentException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\WCF\ServiceBehaviorException.cs">
+      <Link>NHibernate\WCF\ServiceBehaviorException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\WCF\WcfServiceException.cs">
+      <Link>NHibernate\WCF\WcfServiceException.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

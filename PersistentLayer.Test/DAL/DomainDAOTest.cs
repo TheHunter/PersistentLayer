@@ -78,7 +78,7 @@ namespace PersistentLayer.Test.DAL
         {
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>();
             criteria.Add(Restrictions.Like("Name", "Dav", MatchMode.Start));
-            Assert.IsTrue(CurrentPagedDAO.FindAll<Salesman>(criteria).Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.FindAll<Salesman>(criteria).Any());
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace PersistentLayer.Test.DAL
         public void FindAllQueryOver()
         {
             QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID > 11);
-            Assert.IsTrue(CurrentPagedDAO.FindAll(query).Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.FindAll(query).Any());
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace PersistentLayer.Test.DAL
         {
             // this query must throw an exception because the queryover instance has a projection result.
             QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID > 11).Select(n => n.ID, n => n.Name);
-            Assert.IsTrue(CurrentPagedDAO.FindAll(query).Count() > 0);
+            Assert.IsTrue(CurrentPagedDAO.FindAll(query).Any());
         }
 
         [Test]
@@ -337,9 +337,8 @@ namespace PersistentLayer.Test.DAL
             try
             {
                 SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-                Salesman cons = CurrentPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID == 11).First();
+                Salesman cons = CurrentPagedDAO.ToIQueryable<Salesman>().First(n => n.ID == 11);
                 cons.Email = "test_email";
-
                 /*
                  * the calling of this method fails because It tries to update an persistent instance reference (cons),
                  * associated with the given identifier(11).
@@ -430,6 +429,76 @@ namespace PersistentLayer.Test.DAL
         {
             CurrentPagedDAO.GetPagedResult(1, 5, (QueryOver<Salesman>)null);
         }
+
+        [Test]
+        [Category("QueryExecutions")]
+        public void GetPagedResultTest3()
+        {
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetPagedResult(2, 5, CurrentPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID > 1));
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        [ExpectedException(typeof(QueryArgumentException))]
+        public void FailedGetPagedResultTest3()
+        {
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetPagedResult(2, 5, (IQueryable<Salesman>)null);
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        public void GetIndexPagedResultTest4()
+        {
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetIndexPagedResult(2, 5, CurrentPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID > 1));
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        [ExpectedException(typeof(QueryArgumentException))]
+        public void FailedGetIndexPagedResultTest4()
+        {
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetIndexPagedResult(2, 5, (IQueryable<Salesman>)null);
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        public void GetIndexPagedResultTest5()
+        {
+            DetachedCriteria criteria = DetachedCriteria.For<Salesman>().Add(Restrictions.Gt("ID", (long)1));
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetIndexPagedResult<Salesman>(2, 5, criteria);
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        [ExpectedException(typeof(QueryArgumentException))]
+        public void FailedGetIndexPagedResultTest5()
+        {
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetIndexPagedResult<Salesman>(2, 5, (DetachedCriteria)null);
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        public void GetIndexPagedResultTest6()
+        {
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetIndexPagedResult(2, 5, QueryOver.Of<Salesman>().Where(n => n.ID > 1));
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        [ExpectedException(typeof(QueryArgumentException))]
+        public void FailedGetIndexPagedResultTest6()
+        {
+            IPagedResult<Salesman> result = CurrentPagedDAO.GetIndexPagedResult(2, 5, (QueryOver<Salesman>)null);
+            Assert.IsTrue(result.Counter > 0);
+        }
+
 
         [Test]
         [Category("QueryExecutions")]

@@ -8,7 +8,7 @@ namespace PersistentLayer.Exceptions
     public class QueryArgumentException
         : ExecutionQueryException
     {
-        private string argumentName = null;
+        private readonly string argumentName;
 
         /// <summary>
         /// 

@@ -3,13 +3,13 @@
 namespace PersistentLayer.Exceptions
 {
     /// <summary>
-    /// 
+    /// Rappresents a generic exception when there's an error on managing the current Unit of Work.
     /// </summary>
     public class BusinessLayerException
         : Exception
     {
 
-        private string invokerName = null;
+        private string invokerName;
 
         /// <summary>
         /// 

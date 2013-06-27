@@ -15,10 +15,10 @@ namespace PersistentLayer.NHibernate.Impl
         : IPagedResult<TEntity>
         where TEntity : class
     {
-        private int _StartIndex = 0;
-        private int _Size = 0;
-        private int _Counter = 0;
-        private IEnumerable<TEntity> _Result = null;
+        private int startIndex;
+        private int size;
+        private int counter;
+        private IEnumerable<TEntity> result;
 
         /// <summary>
         /// 
@@ -26,10 +26,19 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="startIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="criteria"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
+        /// <exception cref="QueryArgumentException"></exception>
         public NhPagedResult(int startIndex, int pageSize, ICriteria criteria)
         {
+            result = null;
             if (criteria == null)
-                throw new QueryArgumentException("the given criteria using for paging cannot be null.", "NhPagedResult", "criteria");
+                throw new QueryArgumentException("The given criteria using for paging cannot be null.", "NhPagedResult", "criteria");
+            
+            if (pageSize < 0)
+                throw new QueryArgumentException("The given pageSize for PagedResult instance cannot be less than zero.", "NhPagedResult", "pageSize");
+
+            if (startIndex < 0)
+                throw new QueryArgumentException("The given start index cannot be less than zero.", "NhPagedResult", "startIndex");
 
             try
             {
@@ -38,8 +47,8 @@ namespace PersistentLayer.NHibernate.Impl
 
                 this.StartIndex = startIndex;
                 this.Size = pageSize;
-                this._Result = futureInstances;
-                this._Counter = counter.Value;
+                this.result = futureInstances;
+                this.counter = counter.Value;
             }
             catch (Exception ex)
             {
@@ -53,10 +62,19 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="startIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="query"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
+        /// <exception cref="QueryArgumentException"></exception>
         public NhPagedResult(int startIndex, int pageSize, IQueryable<TEntity> query)
         {
+            result = null;
             if (query == null)
                 throw new QueryArgumentException("The given IQueryable instance using for paging cannot be null.", "NhPagedResult", "query");
+
+            if (pageSize < 0)
+                throw new QueryArgumentException("The given pageSize for PagedResult instance cannot be less than zero.", "NhPagedResult", "pageSize");
+
+            if (startIndex < 0)
+                throw new QueryArgumentException("The given start index cannot be less than zero.", "NhPagedResult", "startIndex");
 
             try
             {
@@ -64,9 +82,9 @@ namespace PersistentLayer.NHibernate.Impl
                 this.Size = pageSize;
 
                 IFutureValue<int> counter = query.ToFutureValue(n => n.Count());
-                this._Result = query.Skip(startIndex).Take(pageSize).ToFuture();
+                this.result = query.Skip(startIndex).Take(pageSize).ToFuture();
 
-                this._Counter = counter.Value;
+                this.counter = counter.Value;
             }
             catch (Exception ex)
             {
@@ -79,8 +97,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         public int StartIndex
         {
-            protected set { this._StartIndex = value; }
-            get { return this._StartIndex; }
+            protected set { this.startIndex = value; }
+            get { return this.startIndex; }
         }
 
         /// <summary>
@@ -88,8 +106,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         public int Size
         {
-            protected set { this._Size = value; }
-            get { return this._Size; }
+            protected set { this.size = value; }
+            get { return this.size; }
         }
 
         /// <summary>
@@ -97,7 +115,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         public int Counter
         {
-            get { return this._Counter; }
+            get { return this.counter; }
         }
 
         /// <summary>
@@ -106,7 +124,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         public IEnumerable<TEntity> GetResult()
         {
-            return this._Result.ToList();
+            return this.result.ToList();
         }
 
         /// <summary>
@@ -114,10 +132,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         private void Reset()
         {
-            this._Counter = 0;
-            this._Result = null;
-            this._Size = 0;
-            this._StartIndex = 0;
+            this.counter = 0;
+            this.result = null;
+            this.size = 0;
+            this.startIndex = 0;
         }
     }
 }

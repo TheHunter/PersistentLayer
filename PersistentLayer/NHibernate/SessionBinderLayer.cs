@@ -10,7 +10,7 @@ namespace PersistentLayer.NHibernate
     /// </summary>
     /// <typeparam name="TBinder">type of binder which uses this session manager.</typeparam>
     public class SessionBinderLayer<TBinder>
-        : SessionManager
+        : SessionManager, ISessionBinderProvider
         where TBinder : CurrentSessionContext
     {
 
@@ -43,6 +43,7 @@ namespace PersistentLayer.NHibernate
         /// <summary>
         /// 
         /// </summary>
+        /// <exception cref="SessionNotOpenedException"></exception>
         /// <returns></returns>
         public ISession OpenSession()
         {
@@ -61,6 +62,8 @@ namespace PersistentLayer.NHibernate
         /// </summary>
         /// <param name="session"></param>
         /// <param name="mode"></param>
+        /// <exception cref="SessionNotAvailableException"></exception>
+        /// <exception cref="InvalidSessionException"></exception>
         public void BindSession(ISession session, FlushMode mode)
         {
             if (session != null)
@@ -124,7 +127,7 @@ namespace PersistentLayer.NHibernate
                     ISession lastSession = this.UnbindSession();
                     this.BindSession(this.OpenSession(), lastSession.FlushMode);
 
-                    if (lastSession != null && lastSession.IsOpen)
+                    if (lastSession.IsOpen)
                     {
                         lastSession.Close();
                     }

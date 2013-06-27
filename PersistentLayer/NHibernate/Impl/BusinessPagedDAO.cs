@@ -56,5 +56,41 @@ namespace PersistentLayer.NHibernate.Impl
         {
             return this.CurrentSession.GetPagedResult<TEntity>(startIndex, pageSize, query);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
+        public IPagedResult<TEntity> GetIndexPagedResult(int pageIndex, int pageSize, DetachedCriteria criteria)
+        {
+            return this.CurrentSession.GetIndexPagedResult<TEntity>(pageIndex, pageSize, criteria);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public IPagedResult<TEntity> GetIndexPagedResult(int pageIndex, int pageSize, QueryOver<TEntity> query)
+        {
+            return this.CurrentSession.GetIndexPagedResult(pageIndex, pageSize, query);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public IPagedResult<TEntity> GetIndexPagedResult(int pageIndex, int pageSize, IQueryable<TEntity> query)
+        {
+            return this.CurrentSession.GetIndexPagedResult<TEntity>(pageIndex, pageSize, query);
+        }
     }
 }

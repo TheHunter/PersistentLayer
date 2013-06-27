@@ -111,7 +111,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         public IEnumerable<TEntity> FindAll<TEntity>(QueryOver<TEntity> query) where TEntity : class
         {
-            return this.CurrentSession.FindAll<TEntity>(query);
+            return this.CurrentSession.FindAll(query);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         public IEnumerable<TEntity> FindAllFuture<TEntity>(QueryOver<TEntity> query) where TEntity : class
         {
-            return this.CurrentSession.FindAllFuture<TEntity>(query);
+            return this.CurrentSession.FindAllFuture(query);
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         public TEntity MakePersistent<TEntity>(TEntity entity) where TEntity : class
         {
-            return this.CurrentSession.MakePersistent<TEntity>(entity);
+            return this.CurrentSession.MakePersistent(entity);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         public TEntity MakePersistent<TEntity, TKey>(TEntity entity, TKey identifier) where TEntity : class
         {
-            return this.CurrentSession.MakePersistent<TEntity, TKey>(entity, identifier);
+            return this.CurrentSession.MakePersistent(entity, identifier);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         public IEnumerable<TEntity> MakePersistent<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
-            return this.CurrentSession.MakePersistent<TEntity>(entities);
+            return this.CurrentSession.MakePersistent(entities);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="entity"></param>
         public void MakeTransient<TEntity>(TEntity entity) where TEntity : class
         {
-            this.CurrentSession.MakeTransient<TEntity>(entity);
+            this.CurrentSession.MakeTransient(entity);
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="entities"></param>
         public void MakeTransient<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
-            this.CurrentSession.MakeTransient<TEntity>(entities);
+            this.CurrentSession.MakeTransient(entities);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         public TEntity RefreshState<TEntity>(TEntity entity) where TEntity : class
         {
-            return this.CurrentSession.RefreshState<TEntity>(entity);
+            return this.CurrentSession.RefreshState(entity);
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         public IEnumerable<TEntity> RefreshState<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
-            return this.CurrentSession.RefreshState<TEntity>(entities);
+            return this.CurrentSession.RefreshState(entities);
         }
 
         /// <summary>

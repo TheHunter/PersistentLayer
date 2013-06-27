@@ -21,8 +21,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TKey"></typeparam>
         /// <param name="session"></param>
         /// <param name="id"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static TEntity FindBy<TEntity, TKey>(this ISession session, TKey id) where TEntity : class
+        internal static TEntity FindBy<TEntity, TKey>(this ISession session, TKey id)
+            where TEntity : class
         {
             try
             {
@@ -42,8 +44,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="session"></param>
         /// <param name="id"></param>
         /// <param name="mode"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static TEntity FindBy<TEntity, TKey>(this ISession session, TKey id, LockMode mode) where TEntity : class
+        internal static TEntity FindBy<TEntity, TKey>(this ISession session, TKey id, LockMode mode)
+            where TEntity : class
         {
             try
             {
@@ -62,8 +66,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session) where TEntity : class
+        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session)
+            where TEntity : class
         {
             try
             {
@@ -83,8 +89,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="where"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, Expression<Func<TEntity, bool>> where) where TEntity : class
+        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, Expression<Func<TEntity, bool>> where)
+            where TEntity : class
         {
             try
             {
@@ -103,8 +111,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="cacheable"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, bool cacheable) where TEntity : class
+        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, bool cacheable)
+            where TEntity : class
         {
             try
             {
@@ -126,8 +136,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="cacheRegion"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, string cacheRegion) where TEntity : class
+        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, string cacheRegion)
+            where TEntity : class
         {
             try
             {
@@ -152,8 +164,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="fetchSize"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, int fetchSize) where TEntity : class
+        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, int fetchSize)
+            where TEntity : class
         {
             try
             {
@@ -174,8 +188,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="criteria"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
+        /// <exception cref="QueryArgumentException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, DetachedCriteria criteria) where TEntity : class
+        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, DetachedCriteria criteria)
+            where TEntity : class
         {
             if (criteria == null)
                 throw new QueryArgumentException("The DetachedCriteria to execute cannot be null.", "FindAll", "criteria");
@@ -197,8 +214,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="query"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
+        /// <exception cref="QueryArgumentException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, QueryOver<TEntity> query) where TEntity : class
+        internal static IEnumerable<TEntity> FindAll<TEntity>(this ISession session, QueryOver<TEntity> query)
+            where TEntity : class
         {
             if (query == null)
                 throw new QueryArgumentException(string.Format("The QueryOver (of <{0}>) instance to execute cannot be null.", typeof(TEntity).Name), "FindAll", "query");
@@ -220,8 +240,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="criteria"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAllFuture<TEntity>(this ISession session, DetachedCriteria criteria) where TEntity : class
+        internal static IEnumerable<TEntity> FindAllFuture<TEntity>(this ISession session, DetachedCriteria criteria)
+            where TEntity : class
         {
             if (criteria == null)
                 throw new QueryArgumentException("The DetachedCriteria object to execute cannot be null.", "FindAllFuture", "criteria");
@@ -243,8 +266,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="query"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> FindAllFuture<TEntity>(this ISession session, QueryOver<TEntity> query) where TEntity : class
+        internal static IEnumerable<TEntity> FindAllFuture<TEntity>(this ISession session, QueryOver<TEntity> query)
+            where TEntity : class
         {
             if (query == null)
                 throw new QueryArgumentException(string.Format("The QueryOver object (of <{0}>) to execute cannot be null.", typeof(TEntity).Name), "FindAllFuture", "query");
@@ -266,6 +292,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="FutureValue"></typeparam>
         /// <param name="session"></param>
         /// <param name="criteria"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         internal static IFutureValue<FutureValue> GetFutureValue<FutureValue>(this ISession session, DetachedCriteria criteria)
         {
@@ -291,8 +319,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="FutureValue"></typeparam>
         /// <param name="session"></param>
         /// <param name="query"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IFutureValue<FutureValue> GetFutureValue<TEntity, FutureValue>(this ISession session, QueryOver<TEntity> query) where TEntity : class
+        internal static IFutureValue<FutureValue> GetFutureValue<TEntity, FutureValue>(this ISession session, QueryOver<TEntity> query)
+            where TEntity : class
         {
             if (query == null)
                 throw new QueryArgumentException("The QueryOver instance cannot be null.", "GetFutureValue", "query");
@@ -316,8 +347,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TKey"></typeparam>
         /// <param name="session"></param>
         /// <param name="identifier"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static bool Exists<TEntity, TKey>(this ISession session, TKey identifier) where TEntity : class
+        internal static bool Exists<TEntity, TKey>(this ISession session, TKey identifier)
+            where TEntity : class
         {
             try
             {
@@ -341,16 +374,19 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TKey"></typeparam>
         /// <param name="session"></param>
         /// <param name="identifiers"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static bool Exists<TEntity, TKey>(this ISession session, IEnumerable<TKey> identifiers) where TEntity : class
+        internal static bool Exists<TEntity, TKey>(this ISession session, IEnumerable<TKey> identifiers)
+            where TEntity : class
         {
-            if (identifiers == null || identifiers.Count() == 0)
+            if (identifiers == null || !identifiers.Any())
                 throw new QueryArgumentException("collection of identifiers cannot be null or empty.", "Exists", "identifiers");
 
             try
             {
                 string property = session.GetIdentifierName<TEntity>();
-                if (identifiers.Count() > 0)
+                if (identifiers.Any())
                 {
                     long total = identifiers.LongCount();
                     long totalFounded = session.CreateCriteria<TEntity>()
@@ -373,6 +409,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         /// <param name="session"></param>
         /// <param name="criteria"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         internal static bool Exists(this ISession session, DetachedCriteria criteria)
         {
@@ -399,8 +437,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="query"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static bool Exists<TEntity>(this ISession session, QueryOver<TEntity> query) where TEntity : class
+        internal static bool Exists<TEntity>(this ISession session, QueryOver<TEntity> query)
+            where TEntity : class
         {
             if (query == null)
                 throw new QueryArgumentException("QueryOver instance to execute cannot be null.", "Exists", "query");
@@ -425,8 +466,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session) where TEntity : class
+        internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session)
+            where TEntity : class
         {
             try
             {
@@ -444,8 +487,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="mode"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session, CacheMode mode) where TEntity : class
+        internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session, CacheMode mode)
+            where TEntity : class
         {
             try
             {
@@ -464,8 +509,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="region"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session, string region) where TEntity : class
+        internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session, string region)
+            where TEntity : class
         {
             IQueryable<TEntity> query = session.ToIQueryable<TEntity>();
             try
@@ -489,9 +536,12 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="mode"></param>
         /// <param name="region"></param>
         /// <returns></returns>
-        internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session, CacheMode mode, string region) where TEntity : class
+        internal static IQueryable<TEntity> ToIQueryable<TEntity>(this ISession session, CacheMode mode, string region)
+            where TEntity : class
         {
-            return session.ToIQueryable<TEntity>(region).Cacheable().CacheMode(mode);
+            return session.ToIQueryable<TEntity>(region)
+                .Cacheable()
+                .CacheMode(mode);
         }
 
         /// <summary>
@@ -500,8 +550,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="entity"></param>
+        /// <exception cref="BusinessPersistentException"></exception>
         /// <returns></returns>
-        internal static TEntity MakePersistent<TEntity>(this ISession session, TEntity entity) where TEntity : class
+        internal static TEntity MakePersistent<TEntity>(this ISession session, TEntity entity)
+            where TEntity : class
         {
             try
             {
@@ -522,14 +574,15 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="session"></param>
         /// <param name="entity"></param>
         /// <param name="identifier"></param>
+        /// <exception cref="BusinessPersistentException"></exception>
         /// <returns></returns>
-        internal static TEntity MakePersistent<TEntity, TKey>(this ISession session, TEntity entity, TKey identifier) where TEntity : class
+        internal static TEntity MakePersistent<TEntity, TKey>(this ISession session, TEntity entity, TKey identifier)
+            where TEntity : class
         {
             try
             {
                 session.Update(entity, identifier);
                 return entity;
-                
             }
             catch (Exception ex)
             {
@@ -549,8 +602,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="entities"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="BusinessPersistentException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> MakePersistent<TEntity>(this ISession session, IEnumerable<TEntity> entities) where TEntity : class
+        internal static IEnumerable<TEntity> MakePersistent<TEntity>(this ISession session, IEnumerable<TEntity> entities)
+            where TEntity : class
         {
             if (entities == null)
                 throw new QueryArgumentException("The collection of entities to save/update cannot be null.", "MakePersistent", "entities");
@@ -585,7 +641,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="entity"></param>
-        internal static void MakeTransient<TEntity>(this ISession session, TEntity entity) where TEntity : class
+        /// <exception cref="BusinessPersistentException"></exception>
+        /// <exception cref="QueryArgumentException"></exception>
+        internal static void MakeTransient<TEntity>(this ISession session, TEntity entity)
+            where TEntity : class
         {
             if (entity == null)
                 throw new QueryArgumentException("The given instance to delete cannot be null.", "MakeTransient", "entity");
@@ -606,7 +665,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="entities"></param>
-        internal static void MakeTransient<TEntity>(this ISession session, IEnumerable<TEntity> entities) where TEntity : class
+        /// <exception cref="BusinessPersistentException"></exception>
+        /// <exception cref="QueryArgumentException"></exception>
+        internal static void MakeTransient<TEntity>(this ISession session, IEnumerable<TEntity> entities)
+            where TEntity : class
         {
             if (entities == null)
                 throw new QueryArgumentException("The collection of entities to delete cannot be null.", "MakeTransient", "entities");
@@ -640,8 +702,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="entity"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static TEntity RefreshState<TEntity>(this ISession session, TEntity entity) where TEntity : class
+        internal static TEntity RefreshState<TEntity>(this ISession session, TEntity entity)
+            where TEntity : class
         {
             if (entity == null)
                 throw new QueryArgumentException("The given instance to delete cannot be null.", "RefreshState", "entity");
@@ -663,8 +728,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
         /// <param name="entities"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IEnumerable<TEntity> RefreshState<TEntity>(this ISession session, IEnumerable<TEntity> entities) where TEntity : class
+        internal static IEnumerable<TEntity> RefreshState<TEntity>(this ISession session, IEnumerable<TEntity> entities)
+            where TEntity : class
         {
             if (entities == null)
                 throw new QueryArgumentException("The collection of entities to delete cannot be null.", "RefreshState", "entities");
@@ -673,12 +741,12 @@ namespace PersistentLayer.NHibernate.Impl
             {
                 entities.All
                 (
-                    delegate(TEntity entity)
-                    {
-                        session.Refresh(entity);
-                        return true;
-                    }
-                );
+                    entity =>
+                        {
+                            session.Refresh(entity);
+                            return true;
+                        }
+                    );
                 return entities;
             }
             catch (Exception ex)
@@ -695,8 +763,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="startIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="criteria"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        private static IPagedResult<TEntity> GetPagedResult<TEntity>(this ISession session, int startIndex, int pageSize, ICriteria criteria) where TEntity : class
+        private static IPagedResult<TEntity> GetPagedResult<TEntity>(this ISession session, int startIndex, int pageSize,
+                                                                     ICriteria criteria)
+            where TEntity : class
         {
             try
             {
@@ -716,8 +787,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="startIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="criteria"></param>
+        /// <exception cref="QueryArgumentException"></exception>
         /// <returns></returns>
-        internal static IPagedResult<TEntity> GetPagedResult<TEntity>(this ISession session, int startIndex, int pageSize, DetachedCriteria criteria) where TEntity : class
+        internal static IPagedResult<TEntity> GetPagedResult<TEntity>(this ISession session, int startIndex,
+                                                                      int pageSize, DetachedCriteria criteria)
+            where TEntity : class
         {
             if (criteria == null)
                 throw new QueryArgumentException("The criteria instance to execute cannot be null.", "GetPagedResult", "criteria");
@@ -733,8 +807,11 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="startIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="query"></param>
+        /// <exception cref="QueryArgumentException"></exception>
         /// <returns></returns>
-        internal static IPagedResult<TEntity> GetPagedResult<TEntity>(this ISession session, int startIndex, int pageSize, QueryOver<TEntity> query) where TEntity : class
+        internal static IPagedResult<TEntity> GetPagedResult<TEntity>(this ISession session, int startIndex,
+                                                                      int pageSize, QueryOver<TEntity> query)
+            where TEntity : class
         {
             if (query == null)
                 throw new QueryArgumentException("The QueryOver instance to execute cannot be null.", "GetPagedResult", "query");
@@ -750,9 +827,15 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="startIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="query"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        internal static IPagedResult<TEntity> GetPagedResult<TEntity>(this ISession session, int startIndex, int pageSize, IQueryable<TEntity> query) where TEntity : class
+        internal static IPagedResult<TEntity> GetPagedResult<TEntity>(this ISession session, int startIndex,
+                                                                      int pageSize, IQueryable<TEntity> query)
+            where TEntity : class
         {
+            if (query == null)
+                throw new QueryArgumentException(string.Format("The IQueryable<{0}> instance to execute cannot be null.", typeof(TEntity).Name), "GetPagedResult", "query");
+
             try
             {
                 return new NhPagedResult<TEntity>(startIndex, pageSize, query);
@@ -763,6 +846,99 @@ namespace PersistentLayer.NHibernate.Impl
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="session"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
+        private static IPagedResult<TEntity> GetIndexPagedResult<TEntity>(this ISession session, int pageIndex,
+                                                                           int pageSize, ICriteria criteria)
+            where TEntity : class
+        {
+            if (pageIndex < 0)
+                throw new QueryArgumentException("The given page index cannot be less than zero.", "GetIndexPagedResult", "pageIndex");
+
+            try
+            {
+                return new NhPagedResult<TEntity>(pageIndex * pageSize, pageSize, criteria);
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing the paging criteria query.", "GetIndexPagedResult", ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="session"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
+        internal static IPagedResult<TEntity> GetIndexPagedResult<TEntity>(this ISession session, int pageIndex,
+                                                                           int pageSize, DetachedCriteria criteria)
+            where TEntity : class
+        {
+            if (criteria == null)
+                throw new QueryArgumentException("The criteria instance to execute cannot be null.", "GetIndexPagedResult", "criteria");
+
+            return session.GetIndexPagedResult<TEntity>(pageIndex * pageSize, pageSize, criteria.GetExecutableCriteria(session));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="session"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        internal static IPagedResult<TEntity> GetIndexPagedResult<TEntity>(this ISession session, int pageIndex,
+                                                                           int pageSize, QueryOver<TEntity> query)
+            where TEntity : class
+        {
+            if (query == null)
+                throw new QueryArgumentException("The QueryOver instance to execute cannot be null.", "GetIndexPagedResult", "query");
+
+            return session.GetIndexPagedResult<TEntity>(pageIndex * pageSize, pageSize, query.GetExecutableQueryOver(session).UnderlyingCriteria);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="session"></param>
+        /// <param name="query"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        internal static IPagedResult<TEntity> GetIndexPagedResult<TEntity>(this ISession session, int pageIndex,
+                                                                           int pageSize, IQueryable<TEntity> query)
+            where TEntity : class
+        {
+            if (query == null)
+                throw new QueryArgumentException(string.Format("The IQueryable<{0}> instance to execute cannot be null.", typeof(TEntity).Name), "GetIndexPagedResult", "query");
+
+            if (pageIndex < 0)
+                throw new QueryArgumentException("The given page index cannot be less than zero.", "GetIndexPagedResult", "pageIndex");
+
+            try
+            {
+                return new NhPagedResult<TEntity>(pageIndex * pageSize, pageSize, query);
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing the paging IQueryable query.", "GetIndexPagedResult", ex);
+            }
+        }
+
         #region Helper methods.
 
         /// <summary>
@@ -770,19 +946,16 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="session"></param>
+        /// <exception cref="TypeLoadException"></exception>
         /// <returns></returns>
         internal static string GetIdentifierName<TEntity>(this ISession session)
             where TEntity : class
         {
             var classmap = session.SessionFactory.GetClassMetadata(typeof(TEntity));
             if (classmap != null)
-            {
                 return classmap.IdentifierPropertyName;
-            }
-            else
-            {
-                throw new TypeLoadException(string.Format("there's no persitent class with the current object type, class name: {0}", typeof(TEntity).Name));
-            }
+
+            throw new TypeLoadException(string.Format("there's no persitent class with the current object type, class name: {0}", typeof(TEntity).Name));
         }
 
         #endregion

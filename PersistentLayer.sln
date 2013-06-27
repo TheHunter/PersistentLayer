@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistentLayer", "PersistentLayer\PersistentLayer.csproj", "{44A565D4-921A-4BE0-A412-522404AFBA09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3B25E7FC-F160-489E-814D-791F7ECA7C1E}"
@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3B25E7
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistentLayer_4.0", "PersistentLayer_4.0\PersistentLayer_4.0.csproj", "{61847A3B-5110-4AC0-A1AA-3443477D1739}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistentLayer.net40", "PersistentLayer_4.0\PersistentLayer.net40.csproj", "{61847A3B-5110-4AC0-A1AA-3443477D1739}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistentLayer.Test", "PersistentLayer.Test\PersistentLayer.Test.csproj", "{4517B4FF-C81E-4A6A-A18D-03726951B55F}"
 EndProject

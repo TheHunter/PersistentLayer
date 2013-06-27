@@ -4,7 +4,6 @@ using Iesi.Collections.Generic;
 
 namespace PersistentLayer.Domain
 {
-    [Serializable]
     public class Salesman
         : VersionedEntity<long?>
     {

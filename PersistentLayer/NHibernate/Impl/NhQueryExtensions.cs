@@ -98,6 +98,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TKey"></typeparam>
         /// <param name="sourceDAO"></param>
         /// <param name="instance"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         public static TKey GetIdentifier<TEntity, TKey>
             (this ISessionContext sourceDAO, TEntity instance)
@@ -161,15 +163,15 @@ namespace PersistentLayer.NHibernate.Impl
             (this ISessionContext sourceDAO, IEnumerable<TEntity> instances)
             where TEntity : class
         {
-            if (instances != null && instances.Count() > 0)
+            if (instances != null && instances.Any())
             {
                 instances.All
                     (
-                        delegate(TEntity instance)
-                        {
-                            sourceDAO.Evict(instance);
-                            return true;
-                        }
+                        instance =>
+                            {
+                                sourceDAO.Evict(instance);
+                                return true;
+                            }
                     );
             }
         }
@@ -246,6 +248,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="sourceDAO"></param>
         /// <param name="query"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         public static IEnumerable<object[]> ToProjectOverFuture<TEntity>
             (this ISessionContext sourceDAO, QueryOver<TEntity> query)
@@ -320,6 +324,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         /// <param name="sourceDAO"></param>
         /// <param name="criteria"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         public static IEnumerable<object[]> ToProjectOverFuture
             (this ISessionContext sourceDAO, DetachedCriteria criteria)
@@ -347,6 +353,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="transformer"></param>
         /// <param name="query"></param>
         /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         public static IEnumerable<TResult> TransformResult<TEntity, TResult>
             (this ISessionContext sourceDAO, IResultTransformer transformer, QueryOver<TEntity> query)
@@ -379,6 +386,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="transformer"></param>
         /// <param name="query"></param>
         /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         public static IEnumerable<TResult> TransformFutureResult<TEntity, TResult>
             (this ISessionContext sourceDAO, IResultTransformer transformer, QueryOver<TEntity> query)
@@ -410,6 +418,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="transformer">The tranformer which converts the result query into collection result typed</param>
         /// <param name="criteria">The given detached criteria to invoke to get result to transforming.</param>
         /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         public static IEnumerable<TResult> TransformResult<TResult>
             (this ISessionContext sourceDAO, IResultTransformer transformer, DetachedCriteria criteria)
@@ -440,6 +449,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="transformer"></param>
         /// <param name="criteria"></param>
         /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         public static IEnumerable<TResult> TransformFutureResult<TResult>
             (this ISessionContext sourceDAO, IResultTransformer transformer, DetachedCriteria criteria)

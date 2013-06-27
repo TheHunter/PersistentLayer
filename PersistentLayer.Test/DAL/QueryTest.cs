@@ -5,6 +5,7 @@ using System.Linq;
 using NHibernate;
 using System.IO;
 using System.Xml;
+using NHibernate.Criterion;
 using NHibernate.Transform;
 using NUnit.Framework;
 using System.Configuration;
@@ -198,13 +199,11 @@ namespace PersistentLayer.Test.DAL
 
             // Asserts
             Assert.IsTrue(contracts.Count == allContracts.Count());
-            TradeContract current;
             foreach (TradeContract tradeContract in allContracts)
             {
-                current = contracts.First(n => tradeContract.ID == n.ID);
+                TradeContract current = contracts.First(n => tradeContract.ID == n.ID);
                 Assert.AreEqual(current, tradeContract);
                 Assert.AreSame(current, tradeContract);
-                Assert.IsTrue(current == tradeContract);
             }
         }
 
@@ -234,7 +233,6 @@ namespace PersistentLayer.Test.DAL
                 //Asserts
                 Assert.AreEqual(current, tradeContract);
                 Assert.AreSame(current, tradeContract);
-                Assert.IsTrue(current == tradeContract);
             }
 
             //Asserts

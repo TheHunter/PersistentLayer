@@ -12,19 +12,22 @@ namespace PersistentLayer.NHibernate
     public class SessionManager
         : ISessionProvider
     {
-        private int transactionCounter = 0;
+        private int transactionCounter;
         /// <summary>
         /// This is the factory which creates new sessions, and It's able to reference the current binded session
         /// made by CurrentSessionContext
         /// </summary>
-        private readonly ISessionFactory sessionFactory = null;
+        private readonly ISessionFactory sessionFactory;
 
         #region Session factory section
 
         /// <summary>
         /// 
         /// </summary>
-        protected SessionManager() { }
+        protected SessionManager()
+        {
+            transactionCounter = 0;
+        }
 
         /// <summary>
         /// 
@@ -32,6 +35,7 @@ namespace PersistentLayer.NHibernate
         /// <param name="sessionFactory"></param>
         public SessionManager(ISessionFactory sessionFactory)
         {
+            transactionCounter = 0;
             if (sessionFactory == null)
                 throw new ArgumentNullException("sessionFactory", "the SessionFactory for SessionManager cannot be null.");
 
@@ -66,23 +70,22 @@ namespace PersistentLayer.NHibernate
         /// </exception>
         public ISession GetCurrentSession()
         {
-            ISession session = null;
             try
             {
-                session = this.sessionFactory.GetCurrentSession();
+                return this.sessionFactory.GetCurrentSession();
             }
             catch (Exception ex)
             {
                 this.transactionCounter = 0;
                 throw new SessionNotBindedException("There's no binded session, so first It would require to open a new session.", "GetCurrentSession", ex);
             }
-            return session;
         }
 
         /// <summary>
         /// Begin a new transaction from the current binded session with the specified IsolationLevel.
         /// </summary>
         /// <param name="level">IsolationLevel for this transaction.</param>
+        /// <exception cref="BusinessLayerException"></exception>
         /// <exception cref="SessionNotBindedException">
         /// Throws an exception when there's no session binded into any CurrentSessionContext.
         /// </exception>
@@ -166,12 +169,10 @@ namespace PersistentLayer.NHibernate
             if (this.TransactionCounter > 0)
             {
                 this.TransactionCounter--;
-                ITransaction transaction = null;
-                ISession session = null;
                 try
                 {
-                    session = this.GetCurrentSession();
-                    transaction = session.Transaction;
+                    ISession session = this.GetCurrentSession();
+                    ITransaction transaction = session.Transaction;
                     try
                     {
                         transaction.Rollback();

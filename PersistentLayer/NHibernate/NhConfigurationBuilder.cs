@@ -6,6 +6,7 @@ using NHibernate.Cfg;
 using FluentNHibernate.Cfg;
 using System.Xml;
 using System.IO;
+using NHibernate.Mapping;
 
 namespace PersistentLayer.NHibernate
 {
@@ -15,8 +16,8 @@ namespace PersistentLayer.NHibernate
     [Serializable]
     public class NhConfigurationBuilder
     {
-        private Configuration _Config = null;
-        private ISessionFactory _SessionFactory = null;
+        private Configuration config;
+        private ISessionFactory sessionFactory;
 
         /// <summary>
         /// 
@@ -48,11 +49,11 @@ namespace PersistentLayer.NHibernate
 
             mappingFiles.All
                 (
-                    delegate(string xmlfile)
-                    {
-                        this.Config.AddXmlFile(xmlfile);
-                        return true;
-                    }
+                    xmlfile =>
+                        {
+                            this.Config.AddXmlFile(xmlfile);
+                            return true;
+                        }
                 );
         }
 
@@ -68,7 +69,7 @@ namespace PersistentLayer.NHibernate
 
             //this.Config.SetCacheConcurrencyStrategy
             //this.Config.SetCollectionCacheConcurrencyStrategy();
-
+            
             this.Config.AddDirectory(directory);
         }
 
@@ -102,7 +103,7 @@ namespace PersistentLayer.NHibernate
 
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentException(string.Format("property value cannot be empty or null, property name: {0}", name));
-
+            
             this.Config.SetProperty(name, value);
         }
 
@@ -113,10 +114,8 @@ namespace PersistentLayer.NHibernate
         /// <param name="value"></param>
         public void SetProperty(string name, string value)
         {
-            if (this._SessionFactory == null)
-            {
+            if (this.sessionFactory == null)
                 this.OverrideProperty(name, value);
-            }
         }
 
         /// <summary>
@@ -125,17 +124,15 @@ namespace PersistentLayer.NHibernate
         /// <param name="properties"></param>
         public void SetProperties(IDictionary<string, string> properties)
         {
-            if (this._SessionFactory == null && properties != null && properties.Count > 0)
-            {
+            if (this.sessionFactory == null && properties != null && properties.Count > 0)
                 properties.All
                     (
-                        delegate(KeyValuePair<string, string> current)
-                        {
-                            this.OverrideProperty(current.Key, current.Value);
-                            return true;
-                        }
+                        current =>
+                            {
+                                this.OverrideProperty(current.Key, current.Value);
+                                return true;
+                            }
                     );
-            }
         }
 
         /// <summary>
@@ -153,8 +150,8 @@ namespace PersistentLayer.NHibernate
         /// </summary>
         public void BuildSessionFactory()
         {
-            if (this._SessionFactory == null)
-                this._SessionFactory = this.Config.BuildSessionFactory();
+            if (this.sessionFactory == null)
+                this.sessionFactory = this.Config.BuildSessionFactory();
         }
 
         /// <summary>
@@ -164,7 +161,7 @@ namespace PersistentLayer.NHibernate
         {
             get
             {
-                return this._Config.ClassMappings.Count > 0;
+                return this.config.ClassMappings.Count > 0;
             }
         }
 
@@ -175,11 +172,11 @@ namespace PersistentLayer.NHibernate
         {
             get
             {
-                return this._Config;
+                return this.config;
             }
             private set
             {
-                this._Config = value;
+                this.config = value;
             }
         }
 
@@ -188,7 +185,7 @@ namespace PersistentLayer.NHibernate
         /// </summary>
         public ISessionFactory SessionFactory
         {
-            get { return this._SessionFactory; }
+            get { return this.sessionFactory; }
         }
     }
 }

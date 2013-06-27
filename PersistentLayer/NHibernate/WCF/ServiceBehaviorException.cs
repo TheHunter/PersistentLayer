@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace PersistentLayer.Exceptions
+namespace PersistentLayer.NHibernate.WCF
 {
     /// <summary>
-    /// Rappresents an generic error when business DAOs execute any kind of query on data store.
+    /// 
     /// </summary>
-    public class BusinessObjectException
-        : Exception
+    public class ServiceBehaviorException
+        : WcfServiceException
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="message"></param>
-        public BusinessObjectException(string message)
+        public ServiceBehaviorException(string message)
             :base(message)
         {
         }
@@ -22,8 +25,8 @@ namespace PersistentLayer.Exceptions
         /// </summary>
         /// <param name="message"></param>
         /// <param name="innerException"></param>
-        public BusinessObjectException(string message, Exception innerException)
-            :base(message, innerException)
+        public ServiceBehaviorException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }
