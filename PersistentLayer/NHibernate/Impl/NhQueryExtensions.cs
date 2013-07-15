@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -184,6 +185,68 @@ namespace PersistentLayer.NHibernate.Impl
             (this ISessionContext sourceDAO)
         {
             sourceDAO.SessionInfo.CurrentSession.Clear();
+        }
+
+        /// <summary>
+        /// Force the current ISession to flush.
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        public static void Flush
+            (this ISessionContext sourceDAO)
+        {
+            sourceDAO.SessionInfo.CurrentSession.Flush();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="criteria"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
+        /// <returns></returns>
+        public static ICollection FindAll
+            (this ISessionContext sourceDAO, DetachedCriteria criteria)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+            if (criteria == null)
+                throw new QueryArgumentException("DetachedCriteria instance cannot be null.", "FindAll", "criteria");
+
+            try
+            {
+                return criteria.GetExecutableCriteria(session).List();
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing the given DetachedCriteria query.", "FindAll", ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="criteria"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
+        /// <returns></returns>
+        public static IPagedResult GetPagedResult(this ISessionContext sourceDAO, int startIndex, int pageSize, DetachedCriteria criteria)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (criteria == null)
+                throw new QueryArgumentException("The criteria instance to execute cannot be null.", "GetPagedResult", "criteria");
+
+            try
+            {
+                return new NhPagedResult(startIndex, pageSize, criteria.GetExecutableCriteria(session));
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing the paging criteria query.", "GetPagedResult", ex);
+            }
         }
 
         /// <summary>

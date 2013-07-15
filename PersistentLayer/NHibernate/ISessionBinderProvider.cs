@@ -10,7 +10,7 @@ namespace PersistentLayer.NHibernate
     /// 
     /// </summary>
     public interface ISessionBinderProvider
-        :ISessionProvider
+        : ISessionProvider
     {
         /// <summary>
         /// 

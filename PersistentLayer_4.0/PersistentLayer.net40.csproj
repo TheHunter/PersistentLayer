@@ -102,6 +102,9 @@
     <Compile Include="..\PersistentLayer\ITransactionProvider.cs">
       <Link>ITransactionProvider.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\FutureQueryResolver.cs">
+      <Link>NHibernate\FutureQueryResolver.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\IDomainDAO.cs">
       <Link>NHibernate\IDomainDAO.cs</Link>
     </Compile>

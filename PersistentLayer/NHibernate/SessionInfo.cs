@@ -14,6 +14,7 @@ namespace PersistentLayer.NHibernate
         /// 
         /// </summary>
         /// <param name="provider"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public SessionInfo(ISessionProvider provider)
         {
             if (provider == null)

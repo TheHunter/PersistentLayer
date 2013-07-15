@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
@@ -79,6 +80,17 @@ namespace PersistentLayer.Test.DAL
             DetachedCriteria criteria = DetachedCriteria.For<Salesman>();
             criteria.Add(Restrictions.Like("Name", "Dav", MatchMode.Start));
             Assert.IsTrue(CurrentPagedDAO.FindAll<Salesman>(criteria).Any());
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        [Description("Verifies if a valid detached criteria (non generic) doesn't throw an exception")]
+        public void FindAllDetachedCriteriaTest1()
+        {
+            DetachedCriteria criteria = DetachedCriteria.For<Salesman>();
+            criteria.Add(Restrictions.Like("Name", "Dav", MatchMode.Start));
+            ICollection result = CurrentPagedDAO.FindAll(criteria);
+            Assert.IsTrue(result.Count > 0);
         }
 
         [Test]
@@ -449,6 +461,14 @@ namespace PersistentLayer.Test.DAL
 
         [Test]
         [Category("QueryExecutions")]
+        public void GetPagedResultTest4()
+        {
+            IPagedResult result = CurrentPagedDAO.GetPagedResult(2, 5, DetachedCriteria.For<Salesman>().Add(Restrictions.Gt("ID", (long)1)));
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
         public void GetIndexPagedResultTest4()
         {
             IPagedResult<Salesman> result = CurrentPagedDAO.GetIndexPagedResult(2, 5, CurrentPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID > 1));
@@ -724,5 +744,11 @@ namespace PersistentLayer.Test.DAL
             Assert.IsTrue(count.Value > 0 && col.Any());
         }
         
+        [Test]
+        public void MakeFutureFunctionTest()
+        {
+            FutureFunction function = new FutureFunction(typeof(Salesman));
+            Assert.IsTrue(function != null);            
+        }
     }
 }
