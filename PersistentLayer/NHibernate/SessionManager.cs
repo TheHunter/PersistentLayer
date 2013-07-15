@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using NHibernate;
 using System.Data;
+using System.Linq;
 using PersistentLayer.Exceptions;
 
 namespace PersistentLayer.NHibernate
@@ -12,12 +14,14 @@ namespace PersistentLayer.NHibernate
     public class SessionManager
         : ISessionManager
     {
-        private int transactionCounter;
+        private readonly Stack<ITransactionInfo> transactions;
         /// <summary>
         /// This is the factory which creates new sessions, and It's able to reference the current binded session
         /// made by CurrentSessionContext
         /// </summary>
         private readonly ISessionFactory sessionFactory;
+
+        private static readonly string DefaultNaming = "anonymous";
 
         #region Session factory section
 
@@ -26,7 +30,7 @@ namespace PersistentLayer.NHibernate
         /// </summary>
         protected SessionManager()
         {
-            transactionCounter = 0;
+            transactions = new Stack<ITransactionInfo>();
         }
 
         /// <summary>
@@ -35,7 +39,8 @@ namespace PersistentLayer.NHibernate
         /// <param name="sessionFactory"></param>
         public SessionManager(ISessionFactory sessionFactory)
         {
-            transactionCounter = 0;
+            transactions = new Stack<ITransactionInfo>();
+
             if (sessionFactory == null)
                 throw new ArgumentNullException("sessionFactory", "the SessionFactory for SessionManager cannot be null.");
 
@@ -53,15 +58,6 @@ namespace PersistentLayer.NHibernate
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public int TransactionCounter
-        {
-            get { return this.transactionCounter; }
-            private set { this.transactionCounter = value; }
-        }
-
-        /// <summary>
         /// Gets the current binded session from the calling session manager.
         /// </summary>
         /// <returns>returns the current binded session</returns>
@@ -76,7 +72,7 @@ namespace PersistentLayer.NHibernate
             }
             catch (Exception ex)
             {
-                this.transactionCounter = 0;
+                this.transactions.Clear();
                 throw new SessionNotBindedException("There's no binded session, so first It would require to open a new session.", "GetCurrentSession", ex);
             }
         }
@@ -84,7 +80,17 @@ namespace PersistentLayer.NHibernate
         /// <summary>
         /// 
         /// </summary>
-        public bool InProgress { get { return this.transactionCounter > 0; } }
+        public bool InProgress { get { return this.transactions.Count > 0; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool Exists(string name)
+        {
+            return this.transactions.Count(info => info.Name == name) > 0;
+        }
 
         /// <summary>
         /// Begin a new transaction from the current binded session with the specified IsolationLevel.
@@ -96,7 +102,18 @@ namespace PersistentLayer.NHibernate
         /// </exception>
         public void BeginTransaction(IsolationLevel? level)
         {
-            if (this.TransactionCounter == 0)
+            int index = transactions.Count;
+            this.BeginTransaction(string.Format("{0}_{1}", DefaultNaming, index), level);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="level"></param>
+        public void BeginTransaction(string name, IsolationLevel? level)
+        {
+            if (this.transactions.Count == 0)
             {
                 try
                 {
@@ -111,7 +128,9 @@ namespace PersistentLayer.NHibernate
                     throw new BusinessLayerException("Error on beginning a new transaction.", "BeginTransaction", ex);
                 }
             }
-            this.TransactionCounter++;
+
+            int index = transactions.Count;
+            this.transactions.Push(new TransactionInfo(name, index));
         }
 
         /// <summary>
@@ -122,10 +141,10 @@ namespace PersistentLayer.NHibernate
         /// </exception>
         public void CommitTransaction()
         {
-            if (transactionCounter > 0)
+            if (transactions.Count > 0)
             {
-                transactionCounter--;
-                if (transactionCounter == 0)
+                ITransactionInfo info = transactions.Pop();
+                if (transactions.Count == 0)
                 {
                     ITransaction transaction = null;
                     try
@@ -153,8 +172,8 @@ namespace PersistentLayer.NHibernate
                         // accettarsi che la chiamata a RollBack non generi un'eccezione
                         // in quel caso occorre gestirlo, eventualement risollervalo incapsulandolo in un'altra eccezione
                         if (transaction != null) transaction.Rollback();
-                        
-                        throw new CommitFailedException("Error when the current session tries to commit the current transaction.", "CommitTransaction", ex);
+
+                        throw new CommitFailedException(string.Format("Error when the current session tries to commit the current transaction (name: {0}).", info.Name), "CommitTransaction", ex);
                     }
                 }
             }
@@ -171,9 +190,9 @@ namespace PersistentLayer.NHibernate
         /// </exception>
         public virtual void RollbackTransaction()
         {
-            if (this.TransactionCounter > 0)
+            if (transactions.Count > 0)
             {
-                this.TransactionCounter--;
+                ITransactionInfo info = transactions.Pop();
                 try
                 {
                     ISession session = this.GetCurrentSession();
@@ -185,15 +204,14 @@ namespace PersistentLayer.NHibernate
                     catch (Exception ex)
                     {
                         throw new RollbackFailedException("Error on calling RollbackTransaction method", "RollbackTransaction", ex);
-                        
                     }
 
                     // significa che la chiamata a questo metodo avviene da una Inner Transaction
                     // ed in questo caso si dovrà sollevare un'eccezione per indicare che è avvenuto un rollback
                     // da una sotto transazione.
-                    if (this.TransactionCounter > 0)
+                    if (transactions.Count > 0)
                     {
-                        throw new InnerRollBackException("An inner rollback transaction has occurred.", "RollbackTransaction");
+                        throw new InnerRollBackException(string.Format("An inner rollback transaction (name: {0}) has occurred.", info.Name), "RollbackTransaction");
                     }
                 }
                 catch (SessionNotBindedException)
@@ -211,7 +229,7 @@ namespace PersistentLayer.NHibernate
                 }
                 finally
                 {
-                    this.TransactionCounter = 0;
+                    this.transactions.Clear();
                 }
             }
         }

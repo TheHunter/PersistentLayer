@@ -320,7 +320,7 @@ namespace PersistentLayer.Test.DAL
             try
             {
                 SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-                Salesman cons = CurrentPagedDAO.ToIQueryable<Salesman>().Where(n => n.ID == 11).First();
+                Salesman cons = CurrentPagedDAO.ToIQueryable<Salesman>().First(n => n.ID == 11);
                 Assert.IsNotNull(cons);
                 Assert.IsTrue(CurrentPagedDAO.IsCached(cons));
                 string oldEmail = cons.Email;

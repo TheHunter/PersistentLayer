@@ -165,6 +165,9 @@
     <Compile Include="..\PersistentLayer\NHibernate\ISessionProvider.cs">
       <Link>NHibernate\ISessionProvider.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\ITransactionInfo.cs">
+      <Link>NHibernate\ITransactionInfo.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\NhConfigurationBuilder.cs">
       <Link>NHibernate\NhConfigurationBuilder.cs</Link>
     </Compile>
@@ -185,6 +188,9 @@
     </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\SessionNotOpenedException.cs">
       <Link>NHibernate\SessionNotOpenedException.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\TransactionInfo.cs">
+      <Link>NHibernate\TransactionInfo.cs</Link>
     </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\WCF\NhDispatchMessageInspector.cs">
       <Link>NHibernate\WCF\NhDispatchMessageInspector.cs</Link>

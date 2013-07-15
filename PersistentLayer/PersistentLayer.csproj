@@ -78,6 +78,7 @@
     <Compile Include="NHibernate\ISessionBinderProvider.cs" />
     <Compile Include="NHibernate\FutureQueryResolver.cs" />
     <Compile Include="NHibernate\ISessionManager.cs" />
+    <Compile Include="NHibernate\ITransactionInfo.cs" />
     <Compile Include="NHibernate\SessionNotAvailableException.cs" />
     <Compile Include="NHibernate\SessionNotBindedException.cs" />
     <Compile Include="NHibernate\SessionNotOpenedException.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="ITransactionContext.cs" />
     <Compile Include="ITransactionProvider.cs" />
     <Compile Include="NHibernate\NhConfigurationBuilder.cs" />
+    <Compile Include="NHibernate\TransactionInfo.cs" />
     <Compile Include="NHibernate\WCF\NhDispatchMessageInspector.cs" />
     <Compile Include="NHibernate\WCF\NhServiceBehaviorAttribute.cs" />
     <Compile Include="NHibernate\WCF\ServiceArgumentException.cs" />
