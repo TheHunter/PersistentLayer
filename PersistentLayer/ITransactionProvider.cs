@@ -8,6 +8,11 @@ namespace PersistentLayer
     public interface ITransactionProvider
     {
         /// <summary>
+        /// Indicates if a transaction is in progress.
+        /// </summary>
+        bool InProgress { get; }
+
+        /// <summary>
         /// Begin a new transaction
         /// </summary>
         /// <param name="level"></param>

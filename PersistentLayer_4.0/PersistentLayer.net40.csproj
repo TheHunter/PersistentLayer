@@ -159,6 +159,9 @@
     <Compile Include="..\PersistentLayer\NHibernate\ISessionDAO.cs">
       <Link>NHibernate\ISessionDAO.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\ISessionManager.cs">
+      <Link>NHibernate\ISessionManager.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\ISessionProvider.cs">
       <Link>NHibernate\ISessionProvider.cs</Link>
     </Compile>

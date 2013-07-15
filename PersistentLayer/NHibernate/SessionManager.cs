@@ -10,7 +10,7 @@ namespace PersistentLayer.NHibernate
     /// </summary>
     [Serializable]
     public class SessionManager
-        : ISessionProvider
+        : ISessionManager
     {
         private int transactionCounter;
         /// <summary>
@@ -42,6 +42,8 @@ namespace PersistentLayer.NHibernate
             this.sessionFactory = sessionFactory;
         }
 
+        #endregion
+
         /// <summary>
         /// 
         /// </summary>
@@ -58,8 +60,6 @@ namespace PersistentLayer.NHibernate
             get { return this.transactionCounter; }
             private set { this.transactionCounter = value; }
         }
-
-        #endregion
 
         /// <summary>
         /// Gets the current binded session from the calling session manager.
@@ -80,6 +80,11 @@ namespace PersistentLayer.NHibernate
                 throw new SessionNotBindedException("There's no binded session, so first It would require to open a new session.", "GetCurrentSession", ex);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool InProgress { get { return this.transactionCounter > 0; } }
 
         /// <summary>
         /// Begin a new transaction from the current binded session with the specified IsolationLevel.

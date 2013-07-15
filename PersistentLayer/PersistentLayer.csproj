@@ -77,6 +77,7 @@
     <Compile Include="NHibernate\InvalidSessionException.cs" />
     <Compile Include="NHibernate\ISessionBinderProvider.cs" />
     <Compile Include="NHibernate\FutureQueryResolver.cs" />
+    <Compile Include="NHibernate\ISessionManager.cs" />
     <Compile Include="NHibernate\SessionNotAvailableException.cs" />
     <Compile Include="NHibernate\SessionNotBindedException.cs" />
     <Compile Include="NHibernate\SessionNotOpenedException.cs" />
