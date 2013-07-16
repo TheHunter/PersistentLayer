@@ -59,6 +59,24 @@ namespace PersistentLayer.Test.DAL
 
         [Test]
         [Category("QueryExecutions")]
+        [Description("Using a non generic method FindBy.")]
+        public void LoadTest3()
+        {
+            Assert.IsNotNull(CurrentPagedDAO.FindBy(typeof (Salesman), 1L, LockMode.Read));
+            Assert.IsNotNull(CurrentPagedDAO.FindBy(typeof(Agency), 1L, LockMode.Read));
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        [ExpectedException(typeof(ExecutionQueryException))]
+        public void FailedLoadTest3()
+        {
+            object ret = CurrentPagedDAO.FindBy(typeof(Salesman), -1L, LockMode.Read);
+            Assert.IsNotNull(ret);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
         [Description("Verifies the loading of some instances.")]
         public void FindAllTest()
         {
@@ -461,9 +479,19 @@ namespace PersistentLayer.Test.DAL
 
         [Test]
         [Category("QueryExecutions")]
+        [Description("This method shows how It can be used a no generic IPagedResult object.")]
         public void GetPagedResultTest4()
         {
             IPagedResult result = CurrentPagedDAO.GetPagedResult(2, 5, DetachedCriteria.For<Salesman>().Add(Restrictions.Gt("ID", (long)1)));
+            Assert.IsTrue(result.Counter > 0);
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        [ExpectedException(typeof(ExecutionQueryException))]
+        public void FailedGetPagedResultTest4()
+        {
+            IPagedResult result = CurrentPagedDAO.GetPagedResult(2, -1, DetachedCriteria.For<Salesman>().Add(Restrictions.Gt("ID", (long)1)));
             Assert.IsTrue(result.Counter > 0);
         }
 

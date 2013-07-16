@@ -55,7 +55,26 @@ namespace PersistentLayer.NHibernate.Impl
             {
                 throw new BusinessPersistentException("Error on merging the instance with the current session.", ex);
             }
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public static object Merge
+            (this ISessionContext sourceDAO, object instance)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+            try
+            {
+                return session.Merge(instance);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException("Error on merging the instance with the current session.", ex);
+            }
         }
 
         /// <summary>
@@ -68,6 +87,18 @@ namespace PersistentLayer.NHibernate.Impl
         public static bool IsCached<TEntity>
             (this ISessionContext sourceDAO, TEntity instance)
             where TEntity : class
+        {
+            return sourceDAO.IsCached(instance as object);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public static bool IsCached
+            (this ISessionContext sourceDAO, object instance)
         {
             return sourceDAO.SessionInfo.CurrentSession.Contains(instance);
         }
@@ -86,9 +117,23 @@ namespace PersistentLayer.NHibernate.Impl
             ISession session = sourceDAO.SessionInfo.CurrentSession;
 
             if (instances != null)
-            {
                 return instances.All(session.Contains);
-            }
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="instances"></param>
+        /// <returns></returns>
+        public static bool IsCached
+            (this ISessionContext sourceDAO, IEnumerable instances)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (instances != null)
+                return instances.Cast<object>().All(session.Contains);
             return false;
         }
 
@@ -106,16 +151,29 @@ namespace PersistentLayer.NHibernate.Impl
             (this ISessionContext sourceDAO, TEntity instance)
             where TEntity : class
         {
+            return (TKey)sourceDAO.GetIdentifier(instance);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public static object GetIdentifier
+            (this ISessionContext sourceDAO, object instance)
+        {
             if (instance == null)
                 throw new QueryArgumentException("Instance to analize for getting its identifier cannot be null.", "GetIdentifier", "instance");
             try
             {
-                return (TKey)sourceDAO.SessionInfo.CurrentSession.GetIdentifier(instance);
+                return sourceDAO.SessionInfo.CurrentSession.GetIdentifier(instance);
             }
             catch (Exception ex)
             {
                 throw new ExecutionQueryException("Error on getting the identifier of the given instance.", "GetIdentifier", ex);
             }
+
         }
 
         /// <summary>
@@ -139,7 +197,19 @@ namespace PersistentLayer.NHibernate.Impl
             (this ISessionContext sourceDAO, TEntity instance)
             where TEntity : class
         {
+            sourceDAO.Evict(instance as object);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="instance"></param>
+        public static void Evict
+            (this ISessionContext sourceDAO, object instance)
+        {
             ISession session = sourceDAO.SessionInfo.CurrentSession;
+
             if (instance != null && sourceDAO.IsCached(instance))
             {
                 try
@@ -148,8 +218,6 @@ namespace PersistentLayer.NHibernate.Impl
                 }
                 catch
                 {
-                    // questa eccezione potrebbe essere sollevata perché l'identifier è nullo.
-                    // quindi non viene considerata..
                 }
             }
         }
@@ -196,6 +264,148 @@ namespace PersistentLayer.NHibernate.Impl
         {
             sourceDAO.SessionInfo.CurrentSession.Flush();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="type"></param>
+        /// <param name="id"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public static object FindBy
+            (this ISessionContext sourceDAO, Type type, object id, LockMode mode)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (id == null)
+                throw new QueryArgumentException("The given identifier cannot be null", "FindBy", "id");
+
+            if (type == null)
+                throw new QueryArgumentException("The object type cannot be null.", "FindBy", "type");
+            
+            try
+            {
+                if (mode == null) mode = LockMode.None;
+
+                return session.Load(type, id, mode);
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on loading the persistent instance with the given indetifier.", "FindBy", ex);
+            }
+        }
+
+        #region No generic persistent operations.
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="type"></param>
+        /// <param name="instance"></param>
+        public static object MakePersistent
+            (this ISessionContext sourceDAO, object instance)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (instance == null)
+                throw new QueryArgumentException("The object to delete cannot be null.", "MakePersistent", "instance");
+
+            try
+            {
+                session.SaveOrUpdate(instance);
+                return instance;
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException(string.Format("Error on making persistent the given instance (type of <{0}>).", instance.GetType().Name), "MakePersistent", ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="type"></param>
+        /// <param name="instance"></param>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        public static object MakePersistent
+            (this ISessionContext sourceDAO, object instance, object identifier)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (instance == null)
+                throw new QueryArgumentException("The object to update cannot be null.", "MakePersistent", "instance");
+
+            if (identifier == null)
+                throw new QueryArgumentException("The identifier for updating ther given instance cannot be null.", "MakePersistent", "instance");
+
+            try
+            {
+                session.SaveOrUpdate(instance);
+                return instance;
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException(string.Format("Error on making persistent the given instance (type of <{0}>).", instance.GetType().Name), "MakePersistent", ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="instances"></param>
+        /// <returns></returns>
+        public static IEnumerable MakePersistent
+            (this ISessionContext sourceDAO, IEnumerable instances)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            try
+            {
+                session.SetBatchSize(10);
+                foreach (var instance in instances)
+                {
+                    sourceDAO.MakePersistent(instance);
+                }
+                return instances;
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException("Error on making persistent the given instances.", "MakePersistent", ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="instance"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="BusinessPersistentException"></exception>
+        public static void MakeTransient
+            (this ISessionContext sourceDAO, object instance)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (instance == null)
+                throw new QueryArgumentException("The object to delete cannot be null.", "MakeTransient", "instance");
+            
+            try
+            {
+                session.Delete(instance);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessPersistentException("Error on executing the delete query.", "MakeTransient", ex);
+            }
+        }
+
+        #endregion
+
 
         /// <summary>
         /// 

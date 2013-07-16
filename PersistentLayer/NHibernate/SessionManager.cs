@@ -20,7 +20,6 @@ namespace PersistentLayer.NHibernate
         /// made by CurrentSessionContext
         /// </summary>
         private readonly ISessionFactory sessionFactory;
-
         private static readonly string DefaultNaming = "anonymous";
 
         #region Session factory section
@@ -80,7 +79,10 @@ namespace PersistentLayer.NHibernate
         /// <summary>
         /// 
         /// </summary>
-        public bool InProgress { get { return this.transactions.Count > 0; } }
+        public bool InProgress
+        {
+            get { return this.transactions.Count > 0; }
+        }
 
         /// <summary>
         /// 
@@ -89,6 +91,9 @@ namespace PersistentLayer.NHibernate
         /// <returns></returns>
         public bool Exists(string name)
         {
+            if (name == null)
+                return false;
+
             return this.transactions.Count(info => info.Name == name) > 0;
         }
 
@@ -113,6 +118,15 @@ namespace PersistentLayer.NHibernate
         /// <param name="level"></param>
         public void BeginTransaction(string name, IsolationLevel? level)
         {
+            if (name == null || name.Trim().Equals(string.Empty))
+                throw new BusinessLayerException("The transaction name cannot be null or empty", "Exists");
+
+            if (this.Exists(name))
+                throw new BusinessLayerException(string.Format("The transaction name ({0}) to add is used by another point.", name), "BeginTransaction");
+
+            int index = transactions.Count;
+            ITransactionInfo info = new TransactionInfo(name, index);
+
             if (this.transactions.Count == 0)
             {
                 try
@@ -128,9 +142,7 @@ namespace PersistentLayer.NHibernate
                     throw new BusinessLayerException("Error on beginning a new transaction.", "BeginTransaction", ex);
                 }
             }
-
-            int index = transactions.Count;
-            this.transactions.Push(new TransactionInfo(name, index));
+            this.transactions.Push(info);
         }
 
         /// <summary>
