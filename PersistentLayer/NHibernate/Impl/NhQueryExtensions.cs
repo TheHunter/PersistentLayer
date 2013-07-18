@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Criterion;
+using NHibernate.Metadata;
 using NHibernate.Transform;
 using PersistentLayer.Exceptions;
 
@@ -62,6 +63,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         /// <param name="sourceDAO"></param>
         /// <param name="instance"></param>
+        /// <exception cref="BusinessPersistentException"></exception>
         /// <returns></returns>
         public static object Merge
             (this ISessionContext sourceDAO, object instance)
@@ -159,6 +161,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         /// <param name="sourceDAO"></param>
         /// <param name="instance"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
         public static object GetIdentifier
             (this ISessionContext sourceDAO, object instance)
@@ -173,7 +177,6 @@ namespace PersistentLayer.NHibernate.Impl
             {
                 throw new ExecutionQueryException("Error on getting the identifier of the given instance.", "GetIdentifier", ex);
             }
-
         }
 
         /// <summary>
@@ -272,6 +275,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="type"></param>
         /// <param name="id"></param>
         /// <param name="mode"></param>
+        /// <exception cref="ExecutionQueryException"></exception>
+        /// <exception cref="QueryArgumentException"></exception>
         /// <returns></returns>
         public static object FindBy
             (this ISessionContext sourceDAO, Type type, object id, LockMode mode)
@@ -297,13 +302,15 @@ namespace PersistentLayer.NHibernate.Impl
         }
 
         #region No generic persistent operations.
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sourceDAO"></param>
-        /// <param name="type"></param>
         /// <param name="instance"></param>
+        /// <exception cref="BusinessPersistentException"></exception>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <returns></returns>
         public static object MakePersistent
             (this ISessionContext sourceDAO, object instance)
         {
@@ -327,9 +334,10 @@ namespace PersistentLayer.NHibernate.Impl
         /// 
         /// </summary>
         /// <param name="sourceDAO"></param>
-        /// <param name="type"></param>
         /// <param name="instance"></param>
         /// <param name="identifier"></param>
+        /// <exception cref="QueryArgumentException"></exception>
+        /// <exception cref="BusinessPersistentException"></exception>
         /// <returns></returns>
         public static object MakePersistent
             (this ISessionContext sourceDAO, object instance, object identifier)
@@ -358,6 +366,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// </summary>
         /// <param name="sourceDAO"></param>
         /// <param name="instances"></param>
+        /// <exception cref="BusinessPersistentException"></exception>
         /// <returns></returns>
         public static IEnumerable MakePersistent
             (this ISessionContext sourceDAO, IEnumerable instances)
@@ -442,7 +451,8 @@ namespace PersistentLayer.NHibernate.Impl
         /// <exception cref="QueryArgumentException"></exception>
         /// <exception cref="ExecutionQueryException"></exception>
         /// <returns></returns>
-        public static IPagedResult GetPagedResult(this ISessionContext sourceDAO, int startIndex, int pageSize, DetachedCriteria criteria)
+        public static IPagedResult GetPagedResult
+            (this ISessionContext sourceDAO, int startIndex, int pageSize, DetachedCriteria criteria)
         {
             ISession session = sourceDAO.SessionInfo.CurrentSession;
 
@@ -462,6 +472,28 @@ namespace PersistentLayer.NHibernate.Impl
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="classType"></param>
+        /// <exception cref="BusinessLayerException"></exception>
+        /// <returns></returns>
+        public static IPersistentClassInfo GetPeristentClassInfo
+            (this ISessionContext sourceDAO, Type classType)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+
+            if (classType == null)
+                throw new BusinessLayerException("The classType object cannot be null.");
+
+            IClassMetadata metadata = session.SessionFactory.GetClassMetadata(classType);
+            if (metadata != null)
+                return new PersistentClassInfo(metadata);
+
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="sourceDAO"></param>
@@ -471,7 +503,7 @@ namespace PersistentLayer.NHibernate.Impl
             (this ISessionContext sourceDAO, QueryOver<TEntity> query)
             where TEntity : class
         {
-            return sourceDAO.TransformResult<TEntity, TResult>(Transformers.AliasToBean<TResult>(), query); // verificare se solleva un'eccezione.
+            return sourceDAO.TransformResult<TEntity, TResult>(Transformers.AliasToBean<TResult>(), query);
         }
 
         /// <summary>

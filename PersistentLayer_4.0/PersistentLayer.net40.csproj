@@ -150,6 +150,12 @@
     <Compile Include="..\PersistentLayer\NHibernate\InvalidSessionException.cs">
       <Link>NHibernate\InvalidSessionException.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\IPersistentClassInfo.cs">
+      <Link>NHibernate\IPersistentClassInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\IPropertyInfo.cs">
+      <Link>NHibernate\IPropertyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\ISessionBinderProvider.cs">
       <Link>NHibernate\ISessionBinderProvider.cs</Link>
     </Compile>
@@ -170,6 +176,12 @@
     </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\NhConfigurationBuilder.cs">
       <Link>NHibernate\NhConfigurationBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\PersistentClassInfo.cs">
+      <Link>NHibernate\PersistentClassInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\NHibernate\PropertyMapInfo.cs">
+      <Link>NHibernate\PropertyMapInfo.cs</Link>
     </Compile>
     <Compile Include="..\PersistentLayer\NHibernate\SessionBinderLayer.cs">
       <Link>NHibernate\SessionBinderLayer.cs</Link>

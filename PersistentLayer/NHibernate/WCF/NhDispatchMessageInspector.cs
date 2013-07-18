@@ -48,7 +48,7 @@ namespace PersistentLayer.NHibernate.WCF
         public void BeforeSendReply(ref Message reply, Object correlationState)
         {
             NH.ISession session = CurrentSessionContext.Unbind(this.sessionFactory);
-            session.Dispose();
+            if (session != null) session.Dispose();
         }
     }
 }

@@ -49,6 +49,11 @@ namespace PersistentLayer.NHibernate
             get { return this.name; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -60,11 +65,19 @@ namespace PersistentLayer.NHibernate
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return this.Name.GetHashCode() - this.Index;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("Index: {0}, Name: {1}", this.Index, this.Name);

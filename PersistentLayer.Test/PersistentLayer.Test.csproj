@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="CurrentTester.cs" />
     <Compile Include="DAL\DomainDAOTest.cs" />
+    <Compile Include="DAL\ExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -110,12 +111,9 @@
     <Content Include="EntityModel.license.txt" />
     <Content Include="EntityModel.readme.html" />
     <Content Include="Release_notes.txt" />
-    <None Include="db\SalesArea.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="db\SalesArea.mdf" />
     <None Include="db\SalesArea_log.ldf">
       <DependentUpon>SalesArea.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="MappingsXml\Agency.hbm.xml" />
     <Content Include="MappingsXml\ClsToImport.hbm.xml" />

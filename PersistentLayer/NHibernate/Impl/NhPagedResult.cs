@@ -150,10 +150,13 @@ namespace PersistentLayer.NHibernate.Impl
             {
 
                 IFutureValue<int> counter = CriteriaTransformer.TransformToRowCount(criteria)
-                                                                .FutureValue<int>();
+                                                               .FutureValue<int>();
 
-                IEnumerable futureInstances = FutureQueryResolver.ToFuture(criteria);
-                //IEnumerable futureInstances = FutureQueryResolver.ToFuture<ReturnType>(criteria, "NameMethod");
+                IEnumerable futureInstances = FutureQueryResolver.ToFuture
+                                                                    (
+                                                                        criteria.SetFirstResult(startIndex)
+                                                                        .SetMaxResults(pageSize)
+                                                                    );
 
                 this.StartIndex = startIndex;
                 this.Size = pageSize;

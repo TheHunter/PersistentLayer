@@ -954,7 +954,7 @@ namespace PersistentLayer.NHibernate.Impl
             var classmap = session.SessionFactory.GetClassMetadata(typeof(TEntity));
             if (classmap != null)
                 return classmap.IdentifierPropertyName;
-
+            
             throw new TypeLoadException(string.Format("there's no persitent class with the current object type, class name: {0}", typeof(TEntity).Name));
         }
 
