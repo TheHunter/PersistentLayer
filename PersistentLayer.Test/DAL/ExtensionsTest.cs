@@ -36,5 +36,7 @@ namespace PersistentLayer.Test.DAL
             var info = CurrentPagedDAO.GetPeristentClassInfo(typeof(StringBuilder));
             Assert.IsNull(info);
         }
+
+
     }
 }
