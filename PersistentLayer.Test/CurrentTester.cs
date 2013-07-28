@@ -19,7 +19,7 @@ namespace PersistentLayer.Test
         static ISessionFactory sessionFactory;
         NhConfigurationBuilder builder;
         INhPagedDAO currentPagedDAO;
-        ISessionProvider sessionProvider;
+        ISessionManager sessionProvider;
         string rootPathProject;
         ISession currentSession;
 
@@ -34,7 +34,7 @@ namespace PersistentLayer.Test
         /// <summary>
         /// 
         /// </summary>
-        public ISessionProvider SessionProvider
+        public ISessionManager SessionProvider
         {
             get { return this.sessionProvider; }
         }
@@ -58,8 +58,6 @@ namespace PersistentLayer.Test
             sessionProvider = new SessionManager(sessionFactory);
             currentPagedDAO = new EnterprisePagedDAO(sessionProvider);
             currentSession = sessionFactory.OpenSession();
-
-            //CurrentSessionContext.Bind(currentSession);
         }
 
         [TestFixtureTearDown]
@@ -98,13 +96,13 @@ namespace PersistentLayer.Test
         }
 
         [SetUp]
-        public void BindSession()
+        public virtual void BindSession()
         {
             CurrentSessionContext.Bind(currentSession);
         }
 
         [TearDown]
-        public void UnBindSession()
+        public virtual void UnBindSession()
         {
             CurrentSessionContext.Unbind(sessionFactory);
         }

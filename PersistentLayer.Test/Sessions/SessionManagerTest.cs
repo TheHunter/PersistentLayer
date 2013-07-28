@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using NHibernate;
+using NHibernate.Context;
 using NUnit.Framework;
 using PersistentLayer.Domain;
 using PersistentLayer.Exceptions;
@@ -24,38 +25,38 @@ namespace PersistentLayer.Test.Sessions
         [Test]
         public void TestRightExecution1()
         {
-            // this test calls other methods, in order for verify inner transactions..
-            try
-            {
-                this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+            this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                this.Module1(1);
-                this.Module2(1);
-                this.Module3(1);
+            this.Module1(1);
+            this.Module2(1);
+            this.Module3(1);
 
-                this.SessionProvider.CommitTransaction();
-            }
-            catch (BusinessObjectException)
-            {
+            this.SessionProvider.CommitTransaction();
 
-            }
-            catch (BusinessLayerException)
-            {
+            Assert.IsFalse(this.SessionProvider.InProgress);
+        }
 
-            }
-            catch (Exception)
-            {
-                
-            }
-            Assert.IsTrue(true);
+        [Test]
+        public void TestRightExecution2()
+        {
+            this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+
+            this.ModuleX<Salesman, long?>(1);
+            this.ModuleX<TradeContract, long?>(1);
+            this.ModuleX<Agency, long?>(1);
+
+            this.SessionProvider.CommitTransaction();
+
+            Assert.IsFalse(this.SessionProvider.InProgress);
         }
 
         [Test]
         public void TestWrongExecution1()
         {
+            Assert.IsFalse(this.SessionProvider.InProgress);
             try
             {
-                this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+                this.SessionProvider.BeginTransaction("BeginRequest", IsolationLevel.ReadCommitted);
 
                 this.Module1(1);
                 this.Module2(-1);
@@ -63,13 +64,36 @@ namespace PersistentLayer.Test.Sessions
 
                 this.SessionProvider.CommitTransaction();
             }
-            catch (BusinessObjectException)
+            catch (InnerRollBackException)
             {
                 Assert.IsTrue(true);
             }
-            catch (BusinessLayerException)
+            catch (Exception)
             {
                 Assert.IsTrue(false);
+            }
+            Assert.IsFalse(this.SessionProvider.InProgress);
+        }
+
+        [Test]
+        public void TestWrongExecution2()
+        {
+            Assert.IsFalse(this.SessionProvider.InProgress);
+            try
+            {
+                this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                this.Module1(1);
+                this.Module2(1);
+                this.Module3(-1);
+
+                this.SessionProvider.CommitTransaction();
+            }
+            catch (BusinessLayerException)
+            {
+                Assert.IsTrue(true);
+                Assert.IsFalse(this.SessionProvider.InProgress);
+                this.DiscardCurrentSession();
             }
             catch (Exception)
             {
@@ -77,31 +101,59 @@ namespace PersistentLayer.Test.Sessions
             }
         }
 
-
         [Test]
-        public void TestWrongExecution2()
+        public void TestWrongExecution3()
         {
+            Assert.IsFalse(this.SessionProvider.InProgress);
+
             try
             {
                 this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-
-                this.Module1(1);
-                this.Module2(1);
-                this.Module3WithRollBack(-1);
-
+                this.ModuleX<Salesman, long?>(-1);
+                this.ModuleX<TradeContract, long?>(1);
+                this.ModuleX<Agency, long?>(1);
                 this.SessionProvider.CommitTransaction();
             }
-            catch (BusinessObjectException)
-            {
-                Assert.IsTrue(false);
-            }
-            catch (BusinessLayerException)
+            catch (InnerRollBackException)
             {
                 Assert.IsTrue(true);
+                Assert.IsFalse(this.SessionProvider.InProgress);
+            }
+        }
+
+        [Test]
+        public void TestWrongExecution4()
+        {
+            Assert.IsFalse(this.SessionProvider.InProgress);
+
+            try
+            {
+                this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
+                this.ModuleXX<Salesman, long?>(1);
+                this.ModuleXX<TradeContract, long?>(-1);
+                this.ModuleXX<Agency, long?>(1);
+                this.SessionProvider.CommitTransaction();
+            }
+            catch (InnerRollBackException)
+            {
+                Assert.IsTrue(true);
+                Assert.IsFalse(this.SessionProvider.InProgress);
             }
             catch (Exception)
             {
-                Assert.IsTrue(false);
+                // if the root transaction is active, so you have to make a rollback,
+                // but in this case, invoking the rollback method, It could be throw an InnerRollBackException.
+                if (this.SessionProvider.InProgress)
+                {
+                    try
+                    {
+                        this.SessionProvider.RollbackTransaction();
+                    }
+                    catch (Exception)
+                    {
+                        // in this case, you can ignore this exception.
+                    }
+                }
             }
         }
 
@@ -112,19 +164,13 @@ namespace PersistentLayer.Test.Sessions
         {
             try
             {
-                this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-
+                this.SessionProvider.BeginTransaction("Module1", IsolationLevel.ReadCommitted);
                 Salesman current = this.CurrentPagedDAO.FindBy<Salesman, long?>(id);
-
                 this.SessionProvider.CommitTransaction();
-            }
-            catch (BusinessObjectException ex)
-            {
-                throw new BusinessObjectException("Error in Module1", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("Unknown error on Module1", ex);
+                this.SessionProvider.RollbackTransaction(ex);
             }
         }
 
@@ -135,19 +181,13 @@ namespace PersistentLayer.Test.Sessions
         {
             try
             {
-                this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-
+                this.SessionProvider.BeginTransaction("Module2", IsolationLevel.ReadCommitted);
                 TradeContract current = this.CurrentPagedDAO.FindBy<TradeContract, long?>(id);
-
                 this.SessionProvider.CommitTransaction();
-            }
-            catch (BusinessObjectException ex)
-            {
-                throw new BusinessObjectException("Error in Module2", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("Unknown error on Module2", ex);
+                this.SessionProvider.RollbackTransaction(ex);
             }
         }
 
@@ -158,43 +198,57 @@ namespace PersistentLayer.Test.Sessions
         {
             try
             {
-                this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-
+                this.SessionProvider.BeginTransaction("Module3", IsolationLevel.ReadCommitted);
                 Agency current = this.CurrentPagedDAO.FindBy<Agency, long?>(id);
-
                 this.SessionProvider.CommitTransaction();
-            }
-            catch (BusinessObjectException ex)
-            {
-                throw new BusinessObjectException("Error in Module3", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("Unknown error on Module3", ex);
+                this.SessionProvider.RollbackTransaction(ex);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        internal void Module3WithRollBack(long? id)
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="id"></param>
+        internal void ModuleX<TSource, TKey>(TKey id)
+            where TSource : class
         {
+            var provider = this.CurrentPagedDAO.GetTransactionProvider();
             try
             {
-                this.SessionProvider.BeginTransaction(IsolationLevel.ReadCommitted);
-
-                Agency current = this.CurrentPagedDAO.FindBy<Agency, long?>(id);
-
-                this.SessionProvider.CommitTransaction();
-            }
-            catch (BusinessObjectException)
-            {
-                //throw new BusinessObjectException("Error in Module3", ex);
-                this.SessionProvider.RollbackTransaction();
+                provider.BeginTransaction("ModuleX", IsolationLevel.ReadCommitted);
+                this.CurrentPagedDAO.FindBy<TSource, TKey>(id);
+                provider.CommitTransaction();
             }
             catch (Exception ex)
             {
-                throw new Exception("Unknown error on Module3", ex);
+                provider.RollbackTransaction(ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="id"></param>
+        internal void ModuleXX<TSource, TKey>(TKey id)
+            where TSource : class
+        {
+            var provider = this.CurrentPagedDAO.GetTransactionProvider();
+            try
+            {
+                provider.BeginTransaction("ModuleX", IsolationLevel.ReadCommitted);
+                this.CurrentPagedDAO.FindBy<TSource, TKey>(id);
+                provider.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An exception has occurred.", ex);
             }
         }
     }

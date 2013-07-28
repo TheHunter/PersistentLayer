@@ -1,21 +1,21 @@
 ﻿using System;
+using PersistentLayer.NHibernate;
 
 namespace PersistentLayer.Exceptions
 {
     /// <summary>
-    /// 
+    /// Indicates an error has occurred when an inner transaction has invoked a rollback method.
     /// </summary>
     public class InnerRollBackException
-        : BusinessLayerException
+        : ContextRollbackException
     {
-        private int indexTransaction = 0;
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="message"></param>
-        public InnerRollBackException(string message)
-            : base(message)
+        /// <param name="transactionInfo"></param>
+        public InnerRollBackException(string message, ITransactionInfo transactionInfo)
+            : base(message, transactionInfo)
         {
         }
 
@@ -23,20 +23,21 @@ namespace PersistentLayer.Exceptions
         /// 
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="invokerName"></param>
-        public InnerRollBackException(string message, string invokerName)
-            : base(message, invokerName)
+        /// <param name="cause"></param>
+        /// <param name="transactionInfo"></param>
+        public InnerRollBackException(string message, Exception cause, ITransactionInfo transactionInfo)
+            : base(message, cause, transactionInfo)
         {
         }
-
-
+        
         /// <summary>
         /// 
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="transactionInfo"></param>
         /// <param name="innerException"></param>
-        public InnerRollBackException(string message, Exception innerException)
-            :base(message, innerException)
+        public InnerRollBackException(string message, ITransactionInfo transactionInfo, Exception innerException)
+            : base(message, transactionInfo, innerException)
         {
         }
 
@@ -44,20 +45,13 @@ namespace PersistentLayer.Exceptions
         /// 
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="invokerName"></param>
+        /// <param name="cause"></param>
+        /// <param name="transactionInfo"></param>
         /// <param name="innerException"></param>
-        public InnerRollBackException(string message, string invokerName, Exception innerException)
-            : base(message, invokerName, innerException)
+        public InnerRollBackException(string message, Exception cause, ITransactionInfo transactionInfo, Exception innerException)
+            : base(message, cause, transactionInfo, innerException)
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int IndexTransaction
-        {
-            internal protected set { this.indexTransaction = value; }
-            get { return this.indexTransaction; }
-        }
     }
 }

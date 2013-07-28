@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="PersistentLayer.Exceptions.InnerRollBackException" Collapsed="true">
-    <Position X="1.75" Y="17.25" Width="1.5" />
+    <Position X="1.25" Y="18.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\InnerRollBackException.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -15,14 +15,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.ExecutionQueryException" Collapsed="true">
-    <Position X="4.25" Y="20.25" Width="1.5" />
+    <Position X="5.75" Y="22.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\ExecutionQueryException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.QueryArgumentException" Collapsed="true">
-    <Position X="4.25" Y="21.5" Width="1.5" />
+    <Position X="5.75" Y="23.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\QueryArgumentException.cs</FileName>
@@ -37,35 +37,35 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="PersistentLayer.Exceptions.RollbackFailedException" Collapsed="true">
-    <Position X="8.5" Y="17.25" Width="1.5" />
+    <Position X="3.25" Y="18.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\RollbackFailedException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.CommitFailedException" Collapsed="true">
-    <Position X="13" Y="17.25" Width="1.5" />
+    <Position X="12.5" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\CommitFailedException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.QueryFormatException" Collapsed="true">
-    <Position X="2" Y="21.5" Width="1.5" />
+    <Position X="3.5" Y="23.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\QueryFormatException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.BusinessPersistentException" Collapsed="true">
-    <Position X="6.5" Y="21.5" Width="1.5" />
+    <Position X="8" Y="23.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\BusinessPersistentException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.BusinessObjectException" Collapsed="true">
-    <Position X="4.25" Y="19" Width="1.5" />
+    <Position X="5.75" Y="21" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\BusinessObjectException.cs</FileName>
@@ -90,7 +90,7 @@
   <Class Name="PersistentLayer.NHibernate.Impl.NhQueryExtensions">
     <Position X="14.25" Y="8.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEIAkgAAgAAEAQEEAABIAAAQAIAIEAIAAJAAI=</HashCode>
+      <HashCode>AAAAAIAEIAkgAAgAAEAQEEAABIAAAQAIAIEAIAAJAAI=</HashCode>
       <FileName>NHibernate\Impl\NhQueryExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -151,7 +151,7 @@
   <Class Name="PersistentLayer.NHibernate.SessionBinderLayer&lt;TBinder&gt;">
     <Position X="35" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACQAAAAAAAAAAAAAAAAAAAAAAAIAQAAAIQgAAAIBA=</HashCode>
+      <HashCode>AAACQAAAAAAAAAAAAAAAAAAAAAAAIAQAAAIQgAAAABA=</HashCode>
       <FileName>NHibernate\SessionBinderLayer.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -167,28 +167,28 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.NHibernate.SessionNotAvailableException" Collapsed="true">
-    <Position X="4.25" Y="17.25" Width="1.5" />
+    <Position X="4.75" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NHibernate\SessionNotAvailableException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.NHibernate.SessionNotBindedException" Collapsed="true">
-    <Position X="10.75" Y="17.25" Width="1.5" />
+    <Position X="10" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NHibernate\SessionNotBindedException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.NHibernate.SessionNotOpenedException" Collapsed="true">
-    <Position X="6.25" Y="17.25" Width="1.5" />
+    <Position X="7" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NHibernate\SessionNotOpenedException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.NHibernate.InvalidSessionException" Collapsed="true">
-    <Position X="15.25" Y="17.25" Width="1.5" />
+    <Position X="15" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NHibernate\InvalidSessionException.cs</FileName>
@@ -243,6 +243,21 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAIAAEhCAAAAAABQAAAIAAAAAAAAAAAgg=</HashCode>
       <FileName>NHibernate\FutureQueryResolver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.NHibernate.TransactionInfo">
+    <Position X="37.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAAQAAAAEAIAAAAEAAAABAAA=</HashCode>
+      <FileName>NHibernate\TransactionInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.ContextRollbackException" Collapsed="true">
+    <Position X="2.25" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAEAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ContextRollbackException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="PersistentLayer.NHibernate.IDomainDAO" Collapsed="true">

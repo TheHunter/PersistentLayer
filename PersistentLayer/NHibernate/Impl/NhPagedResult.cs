@@ -41,7 +41,9 @@ namespace PersistentLayer.NHibernate.Impl
 
             try
             {
-                IFutureValue<int> counter = CriteriaTransformer.TransformToRowCount(criteria).FutureValue<int>();
+                IFutureValue<int> counter = CriteriaTransformer.TransformToRowCount(criteria)
+                                                                .FutureValue<int>();
+
                 IEnumerable<TEntity> futureInstances = criteria.SetFirstResult(startIndex)
                                                         .SetMaxResults(pageSize)
                                                         .Future<TEntity>();

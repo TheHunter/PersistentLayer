@@ -476,7 +476,7 @@ namespace PersistentLayer.NHibernate.Impl
         /// <param name="classType"></param>
         /// <exception cref="BusinessLayerException"></exception>
         /// <returns></returns>
-        public static IPersistentClassInfo GetPeristentClassInfo
+        public static IPersistentClassInfo GetPersistentClassInfo
             (this ISessionContext sourceDAO, Type classType)
         {
             ISession session = sourceDAO.SessionInfo.CurrentSession;

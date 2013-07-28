@@ -16,7 +16,7 @@ namespace PersistentLayer.NHibernate
     {
         private readonly Stack<ITransactionInfo> transactions;
         /// <summary>
-        /// This is the factory which creates new sessions, and It's able to reference the current binded session
+        /// This is the factory which creates sessions, and It's able to reference the current binded session
         /// made by CurrentSessionContext
         /// </summary>
         private readonly ISessionFactory sessionFactory;
@@ -36,12 +36,13 @@ namespace PersistentLayer.NHibernate
         /// 
         /// </summary>
         /// <param name="sessionFactory"></param>
+        /// <exception cref="BusinessLayerException"></exception>
         public SessionManager(ISessionFactory sessionFactory)
         {
             transactions = new Stack<ITransactionInfo>();
 
             if (sessionFactory == null)
-                throw new ArgumentNullException("sessionFactory", "the SessionFactory for SessionManager cannot be null.");
+                throw new BusinessLayerException("The SessionFactory for SessionManager cannot be null.", "ctor SessionManager");
 
             this.sessionFactory = sessionFactory;
         }
@@ -116,6 +117,7 @@ namespace PersistentLayer.NHibernate
         /// </summary>
         /// <param name="name"></param>
         /// <param name="level"></param>
+        /// <exception cref="BusinessLayerException"></exception>
         public void BeginTransaction(string name, IsolationLevel? level)
         {
             if (name == null || name.Trim().Equals(string.Empty))
@@ -200,7 +202,16 @@ namespace PersistentLayer.NHibernate
         /// <exception cref="InnerRollBackException">
         /// Throws an exception when an inner transaction makes a rollback.
         /// </exception>
-        public virtual void RollbackTransaction()
+        public void RollbackTransaction()
+        {
+            this.RollbackTransaction(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cause"></param>
+        public void RollbackTransaction(Exception cause)
         {
             if (transactions.Count > 0)
             {
@@ -215,7 +226,7 @@ namespace PersistentLayer.NHibernate
                     }
                     catch (Exception ex)
                     {
-                        throw new RollbackFailedException("Error on calling RollbackTransaction method", "RollbackTransaction", ex);
+                        throw new RollbackFailedException("Error on calling RollbackTransaction method", cause, info, ex);
                     }
 
                     // significa che la chiamata a questo metodo avviene da una Inner Transaction
@@ -223,7 +234,7 @@ namespace PersistentLayer.NHibernate
                     // da una sotto transazione.
                     if (transactions.Count > 0)
                     {
-                        throw new InnerRollBackException(string.Format("An inner rollback transaction (name: {0}) has occurred.", info.Name), "RollbackTransaction");
+                        throw new InnerRollBackException("An inner rollback transaction has occurred.", cause, info);
                     }
                 }
                 catch (SessionNotBindedException)
@@ -245,6 +256,5 @@ namespace PersistentLayer.NHibernate
                 }
             }
         }
-
     }
 }

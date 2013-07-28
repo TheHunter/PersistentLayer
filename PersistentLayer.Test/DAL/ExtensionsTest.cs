@@ -17,7 +17,7 @@ namespace PersistentLayer.Test.DAL
         [Category("Extensions")]
         public void GetMetadataInfo()
         {
-            var info = CurrentPagedDAO.GetPeristentClassInfo(typeof (Salesman));
+            var info = CurrentPagedDAO.GetPersistentClassInfo(typeof (Salesman));
             Assert.IsNotNull(info);
         }
 
@@ -26,14 +26,14 @@ namespace PersistentLayer.Test.DAL
         [ExpectedException(typeof(BusinessLayerException))]
         public void FailedGetMetadaInfo()
         {
-            CurrentPagedDAO.GetPeristentClassInfo(null);
+            CurrentPagedDAO.GetPersistentClassInfo(null);
         }
 
         [Test]
         [Category("Extensions")]
         public void GetNullMetadataInfo()
         {
-            var info = CurrentPagedDAO.GetPeristentClassInfo(typeof(StringBuilder));
+            var info = CurrentPagedDAO.GetPersistentClassInfo(typeof(StringBuilder));
             Assert.IsNull(info);
         }
 

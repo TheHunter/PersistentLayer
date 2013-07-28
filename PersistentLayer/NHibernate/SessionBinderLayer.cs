@@ -99,40 +99,5 @@ namespace PersistentLayer.NHibernate
             return this.unBindAction(this.SessionFactory);
         }
 
-        /// <summary>
-        /// Makes a rollback the current transaction.
-        /// </summary>
-        /// <remarks>
-        /// When a inner transaction rollbacks, It will be thrown a InnerRollBackException.
-        /// After making rollback the transaction, the current session will be closed, then the current provider opens a new session in order to bind it into current context.
-        /// </remarks>
-        public override void RollbackTransaction()
-        {
-            try
-            {
-                base.RollbackTransaction();
-            }
-            finally
-            {
-                #region
-                // indipendente dalla modalità di uscita dell'istruzione del blocco try
-                // occorre eseguire questo blocco di istruzioni.
-                // Possibili eccezioni:
-                // - InnerRollBackException     // avvenuto un RollBack in una Inner transaction.
-                // - RollbackFailedException    // chiamata al RollBack fallisce.
-                #endregion
-
-                if (this.HasSessionBinded())
-                {
-                    ISession lastSession = this.UnbindSession();
-                    this.BindSession(this.OpenSession(), lastSession.FlushMode);
-
-                    if (lastSession.IsOpen)
-                    {
-                        lastSession.Close();
-                    }
-                }
-            }
-        }
     }
 }

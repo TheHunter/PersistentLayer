@@ -1,4 +1,5 @@
 ﻿using System;
+using PersistentLayer.NHibernate;
 
 namespace PersistentLayer.Exceptions
 {
@@ -6,14 +7,15 @@ namespace PersistentLayer.Exceptions
     /// 
     /// </summary>
     public class RollbackFailedException
-        : BusinessLayerException
+        : ContextRollbackException
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="message"></param>
-        public RollbackFailedException(string message)
-            : base(message)
+        /// <param name="transactionInfo"></param>
+        public RollbackFailedException(string message, ITransactionInfo transactionInfo)
+            : base(message, transactionInfo)
         {
         }
 
@@ -21,9 +23,21 @@ namespace PersistentLayer.Exceptions
         /// 
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="invokerName"></param>
-        public RollbackFailedException(string message, string invokerName)
-            : base(message, invokerName)
+        /// <param name="cause"></param>
+        /// <param name="transactionInfo"></param>
+        public RollbackFailedException(string message, Exception cause, ITransactionInfo transactionInfo)
+            : base(message, cause, transactionInfo)
+        {
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="transactionInfo"></param>
+        /// <param name="innerException"></param>
+        public RollbackFailedException(string message, ITransactionInfo transactionInfo, Exception innerException)
+            : base(message, transactionInfo, innerException)
         {
         }
 
@@ -31,20 +45,11 @@ namespace PersistentLayer.Exceptions
         /// 
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="exception"></param>
-        public RollbackFailedException(string message, Exception exception)
-            : base(message, exception)
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="invokerName"></param>
-        /// <param name="exception"></param>
-        public RollbackFailedException(string message, string invokerName, Exception exception)
-            : base(message, invokerName ,exception)
+        /// <param name="cause"></param>
+        /// <param name="transactionInfo"></param>
+        /// <param name="innerException"></param>
+        public RollbackFailedException(string message, Exception cause, ITransactionInfo transactionInfo, Exception innerException)
+            : base(message, cause, transactionInfo, innerException)
         {
         }
     }

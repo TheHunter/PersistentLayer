@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ContextRollbackException.cs" />
     <Compile Include="IPagedDAO.cs" />
     <Compile Include="IPersisterDAO.cs" />
     <Compile Include="IQueryableDAO.cs" />

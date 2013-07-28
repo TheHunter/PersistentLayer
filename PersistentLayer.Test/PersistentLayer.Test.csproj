@@ -102,7 +102,7 @@
       <Name>PersistentLayer.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\PersistentLayer\PersistentLayer.csproj">
-      <Project>{44A565D4-921A-4BE0-A412-522404AFBA09}</Project>
+      <Project>{44a565d4-921a-4be0-a412-522404afba09}</Project>
       <Name>PersistentLayer</Name>
     </ProjectReference>
   </ItemGroup>

@@ -69,6 +69,9 @@
     <Compile Include="..\PersistentLayer\Exceptions\CommitFailedException.cs">
       <Link>Exceptions\CommitFailedException.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\ContextRollbackException.cs">
+      <Link>Exceptions\ContextRollbackException.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\Exceptions\ExecutionQueryException.cs">
       <Link>Exceptions\ExecutionQueryException.cs</Link>
     </Compile>

@@ -58,10 +58,10 @@ namespace PersistentLayer.NHibernate
     /// </summary>
     public class FutureFunction
     {
-        private static readonly MethodInfo CollectionMethod;
-        private static readonly Type DefaultFunction;
         private static readonly Type CriteriaType;
-
+        private static readonly Type DefaultFunction;
+        private static readonly MethodInfo CollectionMethod;
+        
         private readonly MethodInfo futureMethod;
         private readonly Type collectionType;
         private readonly Func<ICriteria, IEnumerable> futureExecutor;
@@ -72,9 +72,8 @@ namespace PersistentLayer.NHibernate
         static FutureFunction()
         {
             CriteriaType = typeof(ICriteria);
-            CollectionMethod = CriteriaType.GetMethod("Future");
-
             DefaultFunction = typeof(Func<ICriteria, IEnumerable>);
+            CollectionMethod = CriteriaType.GetMethod("Future");
         }
 
         /// <summary>
@@ -90,7 +89,6 @@ namespace PersistentLayer.NHibernate
             futureExecutor =
                 Expression.Lambda<Func<ICriteria, IEnumerable>>(Expression.Call(parameter, futureMethod), parameter)
                           .Compile();
-
         }
 
         /// <summary>
