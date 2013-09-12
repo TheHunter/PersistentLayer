@@ -498,8 +498,9 @@ namespace PersistentLayer.NHibernate.Impl
         /// <returns></returns>
         private static long RowCount(ICriteria criteria)
         {
-            return criteria.SetProjection(Projections.RowCountInt64())
-                            .UniqueResult<long>();
+            return CriteriaTransformer.Clone(criteria)
+                                      .SetProjection(Projections.RowCountInt64())
+                                      .UniqueResult<long>();
         }
 
         /// <summary>

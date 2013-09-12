@@ -552,25 +552,45 @@ namespace PersistentLayer.Test.DAL
         public void GetIndexPagedResultTest7()
         {
             var criteria = DetachedCriteria.For<Salesman>();
-
+            
             long rowCount = CurrentPagedDAO.RowCount(criteria);
             int pageSize = 5;
 
             long rest = rowCount % pageSize;
             long numPages = (rowCount / pageSize) + (rest > 0 ? 1 : 0);
             
-            //Assert.IsTrue(numPages > 0);
-            //var ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(Convert.ToInt32(numPages - 1), Convert.ToInt32(pageSize), criteria)
-            //                            .GetResult();
+            var ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(Convert.ToInt32(numPages - 1), Convert.ToInt32(pageSize), criteria)
+                                        .GetResult().Count();
+            Assert.IsTrue(ris == rest);
 
-            //var ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(4, 5, criteria)
-            //                            .GetResult();
+            for (int index = 0; index < numPages - 1; index++)
+            {
+                ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(index, pageSize, criteria).GetResult().Count();
+                Assert.IsTrue(ris == pageSize, "wrong element at index {0}", index);
+            }
+        }
 
-            var ris = CurrentPagedDAO.GetPagedResult<Salesman>(20, 5, criteria).GetResult();
+        [Test]
+        [Category("QueryExecutions")]
+        public void GetIndexPagedResultTest8()
+        {
+            var criteria = QueryOver.Of<Salesman>();
 
-            //Assert.IsTrue(ris == rest);
-            Assert.IsNotNull(ris);
+            long rowCount = CurrentPagedDAO.RowCount(criteria);
+            int pageSize = 5;
 
+            long rest = rowCount % pageSize;
+            long numPages = (rowCount / pageSize) + (rest > 0 ? 1 : 0);
+
+            var ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(Convert.ToInt32(numPages - 1), Convert.ToInt32(pageSize), criteria)
+                                        .GetResult().Count();
+            Assert.IsTrue(ris == rest);
+
+            for (int index = 0; index < numPages - 1; index++)
+            {
+                ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(index, pageSize, criteria).GetResult().Count();
+                Assert.IsTrue(ris == pageSize, "wrong element at index {0}", index);
+            }
         }
 
         [Test]
