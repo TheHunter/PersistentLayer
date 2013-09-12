@@ -23,6 +23,11 @@ namespace PersistentLayer.Test
         string rootPathProject;
         ISession currentSession;
 
+        protected ISession CurrentSession
+        {
+            get { return this.currentSession; }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -96,13 +101,13 @@ namespace PersistentLayer.Test
         }
 
         [SetUp]
-        public virtual void BindSession()
+        public void BindSession()
         {
             CurrentSessionContext.Bind(currentSession);
         }
 
         [TearDown]
-        public virtual void UnBindSession()
+        public void UnBindSession()
         {
             CurrentSessionContext.Unbind(sessionFactory);
         }

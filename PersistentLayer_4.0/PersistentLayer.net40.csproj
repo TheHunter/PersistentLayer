@@ -78,6 +78,9 @@
     <Compile Include="..\PersistentLayer\Exceptions\InnerRollBackException.cs">
       <Link>Exceptions\InnerRollBackException.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\Exceptions\MissingPropertyException.cs">
+      <Link>Exceptions\MissingPropertyException.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\Exceptions\QueryArgumentException.cs">
       <Link>Exceptions\QueryArgumentException.cs</Link>
     </Compile>

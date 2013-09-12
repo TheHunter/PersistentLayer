@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using NHibernate;
 using NUnit.Framework;
 using PersistentLayer.Domain;
 using PersistentLayer.Exceptions;
@@ -12,7 +14,6 @@ namespace PersistentLayer.Test.DAL
     public class ExtensionsTest
         : CurrentTester
     {
-
         [Test]
         [Category("Extensions")]
         public void GetMetadataInfo()
@@ -38,5 +39,109 @@ namespace PersistentLayer.Test.DAL
         }
 
 
+        [Test]
+        [Category("Metadata")]
+        public void MetadataSetterProperty()
+        {
+            this.DiscardCurrentSession();
+
+            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
+
+            Assert.IsFalse(CurrentPagedDAO.SessionWithChanges());
+            metadata.SetPropertyValue(instance, "Email", "My_Email_test", EntityMode.Poco);
+            Assert.IsTrue(CurrentPagedDAO.SessionWithChanges());
+        }
+
+        [Test]
+        [Category("Metadata")]
+        public void TestUpdatingWithReflection()
+        {
+            CurrentPagedDAO.Evict();
+
+            Salesman salNoUpdated = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            Type type = typeof(Salesman);
+            PropertyInfo info = type.GetProperty("Email");
+
+            Assert.IsFalse(CurrentPagedDAO.SessionWithChanges());
+            info.SetValue(salNoUpdated, "my_email_test", null);
+            Assert.IsTrue(CurrentPagedDAO.SessionWithChanges());
+
+        }
+
+        [Test]
+        [Category("Metadata")]
+        [ExpectedException(typeof(MissingPropertyException))]
+        public void FailedMetadataSetterProperty1()
+        {
+            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof (Salesman));
+            metadata.SetPropertyValue(instance, "Emails", "My_Email_test", EntityMode.Poco);
+        }
+
+        [Test]
+        [Category("Metadata")]
+        [ExpectedException(typeof(MissingPropertyException))]
+        public void FailedMetadataSetterProperty2()
+        {
+            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
+            metadata.SetPropertyValue(instance, "", "My_Email_test", EntityMode.Poco);
+        }
+
+        [Test]
+        [Category("Metadata")]
+        [ExpectedException(typeof(MissingPropertyException))]
+        public void FailedMetadataSetterProperty3()
+        {
+            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
+            metadata.SetPropertyValue(instance, null, "My_Email_test", EntityMode.Poco);
+        }
+
+        [Test]
+        [Category("Metadata")]
+        [ExpectedException(typeof(BusinessObjectException))]
+        public void FailedMetadataSetterProperty4()
+        {
+            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
+            metadata.SetPropertyValue(null, null, "My_Email_test", EntityMode.Poco);
+        }
+
+        [Test]
+        [Category("Metadata")]
+        public void MetadataSetterProperties1()
+        {
+            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
+
+            var dic = new Dictionary<string, object>();
+            dic.Add("Email", "My_Email_test");
+
+            Assert.IsFalse(CurrentPagedDAO.SessionWithChanges());
+            metadata.SetPropertyValues(instance, dic, EntityMode.Poco);
+            Assert.IsTrue(CurrentPagedDAO.SessionWithChanges());
+        }
+
+        [Test]
+        [Category("Metadata")]
+        [ExpectedException(typeof(BusinessObjectException))]
+        public void FailedMetadataSetterProperties1()
+        {
+            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
+            metadata.SetPropertyValues(instance, null, EntityMode.Poco);
+        }
+
+        [Test]
+        [Category("Metadata")]
+        [ExpectedException(typeof(BusinessObjectException))]
+        public void FailedMetadataSetterProperties2()
+        {
+            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
+            metadata.SetPropertyValues(null, new Dictionary<string, object>(), EntityMode.Poco);
+        }
     }
 }

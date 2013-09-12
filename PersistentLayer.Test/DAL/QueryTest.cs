@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using NHibernate;
 using System.IO;
 using System.Xml;
@@ -447,7 +448,30 @@ namespace PersistentLayer.Test.DAL
                     ";
             result = CurrentPagedDAO.MakeHQLQuery(hql).List();
             Assert.IsTrue(result.Count > 0);
-
         }
+
+        [Test]
+        [Category("HQL_Updating")]
+        [Description("This test demostrates how can be done an UPDATE statment.")]
+        public void TestUpdating()
+        {
+            Salesman salNoUpdated = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            CurrentPagedDAO.Evict(salNoUpdated);
+
+            Assert.IsFalse(CurrentPagedDAO.IsCached(salNoUpdated));
+
+            string hql = @"update Salesman sal set sal.Email=:email, sal.Version = sal.Version + 1 where sal.ID=:id";
+            IQuery query = CurrentPagedDAO.MakeHQLQuery(hql)
+                            .SetParameter("email", "my_new_email_2")
+                            .SetParameter("id", 11L);
+
+            var result = query.ExecuteUpdate();
+            Assert.IsTrue(result > 0);
+
+            Salesman salUpdated = CurrentPagedDAO.FindBy<Salesman, long?>(11);
+            Assert.AreEqual((salNoUpdated.Version + 1), salUpdated.Version);
+        }
+
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EntityModel;
 using Iesi.Collections.Generic;
 
@@ -11,9 +12,9 @@ namespace PersistentLayer.Domain
         private string surname;
         private string email;
         private int? identityCode;
-        private ISet<Salesman> agents;
-        private ISet<Agency> agencies;
-        private ISet<TradeContract> contracts;
+        private ICollection<Salesman> agents;
+        private ICollection<Agency> agencies;
+        private ICollection<TradeContract> contracts;
 
         public Salesman() { }
 
@@ -48,19 +49,19 @@ namespace PersistentLayer.Domain
             set { this.identityCode = value; }
         }
 
-        public virtual ISet<Salesman> Agents
+        public virtual ICollection<Salesman> Agents
         {
             get { return agents; }
             protected set { agents = value; }
         }
 
-        public virtual ISet<Agency> Agencies
+        public virtual ICollection<Agency> Agencies
         {
             get { return agencies; }
             protected set { agencies = value; }
         }
 
-        public virtual ISet<TradeContract> Contracts
+        public virtual ICollection<TradeContract> Contracts
         {
             get { return contracts; }
             protected set { this.contracts = value; }
@@ -68,8 +69,11 @@ namespace PersistentLayer.Domain
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj is Salesman)
+            if (obj == null) return false;
+
+            if (obj is Salesman)
                 return this.GetHashCode() == obj.GetHashCode();
+
             return false;
         }
 

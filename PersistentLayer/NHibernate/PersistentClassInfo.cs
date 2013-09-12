@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NHibernate;
 using NHibernate.Metadata;
 using NHibernate.Type;
 using PersistentLayer.Exceptions;
@@ -40,7 +41,7 @@ namespace PersistentLayer.NHibernate
             }
             catch (Exception)
             {
-                //
+                //metadata.GetPropertyValuesToInsert()
             }
 
             metadata.PropertyNames.All
@@ -116,6 +117,74 @@ namespace PersistentLayer.NHibernate
         public IEnumerable<IPropertyInfo> Properties
         {
             get { return properties; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool ExistsProperty(string name)
+        {
+            if (name == null || name.Trim() == string.Empty)
+                return false;
+
+            return this.Properties.Any(n => n.Name == name);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        /// <param name="mode"></param>
+        /// <exception cref="BusinessObjectException"></exception>
+        /// <exception cref="MissingPropertyException"></exception>
+        public void SetPropertyValue(object instance, string propertyName, object value, EntityMode mode)
+        {
+            if (instance == null)
+                throw new BusinessObjectException("The instance to set property value cannot be null.");
+
+            this.SetProperty(instance, propertyName, value, mode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="values"></param>
+        /// <param name="mode"></param>
+        /// <exception cref="BusinessObjectException"></exception>
+        /// <exception cref="MissingPropertyException"></exception>
+        public void SetPropertyValues(object instance, IEnumerable<KeyValuePair<string, object>> values, EntityMode mode)
+        {
+            if (instance == null)
+                throw new BusinessObjectException("The instance to set property values cannot be null.");
+
+            if (values == null)
+                throw new BusinessObjectException("Collection with property values cannot be null.");
+
+            foreach (var value in values)
+            {
+                this.SetProperty(instance, value.Key, value.Value, mode);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        /// <param name="mode"></param>
+        /// <exception cref="MissingPropertyException"></exception>
+        private void SetProperty(object instance, string propertyName, object value, EntityMode mode)
+        {
+            if (!this.ExistsProperty(propertyName))
+                throw new MissingPropertyException("The property to set wasn't founded", propertyName);
+
+            this.metadata.SetPropertyValue(instance, propertyName, value, mode);
         }
     }
 }
