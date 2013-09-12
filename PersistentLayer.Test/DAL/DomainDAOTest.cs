@@ -547,6 +547,51 @@ namespace PersistentLayer.Test.DAL
             Assert.IsTrue(result.Counter > 0);
         }
 
+        [Test]
+        [Category("QueryExecutions")]
+        public void GetIndexPagedResultTest7()
+        {
+            var criteria = DetachedCriteria.For<Salesman>();
+
+            long rowCount = CurrentPagedDAO.RowCount(criteria);
+            int pageSize = 5;
+
+            long rest = rowCount % pageSize;
+            long numPages = (rowCount / pageSize) + (rest > 0 ? 1 : 0);
+            
+            //Assert.IsTrue(numPages > 0);
+            //var ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(Convert.ToInt32(numPages - 1), Convert.ToInt32(pageSize), criteria)
+            //                            .GetResult();
+
+            //var ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(4, 5, criteria)
+            //                            .GetResult();
+
+            var ris = CurrentPagedDAO.GetPagedResult<Salesman>(20, 5, criteria).GetResult();
+
+            //Assert.IsTrue(ris == rest);
+            Assert.IsNotNull(ris);
+
+        }
+
+        [Test]
+        [Category("QueryExecutions")]
+        public void GetRowCountTest1()
+        {
+            IEnumerable<Salesman> result = CurrentPagedDAO.FindAll<Salesman>();
+            long rowCount = CurrentPagedDAO.RowCount(DetachedCriteria.For<Salesman>());
+            Assert.IsTrue(result.Count() == rowCount);
+
+            DetachedCriteria criteria1 = DetachedCriteria.For<Salesman>().Add(Restrictions.Gt("ID", 1L));
+            result = CurrentPagedDAO.FindAll<Salesman>(criteria1);
+            rowCount = CurrentPagedDAO.RowCount(criteria1);
+            Assert.IsTrue(result.Count() == rowCount);
+
+            QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID > 10);
+            result = CurrentPagedDAO.FindAll<Salesman>(query);
+            rowCount = CurrentPagedDAO.RowCount(query);
+            Assert.IsTrue(result.Count() == rowCount);
+
+        }
 
         [Test]
         [Category("QueryExecutions")]

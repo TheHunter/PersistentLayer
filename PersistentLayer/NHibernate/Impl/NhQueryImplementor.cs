@@ -888,7 +888,7 @@ namespace PersistentLayer.NHibernate.Impl
             if (criteria == null)
                 throw new QueryArgumentException("The criteria instance to execute cannot be null.", "GetIndexPagedResult", "criteria");
 
-            return session.GetIndexPagedResult<TEntity>(pageIndex * pageSize, pageSize, criteria.GetExecutableCriteria(session));
+            return session.GetIndexPagedResult<TEntity>(pageIndex, pageSize, criteria.GetExecutableCriteria(session));
         }
 
         /// <summary>
@@ -907,7 +907,7 @@ namespace PersistentLayer.NHibernate.Impl
             if (query == null)
                 throw new QueryArgumentException("The QueryOver instance to execute cannot be null.", "GetIndexPagedResult", "query");
 
-            return session.GetIndexPagedResult<TEntity>(pageIndex * pageSize, pageSize, query.GetExecutableQueryOver(session).UnderlyingCriteria);
+            return session.GetIndexPagedResult<TEntity>(pageIndex, pageSize, query.GetExecutableQueryOver(session).UnderlyingCriteria);
         }
 
         /// <summary>

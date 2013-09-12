@@ -494,6 +494,63 @@ namespace PersistentLayer.NHibernate.Impl
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
+        private static long RowCount(ICriteria criteria)
+        {
+            return criteria.SetProjection(Projections.RowCountInt64())
+                            .UniqueResult<long>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDAO"></param>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
+        public static long RowCount
+            (this ISessionContext sourceDAO, DetachedCriteria criteria)
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+            if (criteria == null)
+                throw new QueryArgumentException("Criteria instance to execute cannot be null.", "RowCount", "criteria");
+            try
+            {
+                return RowCount(criteria.GetExecutableCriteria(session));
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing the given detached criteria.", "RowCount", ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="sourceDAO"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public static long RowCount<TEntity>
+            (this ISessionContext sourceDAO, QueryOver<TEntity> query)
+            where TEntity : class
+        {
+            ISession session = sourceDAO.SessionInfo.CurrentSession;
+            if (query == null)
+                throw new QueryArgumentException("Query instance to execute cannot be null.", "RowCount", "query");
+            try
+            {
+                return RowCount(query.GetExecutableQueryOver(session).UnderlyingCriteria);
+            }
+            catch (Exception ex)
+            {
+                throw new ExecutionQueryException("Error on executing the given query over.", "RowCount", ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="sourceDAO"></param>
