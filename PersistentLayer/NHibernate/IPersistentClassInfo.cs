@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,13 @@ namespace PersistentLayer.NHibernate
     /// </summary>
     public interface IPersistentClassInfo
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        Type GetMappedClass(EntityMode mode);
+
         /// <summary>
         /// 
         /// </summary>
@@ -53,6 +61,40 @@ namespace PersistentLayer.NHibernate
         /// <param name="name"></param>
         /// <returns></returns>
         bool ExistsProperty(string name);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        object GetIdentifier(object instance, EntityMode mode);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="id"></param>
+        /// <param name="mode"></param>
+        void SetIdentifier(object instance, object id, EntityMode mode);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        object GetPropertyValue(object instance, string propertyName, EntityMode mode);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyNames"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        object[] GetPropertyValues(object instance, string[] propertyNames, EntityMode mode);
 
         /// <summary>
         /// 

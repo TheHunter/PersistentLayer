@@ -13,6 +13,7 @@ namespace PersistentLayer.NHibernate.WCF
     /// <summary>
     /// Defines a base implementation for custom inspection or modification of inbound and outbound application messages in services applications.
     /// </summary>
+    [Obsolete("In alternative you can use the [ActionMessageInspector] class present into the open source library named WcfExtensions, for downloading it you can use nuget or visit here: https://github.com/TheHunter/WcfExtensions")]
     public class NhDispatchMessageInspector
         : IDispatchMessageInspector
     {

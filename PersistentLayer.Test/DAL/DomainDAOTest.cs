@@ -582,13 +582,13 @@ namespace PersistentLayer.Test.DAL
             long rest = rowCount % pageSize;
             long numPages = (rowCount / pageSize) + (rest > 0 ? 1 : 0);
 
-            var ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(Convert.ToInt32(numPages - 1), Convert.ToInt32(pageSize), criteria)
+            var ris = CurrentPagedDAO.GetIndexPagedResult(Convert.ToInt32(numPages - 1), Convert.ToInt32(pageSize), criteria)
                                         .GetResult().Count();
             Assert.IsTrue(ris == rest);
 
             for (int index = 0; index < numPages - 1; index++)
             {
-                ris = CurrentPagedDAO.GetIndexPagedResult<Salesman>(index, pageSize, criteria).GetResult().Count();
+                ris = CurrentPagedDAO.GetIndexPagedResult(index, pageSize, criteria).GetResult().Count();
                 Assert.IsTrue(ris == pageSize, "wrong element at index {0}", index);
             }
         }
@@ -607,7 +607,7 @@ namespace PersistentLayer.Test.DAL
             Assert.IsTrue(result.Count() == rowCount);
 
             QueryOver<Salesman> query = QueryOver.Of<Salesman>().Where(n => n.ID > 10);
-            result = CurrentPagedDAO.FindAll<Salesman>(query);
+            result = CurrentPagedDAO.FindAll(query);
             rowCount = CurrentPagedDAO.RowCount(query);
             Assert.IsTrue(result.Count() == rowCount);
 
@@ -843,5 +843,7 @@ namespace PersistentLayer.Test.DAL
             FutureFunction function = new FutureFunction(typeof(Salesman));
             Assert.IsTrue(function != null);            
         }
+
+        
     }
 }

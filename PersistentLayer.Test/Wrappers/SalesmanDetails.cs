@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using iesi = Iesi.Collections.Generic;
 using PersistentLayer.Domain;
 
 namespace PersistentLayer.Test.Wrappers
@@ -13,6 +12,6 @@ namespace PersistentLayer.Test.Wrappers
     public class SalesmanDetails
         : SalesmanPrj
     {
-        public iesi.ISet<TradeContract> OwnContracts { get; set; }
+        public ICollection<TradeContract> OwnContracts { get; set; }
     }
 }

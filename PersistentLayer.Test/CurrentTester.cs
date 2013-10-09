@@ -62,6 +62,7 @@ namespace PersistentLayer.Test
             
             sessionProvider = new SessionManager(sessionFactory);
             currentPagedDAO = new EnterprisePagedDAO(sessionProvider);
+            
             currentSession = sessionFactory.OpenSession();
         }
 

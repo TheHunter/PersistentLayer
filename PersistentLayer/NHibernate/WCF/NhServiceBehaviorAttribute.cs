@@ -15,6 +15,8 @@ namespace PersistentLayer.NHibernate.WCF
     /// <summary>
     /// Apply a new behavior into the calling service, adding a new IDispatchMessageInspector instance for binding / unbinding nhibernate sessions when an operation contract is called.
     /// </summary>
+    /// <remarks>ciao</remarks>
+    [Obsolete("In alternative you can use the [ActionServiceBehavior] class present into the open source library named WcfExtensions, for downloading it you can use nuget or visit here: https://github.com/TheHunter/WcfExtensions")]
     public class NhServiceBehaviorAttribute
          : Attribute, IServiceBehavior
     {
@@ -68,7 +70,7 @@ namespace PersistentLayer.NHibernate.WCF
                                          Collection<ServiceEndpoint> endpoints,
                                          BindingParameterCollection bindingParameters)
         {
-
+            
         }
 
         /// <summary>

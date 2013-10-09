@@ -42,7 +42,7 @@ namespace PersistentLayer.Domain
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj is Student)
+            if (obj is Student)
             {
                 return this.GetHashCode() == obj.GetHashCode();
             }

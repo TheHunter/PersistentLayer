@@ -4,10 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NHibernate;
+using NHibernate.Criterion;
+using NHibernate.SqlCommand;
 using NUnit.Framework;
 using PersistentLayer.Domain;
 using PersistentLayer.Exceptions;
 using PersistentLayer.NHibernate.Impl;
+using PersistentLayer.NHibernate.WCF;
+using PersistentLayer.Test.Other;
 
 namespace PersistentLayer.Test.DAL
 {
@@ -71,6 +75,14 @@ namespace PersistentLayer.Test.DAL
 
         [Test]
         [Category("Metadata")]
+        public void TestWrongProperty()
+        {
+            var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
+            Assert.IsFalse(metadata.ExistsProperty("MyProperty"));
+        }
+
+        [Test]
+        [Category("Metadata")]
         [ExpectedException(typeof(MissingPropertyException))]
         public void FailedMetadataSetterProperty1()
         {
@@ -104,7 +116,6 @@ namespace PersistentLayer.Test.DAL
         [ExpectedException(typeof(BusinessObjectException))]
         public void FailedMetadataSetterProperty4()
         {
-            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
             var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
             metadata.SetPropertyValue(null, null, "My_Email_test", EntityMode.Poco);
         }
@@ -139,9 +150,43 @@ namespace PersistentLayer.Test.DAL
         [ExpectedException(typeof(BusinessObjectException))]
         public void FailedMetadataSetterProperties2()
         {
-            Salesman instance = CurrentPagedDAO.FindBy<Salesman, long?>(11);
             var metadata = CurrentPagedDAO.GetPersistentClassInfo(typeof(Salesman));
             metadata.SetPropertyValues(null, new Dictionary<string, object>(), EntityMode.Poco);
         }
+
+        [Test]
+        public void TestMetadataN()
+        {
+            CarContract crt = new CarContract();
+            Salesman sal = new Salesman(1L);
+
+            crt.Owner = sal;
+
+            CriteriaBuilder criteriaMaker = new CriteriaBuilder(this.CurrentPagedDAO.GetPersistentClassInfo);
+            DetachedCriteria criteria = criteriaMaker.MakeCriteria<TradeContract>(crt);
+
+            var det = criteria.GetExecutableCriteria(this.CurrentSession);
+            var ctrs = det.List<TradeContract>();
+            Assert.IsNotNull(ctrs);
+        }
+
+        [Test]
+        public void TestMetadata2N()
+        {
+            CarContract crt = new CarContract();
+            Salesman sal = new Salesman(10) { Name = "robert", Surname = "law order" };
+
+            crt.Owner = sal;
+
+            CriteriaBuilder criteriaMaker = new CriteriaBuilder(this.CurrentPagedDAO.GetPersistentClassInfo);
+            criteriaMaker.EnableLike(MatchMode.Start);
+
+            DetachedCriteria criteria = criteriaMaker.MakeCriteria<TradeContract>(crt);
+
+            var det = criteria.GetExecutableCriteria(this.CurrentSession);
+            var ctrs = det.List<TradeContract>();
+            Assert.IsNotNull(ctrs);
+        }
+
     }
 }

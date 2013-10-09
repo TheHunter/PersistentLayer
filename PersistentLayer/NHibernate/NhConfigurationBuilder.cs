@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using NHibernate.Cfg;
-using FluentNHibernate.Cfg;
 using System.Xml;
 using System.IO;
 using NHibernate.Mapping;
@@ -80,15 +79,6 @@ namespace PersistentLayer.NHibernate
         public NhConfigurationBuilder(Configuration cfg)
         {
             this.Config = cfg;
-        }
-
-        /// <summary>
-        /// Makes a new Configuration instance from the given Fluent configuration.
-        /// </summary>
-        /// <param name="cfg"></param>
-        public NhConfigurationBuilder(FluentConfiguration cfg)
-        {
-            this.Config = cfg.BuildConfiguration();
         }
 
         /// <summary>

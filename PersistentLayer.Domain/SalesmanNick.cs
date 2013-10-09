@@ -1,30 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace PersistentLayer.Domain
 {
     [Serializable]
     public class SalesmanNick
     {
-        private string _Code = string.Empty;
-        private string _Description = null;
-        private Iesi.Collections.Generic.ISet<Salesman> _Consultants = null;
+        private string code = string.Empty;
+        private string description = null;
+        private ICollection<Salesman> consultants = null;
 
         public virtual string Code
         {
-            protected set { this._Code = value; }
-            get { return this._Code; }
+            protected set { this.code = value; }
+            get { return this.code; }
         }
 
         public virtual string Description
         {
-            protected set { this._Description = value; }
-            get { return this._Description; }
+            protected set { this.description = value; }
+            get { return this.description; }
         }
 
-        public virtual Iesi.Collections.Generic.ISet<Salesman> Consultants
+        public virtual ICollection<Salesman> Consultants
         {
-            get { return this._Consultants; }
-            set { this._Consultants = value; }
+            get { return this.consultants; }
+            set { this.consultants = value; }
 
         }
     }

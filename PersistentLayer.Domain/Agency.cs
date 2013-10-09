@@ -5,9 +5,9 @@ namespace PersistentLayer.Domain
     [Serializable]
     public class Agency
     {
-        private long id = 0;
-        private string name = null;
-        private long idManager = 0;
+        private long id;
+        private string name;
+        private long idManager;
 
         public virtual long ID
         {

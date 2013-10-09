@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using EntityModel;
-using Iesi.Collections.Generic;
 
 namespace PersistentLayer.Domain
 {
     public class Salesman
         : VersionedEntity<long?>
+
     {
         private string name;
         private string surname;
@@ -16,15 +17,22 @@ namespace PersistentLayer.Domain
         private ICollection<Agency> agencies;
         private ICollection<TradeContract> contracts;
 
-        public Salesman() { }
+        public Salesman(){}
+
+        public Salesman(long? id)
+            :base(id)
+        {
+            
+        }
 
         public Salesman(bool isTransient)
         {
-            this.contracts = new HashedSet<TradeContract>();
-            this.agents = new HashedSet<Salesman>();
-            this.agencies = new HashedSet<Agency>();
+            this.contracts = new Collection<TradeContract>();
+            this.agents = new Collection<Salesman>();
+            this.agencies = new Collection<Agency>();
         }
 
+        
         public virtual string Name
         {
             get { return name; }

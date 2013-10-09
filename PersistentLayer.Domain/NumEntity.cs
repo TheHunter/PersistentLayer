@@ -6,17 +6,17 @@ namespace PersistentLayer.Domain
     public class NumEntity
         : ObservableEntity<long>
     {
-        private string _Testo = null;
+        private string testo = null;
 
         public virtual string Testo
         {
-            get { return this._Testo; }
-            set { this._Testo = value; }
+            get { return this.testo; }
+            set { this.testo = value; }
         }
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj is NumEntity)
+            if (obj is NumEntity)
             {
                 return this.GetHashCode() == obj.GetHashCode();
             }

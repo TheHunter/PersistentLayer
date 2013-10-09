@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,10 +29,12 @@ namespace PersistentLayer.NHibernate
             if (metadata == null)
                 throw new BusinessLayerException("The metadata info of persistent class cannot be null.");
 
-
+            //metadata.SetIdentifier();
+            //metadata.SetPropertyValue();
+            
             this.metadata = metadata;
             this.properties = new HashSet<IPropertyInfo>();
-
+            
             try
             {
                 string idName = metadata.IdentifierPropertyName;
@@ -61,6 +64,16 @@ namespace PersistentLayer.NHibernate
                             return true;
                         }
                 );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public Type GetMappedClass(EntityMode mode)
+        {
+            return this.metadata.GetMappedClass(mode);
         }
 
         /// <summary>
@@ -136,6 +149,61 @@ namespace PersistentLayer.NHibernate
         /// 
         /// </summary>
         /// <param name="instance"></param>
+        /// <param name="id"></param>
+        /// <param name="mode"></param>
+        public void SetIdentifier(object instance, object id, EntityMode mode)
+        {
+            metadata.SetIdentifier(instance, id, mode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public object GetIdentifier(object instance, EntityMode mode)
+        {
+            return metadata.GetIdentifier(instance, mode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public object GetPropertyValue(object instance, string propertyName, EntityMode mode)
+        {
+            if (instance == null)
+                throw new BusinessObjectException("The instance to get property value cannot be null.");
+
+            return this.GetProperty(instance, propertyName, mode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyNames"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public object[] GetPropertyValues(object instance, string[] propertyNames, EntityMode mode)
+        {
+            if (instance == null)
+                throw new BusinessObjectException("The instance to get property value cannot be null.");
+
+            if (propertyNames == null)
+                throw new BusinessObjectException("PropertyNames cannot be null");
+
+            return propertyNames.Select(propertyName => this.GetProperty(instance, propertyName, mode)).ToArray();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
         /// <param name="propertyName"></param>
         /// <param name="value"></param>
         /// <param name="mode"></param>
@@ -183,8 +251,23 @@ namespace PersistentLayer.NHibernate
         {
             if (!this.ExistsProperty(propertyName))
                 throw new MissingPropertyException("The property to set wasn't founded", propertyName);
-
+            
             this.metadata.SetPropertyValue(instance, propertyName, value, mode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        private object GetProperty(object instance, string propertyName, EntityMode mode)
+        {
+            if (!this.ExistsProperty(propertyName))
+                throw new MissingPropertyException("The property to get value wasn't found", propertyName);
+
+            return this.metadata.GetPropertyValue(instance, propertyName, mode);
         }
     }
 }
