@@ -1,5 +1,7 @@
 ﻿using System;
-using PersistentLayer.NHibernate;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace PersistentLayer.Exceptions
 {
@@ -29,7 +31,7 @@ namespace PersistentLayer.Exceptions
             : base(message, cause, transactionInfo)
         {
         }
-        
+
         /// <summary>
         /// 
         /// </summary>

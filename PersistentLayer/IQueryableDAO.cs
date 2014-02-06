@@ -33,10 +33,19 @@ namespace PersistentLayer
         /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="id"></param>
+        /// <param name="predicate"></param>
         /// <returns></returns>
-        TEntity FindBy<TEntity, TKey>(TKey id)
+        bool Exists<TEntity>(Expression<Func<TEntity, bool>> predicate)
+            where TEntity : class;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        TEntity FindBy<TEntity, TKey>(TKey identifier)
             where TEntity : class;
 
         /// <summary>
@@ -51,9 +60,9 @@ namespace PersistentLayer
         /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <param name="where"></param>
+        /// <param name="predicate"></param>
         /// <returns></returns>
-        IEnumerable<TEntity> FindAll<TEntity>(Expression<Func<TEntity, bool>> where)
+        IEnumerable<TEntity> FindAll<TEntity>(Expression<Func<TEntity, bool>> predicate)
             where TEntity : class;
     }
 
@@ -82,9 +91,16 @@ namespace PersistentLayer
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="predicate"></param>
         /// <returns></returns>
-        TEntity FindBy(TKey id);
+        bool Exists(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        TEntity FindBy(TKey identifier);
 
         /// <summary>
         /// 
@@ -95,8 +111,8 @@ namespace PersistentLayer
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="where"></param>
+        /// <param name="predicate"></param>
         /// <returns></returns>
-        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> where);
+        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
     }
 }

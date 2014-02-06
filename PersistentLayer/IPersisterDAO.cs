@@ -30,7 +30,7 @@ namespace PersistentLayer
         TEntity MakePersistent<TEntity, TKey>(TEntity entity, TKey identifier) where TEntity : class;
 
         /// <summary>
-        /// 
+        /// Saves or updates the given instances, It depends upon the indentifier value.
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -38,14 +38,14 @@ namespace PersistentLayer
         IEnumerable<TEntity> MakePersistent<TEntity>(IEnumerable<TEntity> entities) where TEntity : class;
 
         /// <summary>
-        /// 
+        /// The given instance becomes transient.
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
         void MakeTransient<TEntity>(TEntity entity) where TEntity : class;
 
         /// <summary>
-        /// 
+        /// The given instances become transient.
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -77,9 +77,9 @@ namespace PersistentLayer
         TEntity MakePersistent(TEntity entity, TKey identifier);
 
         /// <summary>
-        /// 
+        /// Saves or updates the given instances, It depends upon the indentifier value.
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">instances to make persistent.</param>
         /// <returns></returns>
         IEnumerable<TEntity> MakePersistent(IEnumerable<TEntity> entities);
 

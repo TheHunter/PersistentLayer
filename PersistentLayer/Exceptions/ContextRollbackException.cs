@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PersistentLayer.NHibernate;
 
 namespace PersistentLayer.Exceptions
 {
@@ -74,6 +73,6 @@ namespace PersistentLayer.Exceptions
         /// 
         /// </summary>
         public Exception Cause { get { return this.cause; } }
-            
+
     }
 }

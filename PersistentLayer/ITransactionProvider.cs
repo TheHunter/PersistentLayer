@@ -21,20 +21,31 @@ namespace PersistentLayer
         /// <returns></returns>
         bool Exists(string name);
         
-        /// <summary>
-        /// Begin a new transaction
-        /// </summary>
-        /// <param name="level"></param>
-        /// <exception cref="BusinessLayerException"></exception>
-        void BeginTransaction(IsolationLevel? level);
+        ///// <summary>
+        ///// Begin a new transaction
+        ///// </summary>
+        ///// <param name="level"></param>
+        ///// <exception cref="BusinessLayerException"></exception>
+        //void BeginTransaction(IsolationLevel? level);
+
+        ///// <summary>
+        ///// Begin a new transaction with the given name.
+        ///// </summary>
+        ///// <param name="name"></param>
+        ///// <param name="level"></param>
+        ///// <exception cref="BusinessLayerException"></exception>
+        //void BeginTransaction(string name, IsolationLevel? level);
 
         /// <summary>
-        /// Begin a new transaction with the given name.
+        /// Begin a new transaction with a default name target.
+        /// </summary>
+        void BeginTransaction();
+        
+        /// <summary>
+        /// Begin a new transaction with the given name target.
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="level"></param>
-        /// <exception cref="BusinessLayerException"></exception>
-        void BeginTransaction(string name, IsolationLevel? level);
+        void BeginTransaction(string name);
 
         /// <summary>
         /// Commit the transaction.
@@ -48,12 +59,6 @@ namespace PersistentLayer
         /// <summary>
         /// Makes a rollback the transaction.
         /// </summary>
-        /// <exception cref="RollbackFailedException">
-        /// Throws an exception when current transaction makes a rollback.
-        /// </exception>
-        /// <exception cref="InnerRollBackException">
-        /// Throws an exception when an inner transaction makes a rollback.
-        /// </exception>
         void RollbackTransaction();
 
         /// <summary>

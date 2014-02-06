@@ -8,7 +8,7 @@ namespace PersistentLayer.Exceptions
     public class ExecutionQueryException
         : BusinessObjectException
     {
-        private string methodInvoker;
+        private readonly string methodInvoker;
 
         /// <summary>
         /// 

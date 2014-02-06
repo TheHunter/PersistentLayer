@@ -1,48 +1,162 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Interface Name="PersistentLayer.IPagedDAO&lt;TEntity, TKey&gt;" Collapsed="true">
-    <Position X="3" Y="5.25" Width="1.5" />
+  <Class Name="PersistentLayer.Exceptions.BusinessLayerException">
+    <Position X="30.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAA=</HashCode>
+      <FileName>Exceptions\BusinessLayerException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.CommitFailedException">
+    <Position X="25.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\CommitFailedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.BusinessObjectException">
+    <Position X="17" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\BusinessObjectException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.BusinessPersistentException">
+    <Position X="17" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\BusinessPersistentException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.ContextRollbackException">
+    <Position X="30.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAEAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ContextRollbackException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.ExecutionQueryException">
+    <Position X="19.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ExecutionQueryException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.InnerRollBackException">
+    <Position X="29" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\InnerRollBackException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.MissingPropertyException">
+    <Position X="14.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Exceptions\MissingPropertyException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.QueryArgumentException">
+    <Position X="19.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\QueryArgumentException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.QueryFormatException">
+    <Position X="21.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\QueryFormatException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.RollbackFailedException">
+    <Position X="31.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\RollbackFailedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.SessionNotAvailableException">
+    <Position X="27.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SessionNotAvailableException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.SessionNotBindedException">
+    <Position X="32.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SessionNotBindedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Exceptions.SessionNotOpenedException">
+    <Position X="35" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SessionNotOpenedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistentLayer.Impl.PagedResult&lt;TEntity&gt;">
+    <Position X="8" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAABIAAAAQAAQAAAIEAAECAAAAAAAA=</HashCode>
+      <FileName>Impl\PagedResult.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PersistentLayer.Impl.TransactionInfo">
+    <Position X="8" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAAQAAAAEAIAAAAEAAAABAAA=</HashCode>
+      <FileName>Impl\TransactionInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="PersistentLayer.IPagedDAO&lt;TEntity, TKey&gt;">
+    <Position X="3" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>IPagedDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.IPagedDAO" Collapsed="true">
-    <Position X="8" Y="5.25" Width="1.5" />
+  <Interface Name="PersistentLayer.IPagedDAO">
+    <Position X="8" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>IPagedDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.IPagedResult&lt;TEntity&gt;" Collapsed="true">
-    <Position X="10.75" Y="4.5" Width="1.5" />
+  <Interface Name="PersistentLayer.IPagedResult&lt;TEntity&gt;">
+    <Position X="3" Y="14.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAQAAAIAAAEAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
       <FileName>IPagedResult.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.ITransactionProvider" Collapsed="true">
-    <Position X="10.75" Y="2.75" Width="1.5" />
+  <Interface Name="PersistentLayer.ITransactionProvider">
+    <Position X="3" Y="10.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <HashCode>AAAAAAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAIAA=</HashCode>
       <FileName>ITransactionProvider.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.IPersisterDAO" Collapsed="true">
-    <Position X="8" Y="3.5" Width="1.5" />
+  <Interface Name="PersistentLayer.IPersisterDAO">
+    <Position X="8" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>IPersisterDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.IPersisterDAO&lt;TEntity, TKey&gt;" Collapsed="true">
-    <Position X="3" Y="3.5" Width="1.5" />
+  <Interface Name="PersistentLayer.IPersisterDAO&lt;TEntity, TKey&gt;">
+    <Position X="3" Y="5.75" Width="1.5" />
     <InheritanceLine Type="PersistentLayer.ITransactionContext" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="6.25" Y="2.562" />
-        <Point X="6.25" Y="3.125" />
-        <Point X="3.75" Y="3.125" />
-        <Point X="3.75" Y="3.5" />
+        <Point X="6.25" Y="2.354" />
+        <Point X="6.25" Y="5.342" />
+        <Point X="3.75" Y="5.342" />
+        <Point X="3.75" Y="5.75" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -50,22 +164,22 @@
       <FileName>IPersisterDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.IQueryableDAO" Collapsed="true">
-    <Position X="8" Y="2" Width="1.5" />
+  <Interface Name="PersistentLayer.IQueryableDAO">
+    <Position X="8" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>IQueryableDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.IQueryableDAO&lt;TEntity, TKey&gt;" Collapsed="true">
-    <Position X="3" Y="2" Width="1.5" />
+  <Interface Name="PersistentLayer.IQueryableDAO&lt;TEntity, TKey&gt;">
+    <Position X="3" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>IQueryableDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.ITransactionContext" Collapsed="true">
-    <Position X="5.5" Y="2" Width="1.5" />
+  <Interface Name="PersistentLayer.ITransactionContext">
+    <Position X="5.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
       <FileName>ITransactionContext.cs</FileName>

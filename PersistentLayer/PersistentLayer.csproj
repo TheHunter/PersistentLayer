@@ -41,14 +41,6 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Services" />
@@ -61,68 +53,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\ContextRollbackException.cs" />
+    <Compile Include="Exceptions\InnerRollBackException.cs" />
+    <Compile Include="Exceptions\InvalidIdentifierException.cs" />
     <Compile Include="Exceptions\MissingPropertyException.cs" />
+    <Compile Include="Exceptions\RollbackFailedException.cs" />
+    <Compile Include="Exceptions\SessionNotAvailableException.cs" />
+    <Compile Include="Exceptions\SessionNotBindedException.cs" />
+    <Compile Include="Exceptions\SessionNotOpenedException.cs" />
+    <Compile Include="Impl\PagedResult.cs" />
+    <Compile Include="Impl\TransactionInfo.cs" />
     <Compile Include="IPagedDAO.cs" />
     <Compile Include="IPersisterDAO.cs" />
     <Compile Include="IQueryableDAO.cs" />
-    <Compile Include="NHibernate\Impl\AbstractDAO.cs" />
     <Compile Include="Exceptions\BusinessObjectException.cs" />
     <Compile Include="Exceptions\BusinessPersistentException.cs" />
     <Compile Include="Exceptions\CommitFailedException.cs" />
     <Compile Include="Exceptions\ExecutionQueryException.cs" />
-    <Compile Include="Exceptions\InnerRollBackException.cs" />
     <Compile Include="Exceptions\QueryArgumentException.cs" />
     <Compile Include="Exceptions\QueryFormatException.cs" />
-    <Compile Include="Exceptions\RollbackFailedException.cs" />
     <Compile Include="Exceptions\BusinessLayerException.cs" />
-    <Compile Include="NHibernate\InvalidSessionException.cs" />
-    <Compile Include="NHibernate\IPersistentClassInfo.cs" />
-    <Compile Include="NHibernate\IPropertyInfo.cs" />
-    <Compile Include="NHibernate\ISessionBinderProvider.cs" />
-    <Compile Include="NHibernate\FutureQueryResolver.cs" />
-    <Compile Include="NHibernate\ISessionManager.cs" />
-    <Compile Include="NHibernate\ITransactionInfo.cs" />
-    <Compile Include="NHibernate\PersistentClassInfo.cs" />
-    <Compile Include="NHibernate\PropertyMapInfo.cs" />
-    <Compile Include="NHibernate\SessionNotAvailableException.cs" />
-    <Compile Include="NHibernate\SessionNotBindedException.cs" />
-    <Compile Include="NHibernate\SessionNotOpenedException.cs" />
-    <Compile Include="NHibernate\IDomainDAO.cs" />
-    <Compile Include="NHibernate\IEntityDAO.cs" />
-    <Compile Include="NHibernate\Impl\BusinessPagedDAO.cs" />
-    <Compile Include="NHibernate\Impl\EnterprisePagedDAO.cs" />
-    <Compile Include="NHibernate\Impl\NhPagedResult.cs" />
-    <Compile Include="NHibernate\INhPagedDAO.cs" />
-    <Compile Include="NHibernate\Impl\BusinessDAO.cs" />
-    <Compile Include="NHibernate\Impl\DomainDAO.cs" />
-    <Compile Include="NHibernate\Impl\EnterpriseDAO.cs" />
-    <Compile Include="NHibernate\Impl\EntityDAO.cs" />
-    <Compile Include="NHibernate\SessionInfo.cs" />
-    <Compile Include="NHibernate\Impl\NhQueryExtensions.cs" />
-    <Compile Include="NHibernate\Impl\NhQueryImplementor.cs" />
     <Compile Include="IPagedResult.cs" />
-    <Compile Include="NHibernate\INhQueryableDAO.cs" />
-    <Compile Include="NHibernate\ISessionDAO.cs" />
-    <Compile Include="NHibernate\ISessionProvider.cs" />
-    <Compile Include="NHibernate\ISessionContext.cs" />
     <Compile Include="ITransactionContext.cs" />
+    <Compile Include="ITransactionInfo.cs" />
     <Compile Include="ITransactionProvider.cs" />
-    <Compile Include="NHibernate\NhConfigurationBuilder.cs" />
-    <Compile Include="NHibernate\TransactionInfo.cs" />
-    <Compile Include="NHibernate\WCF\NhDispatchMessageInspector.cs" />
-    <Compile Include="NHibernate\WCF\NhServiceBehaviorAttribute.cs" />
-    <Compile Include="NHibernate\WCF\ServiceArgumentException.cs" />
-    <Compile Include="NHibernate\WCF\ServiceBehaviorException.cs" />
-    <Compile Include="NHibernate\WCF\WcfServiceException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NHibernate\SessionBinderLayer.cs" />
-    <Compile Include="NHibernate\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CompleteDiagram.cd" />
     <None Include="FrameworkDiagram.cd" />
-    <None Include="NHibernate\NhDAL.cd" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
