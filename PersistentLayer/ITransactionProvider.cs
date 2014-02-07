@@ -20,32 +20,32 @@ namespace PersistentLayer
         /// <param name="name"></param>
         /// <returns></returns>
         bool Exists(string name);
-        
-        ///// <summary>
-        ///// Begin a new transaction
-        ///// </summary>
-        ///// <param name="level"></param>
-        ///// <exception cref="BusinessLayerException"></exception>
-        //void BeginTransaction(IsolationLevel? level);
-
-        ///// <summary>
-        ///// Begin a new transaction with the given name.
-        ///// </summary>
-        ///// <param name="name"></param>
-        ///// <param name="level"></param>
-        ///// <exception cref="BusinessLayerException"></exception>
-        //void BeginTransaction(string name, IsolationLevel? level);
 
         /// <summary>
         /// Begin a new transaction with a default name target.
         /// </summary>
         void BeginTransaction();
-        
+
+        /// <summary>
+        /// Begin a new transaction
+        /// </summary>
+        /// <param name="level"></param>
+        /// <exception cref="BusinessLayerException"></exception>
+        void BeginTransaction(IsolationLevel? level);
+
         /// <summary>
         /// Begin a new transaction with the given name target.
         /// </summary>
         /// <param name="name"></param>
         void BeginTransaction(string name);
+
+        /// <summary>
+        /// Begin a new transaction with the given name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="level"></param>
+        /// <exception cref="BusinessLayerException"></exception>
+        void BeginTransaction(string name, IsolationLevel? level);
 
         /// <summary>
         /// Commit the transaction.
