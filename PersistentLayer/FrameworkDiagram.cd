@@ -122,7 +122,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IPagedDAO">
-    <Position X="8" Y="8.25" Width="1.5" />
+    <Position X="6.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>IPagedDAO.cs</FileName>
@@ -143,7 +143,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IPersisterDAO">
-    <Position X="8" Y="5.75" Width="1.5" />
+    <Position X="6.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>IPersisterDAO.cs</FileName>
@@ -153,8 +153,10 @@
     <Position X="3" Y="5.75" Width="1.5" />
     <InheritanceLine Type="PersistentLayer.ITransactionContext" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="6.25" Y="2.354" />
-        <Point X="6.25" Y="5.342" />
+        <Point X="7.25" Y="1.854" />
+        <Point X="7.25" Y="2.679" />
+        <Point X="5.156" Y="2.679" />
+        <Point X="5.156" Y="5.342" />
         <Point X="3.75" Y="5.342" />
         <Point X="3.75" Y="5.75" />
       </Path>
@@ -165,7 +167,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IQueryableDAO">
-    <Position X="8" Y="3.25" Width="1.5" />
+    <Position X="6.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>IQueryableDAO.cs</FileName>
@@ -179,10 +181,41 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.ITransactionContext">
-    <Position X="5.5" Y="1.25" Width="1.5" />
+    <Position X="6.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
       <FileName>ITransactionContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PersistentLayer.IRootQueryableDAO&lt;TRootEntity&gt;">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>IRootQueryableDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PersistentLayer.IRootPersisterDAO&lt;TRootEntity&gt;">
+    <Position X="9.75" Y="5.75" Width="1.5" />
+    <InheritanceLine Type="PersistentLayer.ITransactionContext" ManuallyRouted="true">
+      <Path>
+        <Point X="7.25" Y="1.853" />
+        <Point X="7.25" Y="2.679" />
+        <Point X="9.133" Y="2.679" />
+        <Point X="9.133" Y="5.375" />
+        <Point X="10.5" Y="5.375" />
+        <Point X="10.5" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>IRootPersisterDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PersistentLayer.IRootPagedDAO&lt;TRootEntity&gt;">
+    <Position X="9.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IRootPagedDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
