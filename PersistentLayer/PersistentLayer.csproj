@@ -73,6 +73,9 @@
     <Compile Include="Exceptions\QueryFormatException.cs" />
     <Compile Include="Exceptions\BusinessLayerException.cs" />
     <Compile Include="IPagedResult.cs" />
+    <Compile Include="IRootPagedDAO.cs" />
+    <Compile Include="IRootPersisterDAO.cs" />
+    <Compile Include="IRootQueryableDAO.cs" />
     <Compile Include="ITransactionContext.cs" />
     <Compile Include="ITransactionInfo.cs" />
     <Compile Include="ITransactionProvider.cs" />

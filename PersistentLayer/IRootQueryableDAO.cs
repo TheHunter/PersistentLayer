@@ -27,30 +27,9 @@ namespace PersistentLayer
         /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="identifier"></param>
-        /// <returns></returns>
-        bool Exists<TEntity, TKey>(TKey identifier)
-            where TEntity : TRootEntity;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <typeparam name="TKey"></typeparam>
         /// <param name="identifiers"></param>
         /// <returns></returns>
         bool Exists<TEntity>(ICollection identifiers)
-            where TEntity : TRootEntity;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="identifiers"></param>
-        /// <returns></returns>
-        bool Exists<TEntity, TKey>(IEnumerable<TKey> identifiers)
             where TEntity : TRootEntity;
 
         /// <summary>
@@ -75,16 +54,6 @@ namespace PersistentLayer
         /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="identifier"></param>
-        /// <returns></returns>
-        TEntity FindBy<TEntity, TKey>(TKey identifier)
-            where TEntity : TRootEntity;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
         IEnumerable<TEntity> FindAll<TEntity>()
             where TEntity : TRootEntity;
@@ -97,5 +66,55 @@ namespace PersistentLayer
         /// <returns></returns>
         IEnumerable<TEntity> FindAll<TEntity>(Expression<Func<TEntity, bool>> predicate)
             where TEntity : TRootEntity;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TRootEntity"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    public interface IRootQueryableDAO<in TRootEntity, TEntity>
+        where TEntity : TRootEntity
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        bool Exists(object identifier);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="identifiers"></param>
+        /// <returns></returns>
+        bool Exists(ICollection identifiers);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        bool Exists(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        TEntity FindBy(object identifier);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<TEntity> FindAll();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
     }
 }

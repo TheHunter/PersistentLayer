@@ -111,6 +111,15 @@
     <Compile Include="..\PersistentLayer\IQueryableDAO.cs">
       <Link>IQueryableDAO.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\IRootPagedDAO.cs">
+      <Link>IRootPagedDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\IRootPersisterDAO.cs">
+      <Link>IRootPersisterDAO.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\IRootQueryableDAO.cs">
+      <Link>IRootQueryableDAO.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\ITransactionContext.cs">
       <Link>ITransactionContext.cs</Link>
     </Compile>

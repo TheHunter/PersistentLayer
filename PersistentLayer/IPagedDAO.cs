@@ -21,7 +21,6 @@ namespace PersistentLayer
         /// <param name="predicate"></param>
         /// <returns></returns>
         IPagedResult<TEntity> GetPagedResult(int startIndex, int pageSize, Expression<Func<TEntity, bool>> predicate);
-
         
         //IPagedResult<TEntity> GetPagedResult(int startIndex, int pageSize, IQueryable<TEntity> query);
 
@@ -45,8 +44,6 @@ namespace PersistentLayer
         /// <returns></returns>
         IPagedResult<TEntity> GetPagedResult<TEntity>(int startIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
             where TEntity : class;
-        
-
         
         //IPagedResult<TEntity> GetPagedResult<TEntity>(int startIndex, int pageSize, IQueryable<TEntity> query) where TEntity : class;
 

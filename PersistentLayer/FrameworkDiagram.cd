@@ -15,14 +15,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.BusinessObjectException">
-    <Position X="17" Y="2" Width="1.5" />
+    <Position X="18.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\BusinessObjectException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.BusinessPersistentException">
-    <Position X="17" Y="7.5" Width="1.5" />
+    <Position X="18.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\BusinessPersistentException.cs</FileName>
@@ -36,7 +36,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.ExecutionQueryException">
-    <Position X="19.25" Y="4.25" Width="1.5" />
+    <Position X="19.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\ExecutionQueryException.cs</FileName>
@@ -50,21 +50,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.MissingPropertyException">
-    <Position X="14.75" Y="4.25" Width="1.5" />
+    <Position X="17.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Exceptions\MissingPropertyException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.QueryArgumentException">
-    <Position X="19.25" Y="7.5" Width="1.5" />
+    <Position X="20.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\QueryArgumentException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PersistentLayer.Exceptions.QueryFormatException">
-    <Position X="21.5" Y="7.5" Width="1.5" />
+    <Position X="23" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Exceptions\QueryFormatException.cs</FileName>
@@ -122,7 +122,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IPagedDAO">
-    <Position X="6.5" Y="8.25" Width="1.5" />
+    <Position X="6" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>IPagedDAO.cs</FileName>
@@ -143,7 +143,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IPersisterDAO">
-    <Position X="6.5" Y="5.75" Width="1.5" />
+    <Position X="6" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>IPersisterDAO.cs</FileName>
@@ -153,10 +153,10 @@
     <Position X="3" Y="5.75" Width="1.5" />
     <InheritanceLine Type="PersistentLayer.ITransactionContext" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="7.25" Y="1.854" />
-        <Point X="7.25" Y="2.679" />
-        <Point X="5.156" Y="2.679" />
-        <Point X="5.156" Y="5.342" />
+        <Point X="8.75" Y="1.854" />
+        <Point X="8.75" Y="5.342" />
+        <Point X="6.833" Y="5.342" Type="JumpStart" />
+        <Point X="6.667" Y="5.342" Type="JumpEnd" />
         <Point X="3.75" Y="5.342" />
         <Point X="3.75" Y="5.75" />
       </Path>
@@ -167,7 +167,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IQueryableDAO">
-    <Position X="6.5" Y="3.25" Width="1.5" />
+    <Position X="6" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>IQueryableDAO.cs</FileName>
@@ -181,10 +181,24 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.ITransactionContext">
-    <Position X="6.5" Y="0.75" Width="1.5" />
+    <Position X="8" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
       <FileName>ITransactionContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PersistentLayer.IRootPersisterDAO&lt;TRootEntity&gt;">
+    <Position X="9.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>IRootPersisterDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PersistentLayer.IRootPersisterDAO&lt;TRootEntity, TEntity&gt;">
+    <Position X="12.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>IRootPersisterDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IRootQueryableDAO&lt;TRootEntity&gt;">
@@ -194,27 +208,24 @@
       <FileName>IRootQueryableDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.IRootPersisterDAO&lt;TRootEntity&gt;">
-    <Position X="9.75" Y="5.75" Width="1.5" />
-    <InheritanceLine Type="PersistentLayer.ITransactionContext" ManuallyRouted="true">
-      <Path>
-        <Point X="7.25" Y="1.853" />
-        <Point X="7.25" Y="2.679" />
-        <Point X="9.133" Y="2.679" />
-        <Point X="9.133" Y="5.375" />
-        <Point X="10.5" Y="5.375" />
-        <Point X="10.5" Y="5.75" />
-      </Path>
-    </InheritanceLine>
+  <Interface Name="PersistentLayer.IRootQueryableDAO&lt;TRootEntity, TEntity&gt;">
+    <Position X="12.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
-      <FileName>IRootPersisterDAO.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>IRootQueryableDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IRootPagedDAO&lt;TRootEntity&gt;">
     <Position X="9.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>IRootPagedDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PersistentLayer.IRootPagedDAO&lt;TRootEntity, TEntity&gt;">
+    <Position X="12.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>IRootPagedDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>

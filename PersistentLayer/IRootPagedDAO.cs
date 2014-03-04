@@ -6,6 +6,10 @@ using System.Text;
 
 namespace PersistentLayer
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TRootEntity"></typeparam>
     public interface IRootPagedDAO<in TRootEntity>
         : IRootPersisterDAO<TRootEntity>
         where TRootEntity : class
@@ -18,7 +22,27 @@ namespace PersistentLayer
         /// <param name="pageSize"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        //IPagedResult<TEntity> GetPagedResult<TEntity>(int startIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
-        //    where TEntity : TRootEntity;
+        IPagedResult<TEntity> GetPagedResult<TEntity>(int startIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
+            where TEntity : class, TRootEntity;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TRootEntity"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    public interface IRootPagedDAO<in TRootEntity, TEntity>
+        : IRootPersisterDAO<TRootEntity, TEntity>
+        where TEntity : class, TRootEntity
+        where TRootEntity : class
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        IPagedResult<TEntity> GetPagedResult(int startIndex, int pageSize, Expression<Func<TEntity, bool>> predicate);
     }
 }
