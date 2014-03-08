@@ -201,20 +201,6 @@
       <FileName>IRootPersisterDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="PersistentLayer.IRootQueryableDAO&lt;TRootEntity&gt;">
-    <Position X="9.75" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>IRootQueryableDAO.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="PersistentLayer.IRootQueryableDAO&lt;TRootEntity, TEntity&gt;">
-    <Position X="12.75" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>IRootQueryableDAO.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Interface Name="PersistentLayer.IRootPagedDAO&lt;TRootEntity&gt;">
     <Position X="9.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
@@ -227,6 +213,20 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>IRootPagedDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PersistentLayer.IRootQueryableDAO&lt;TRootEntity&gt;">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>IRootQueryableDAO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PersistentLayer.IRootQueryableDAO&lt;TRootEntity, TEntity&gt;">
+    <Position X="12.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>IRootQueryableDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

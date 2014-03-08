@@ -12,7 +12,7 @@ namespace PersistentLayer
     /// </summary>
     /// <typeparam name="TRootEntity"></typeparam>
     public interface IRootQueryableDAO<in TRootEntity>
-        where TRootEntity: class
+        where TRootEntity : class
     {
         /// <summary>
         /// 
@@ -21,7 +21,7 @@ namespace PersistentLayer
         /// <param name="identifier"></param>
         /// <returns></returns>
         bool Exists<TEntity>(object identifier)
-            where TEntity : TRootEntity;
+            where TEntity : class, TRootEntity;
 
         /// <summary>
         /// 
@@ -30,7 +30,7 @@ namespace PersistentLayer
         /// <param name="identifiers"></param>
         /// <returns></returns>
         bool Exists<TEntity>(ICollection identifiers)
-            where TEntity : TRootEntity;
+            where TEntity : class, TRootEntity;
 
         /// <summary>
         /// 
@@ -39,7 +39,7 @@ namespace PersistentLayer
         /// <param name="predicate"></param>
         /// <returns></returns>
         bool Exists<TEntity>(Expression<Func<TEntity, bool>> predicate)
-            where TEntity : TRootEntity;
+            where TEntity : class, TRootEntity;
 
         /// <summary>
         /// 
@@ -48,7 +48,7 @@ namespace PersistentLayer
         /// <param name="identifier"></param>
         /// <returns></returns>
         TEntity FindBy<TEntity>(object identifier)
-            where TEntity : TRootEntity;
+            where TEntity : class, TRootEntity;
 
         /// <summary>
         /// 
@@ -56,7 +56,7 @@ namespace PersistentLayer
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
         IEnumerable<TEntity> FindAll<TEntity>()
-            where TEntity : TRootEntity;
+            where TEntity : class, TRootEntity;
 
         /// <summary>
         /// 
@@ -65,7 +65,7 @@ namespace PersistentLayer
         /// <param name="predicate"></param>
         /// <returns></returns>
         IEnumerable<TEntity> FindAll<TEntity>(Expression<Func<TEntity, bool>> predicate)
-            where TEntity : TRootEntity;
+            where TEntity : class, TRootEntity;
     }
 
     /// <summary>
@@ -74,7 +74,8 @@ namespace PersistentLayer
     /// <typeparam name="TRootEntity"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
     public interface IRootQueryableDAO<in TRootEntity, TEntity>
-        where TEntity : TRootEntity
+        where TRootEntity : class
+        where TEntity : class, TRootEntity
     {
         /// <summary>
         /// 

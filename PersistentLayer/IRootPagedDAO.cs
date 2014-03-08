@@ -33,8 +33,8 @@ namespace PersistentLayer
     /// <typeparam name="TEntity"></typeparam>
     public interface IRootPagedDAO<in TRootEntity, TEntity>
         : IRootPersisterDAO<TRootEntity, TEntity>
-        where TEntity : class, TRootEntity
         where TRootEntity : class
+        where TEntity : class, TRootEntity
     {
         /// <summary>
         /// 
