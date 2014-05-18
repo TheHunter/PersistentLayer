@@ -54,6 +54,15 @@ namespace PersistentLayer
         /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        TEntity UniqueResult<TEntity>(Expression<Func<TEntity, bool>> predicate)
+            where TEntity : class, TRootEntity;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
         IEnumerable<TEntity> FindAll<TEntity>()
             where TEntity : class, TRootEntity;
@@ -104,6 +113,13 @@ namespace PersistentLayer
         /// <param name="identifier"></param>
         /// <returns></returns>
         TEntity FindBy(object identifier);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        TEntity UniqueResult(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// 

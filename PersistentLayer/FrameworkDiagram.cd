@@ -169,14 +169,14 @@
   <Interface Name="PersistentLayer.IQueryableDAO">
     <Position X="6" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAgCAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>IQueryableDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="PersistentLayer.IQueryableDAO&lt;TEntity, TKey&gt;">
     <Position X="3" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAgCAAAQAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>IQueryableDAO.cs</FileName>
     </TypeIdentifier>
   </Interface>
