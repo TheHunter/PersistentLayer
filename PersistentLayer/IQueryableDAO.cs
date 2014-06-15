@@ -73,6 +73,16 @@ namespace PersistentLayer
         /// <returns></returns>
         IEnumerable<TEntity> FindAll<TEntity>(Expression<Func<TEntity, bool>> predicate)
             where TEntity : class;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="queryExpr"></param>
+        /// <returns></returns>
+        TResult ExecuteExpression<TEntity, TResult>(Expression<Func<IEnumerable<TEntity>, TResult>> queryExpr)
+            where TEntity : class;
     }
 
     /// <summary>
@@ -130,5 +140,13 @@ namespace PersistentLayer
         /// <param name="predicate"></param>
         /// <returns></returns>
         IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="queryExpr"></param>
+        /// <returns></returns>
+        TResult ExecuteExpression<TResult>(Expression<Func<IEnumerable<TEntity>, TResult>> queryExpr);
     }
 }

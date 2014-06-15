@@ -20,6 +20,15 @@ namespace PersistentLayer
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="identifier"></param>
         /// <returns></returns>
+        TEntity FindBy<TEntity>(object identifier)
+            where TEntity : class, TRootEntity;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
         bool Exists<TEntity>(object identifier)
             where TEntity : class, TRootEntity;
 
@@ -39,15 +48,6 @@ namespace PersistentLayer
         /// <param name="predicate"></param>
         /// <returns></returns>
         bool Exists<TEntity>(Expression<Func<TEntity, bool>> predicate)
-            where TEntity : class, TRootEntity;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="identifier"></param>
-        /// <returns></returns>
-        TEntity FindBy<TEntity>(object identifier)
             where TEntity : class, TRootEntity;
 
         /// <summary>
@@ -75,6 +75,17 @@ namespace PersistentLayer
         /// <returns></returns>
         IEnumerable<TEntity> FindAll<TEntity>(Expression<Func<TEntity, bool>> predicate)
             where TEntity : class, TRootEntity;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="queryExpr"></param>
+        /// <returns></returns>
+        TResult ExecuteExpression<TEntity, TResult>(Expression<Func<IEnumerable<TEntity>, TResult>> queryExpr)
+            where TEntity : class, TRootEntity;
+        
     }
 
     /// <summary>
@@ -133,5 +144,13 @@ namespace PersistentLayer
         /// <param name="predicate"></param>
         /// <returns></returns>
         IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="queryExpr"></param>
+        /// <returns></returns>
+        TResult ExecuteExpression<TResult>(Expression<Func<IEnumerable<TEntity>, TResult>> queryExpr);
     }
 }
