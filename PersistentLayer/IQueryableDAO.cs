@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace PersistentLayer
@@ -81,7 +82,7 @@ namespace PersistentLayer
         /// <typeparam name="TResult"></typeparam>
         /// <param name="queryExpr"></param>
         /// <returns></returns>
-        TResult ExecuteExpression<TEntity, TResult>(Expression<Func<IEnumerable<TEntity>, TResult>> queryExpr)
+        TResult ExecuteExpression<TEntity, TResult>(Expression<Func<IQueryable<TEntity>, TResult>> queryExpr)
             where TEntity : class;
     }
 
@@ -147,6 +148,6 @@ namespace PersistentLayer
         /// <typeparam name="TResult"></typeparam>
         /// <param name="queryExpr"></param>
         /// <returns></returns>
-        TResult ExecuteExpression<TResult>(Expression<Func<IEnumerable<TEntity>, TResult>> queryExpr);
+        TResult ExecuteExpression<TResult>(Expression<Func<IQueryable<TEntity>, TResult>> queryExpr);
     }
 }

@@ -83,7 +83,7 @@ namespace PersistentLayer
         /// <typeparam name="TResult"></typeparam>
         /// <param name="queryExpr"></param>
         /// <returns></returns>
-        TResult ExecuteExpression<TEntity, TResult>(Expression<Func<IEnumerable<TEntity>, TResult>> queryExpr)
+        TResult ExecuteExpression<TEntity, TResult>(Expression<Func<IQueryable<TEntity>, TResult>> queryExpr)
             where TEntity : class, TRootEntity;
         
     }
@@ -151,6 +151,6 @@ namespace PersistentLayer
         /// <typeparam name="TResult"></typeparam>
         /// <param name="queryExpr"></param>
         /// <returns></returns>
-        TResult ExecuteExpression<TResult>(Expression<Func<IEnumerable<TEntity>, TResult>> queryExpr);
+        TResult ExecuteExpression<TResult>(Expression<Func<IQueryable<TEntity>, TResult>> queryExpr);
     }
 }
