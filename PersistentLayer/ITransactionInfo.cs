@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PersistentLayer
+﻿namespace PersistentLayer
 {
     /// <summary>
     /// 
@@ -11,13 +6,19 @@ namespace PersistentLayer
     public interface ITransactionInfo
     {
         /// <summary>
-        /// 
+        /// Gets the index.
         /// </summary>
+        /// <value>
+        /// The index.
+        /// </value>
         int Index { get; }
 
         /// <summary>
-        /// 
+        /// Gets the name.
         /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         string Name { get; }
     }
 }

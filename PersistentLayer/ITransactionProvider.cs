@@ -8,6 +8,7 @@ namespace PersistentLayer
     /// 
     /// </summary>
     public interface ITransactionProvider
+        : IDisposable
     {
         /// <summary>
         /// Indicates if the root transaction is in progress.
@@ -20,12 +21,12 @@ namespace PersistentLayer
         /// <param name="name"></param>
         /// <returns></returns>
         bool Exists(string name);
-
+        
         /// <summary>
         /// Begin a new transaction with a default name target.
         /// </summary>
         void BeginTransaction();
-
+        
         /// <summary>
         /// Begin a new transaction
         /// </summary>
@@ -46,6 +47,13 @@ namespace PersistentLayer
         /// <param name="level"></param>
         /// <exception cref="BusinessLayerException"></exception>
         void BeginTransaction(string name, IsolationLevel? level);
+        
+        /// <summary>
+        /// Begins a transaction with the specified descriptor.
+        /// </summary>
+        /// <param name="descriptor">The descriptor.</param>
+        /// <returns></returns>
+        ITransactionWorker Begin(TransactionDescriptor descriptor = null);
 
         /// <summary>
         /// Commit the transaction.

@@ -99,6 +99,9 @@
     <Compile Include="..\PersistentLayer\Impl\TransactionInfo.cs">
       <Link>Impl\TransactionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\PersistentLayer\Impl\TransactionWorkerImpl.cs">
+      <Link>Impl\TransactionWorkerImpl.cs</Link>
+    </Compile>
     <Compile Include="..\PersistentLayer\IPagedDAO.cs">
       <Link>IPagedDAO.cs</Link>
     </Compile>
@@ -128,6 +131,15 @@
     </Compile>
     <Compile Include="..\PersistentLayer\ITransactionProvider.cs">
       <Link>ITransactionProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\ITransactionWorker.cs">
+      <Link>ITransactionWorker.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\TransactionDescriptor.cs">
+      <Link>TransactionDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\PersistentLayer\TransactionStatus.cs">
+      <Link>TransactionStatus.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
